@@ -12,6 +12,7 @@
         <groupId>com.fast.dev</groupId>
         <artifactId>FastParent</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../FastParent</relativePath>
     </parent>
 
     <dependencies>
@@ -21,6 +22,7 @@
             <artifactId>usermanager</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
 
     </dependencies>
 

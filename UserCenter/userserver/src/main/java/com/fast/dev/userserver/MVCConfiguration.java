@@ -1,21 +1,15 @@
 package com.fast.dev.userserver;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
-import org.springframework.web.servlet.view.XmlViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +35,6 @@ public class MVCConfiguration implements WebMvcConfigurer {
                 .defaultContentType(MediaType.TEXT_HTML)
                 .mediaType("html", MediaType.TEXT_HTML)
                 .mediaType("json", MediaType.APPLICATION_JSON);
-
 
 
     }
