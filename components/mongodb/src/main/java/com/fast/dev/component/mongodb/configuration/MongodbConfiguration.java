@@ -6,7 +6,6 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
@@ -27,7 +26,6 @@ import java.util.List;
  * @联系 251708339@qq.com
  * @时间 2017年10月9日
  */
-@Configuration
 public abstract class MongodbConfiguration {
 
     //Mongodb的配置
@@ -121,7 +119,7 @@ public abstract class MongodbConfiguration {
     /**
      * 创建mongodb访问的服务器列表集合
      *
-     * @param hosts
+     * @param mongodbConfig
      * @return
      */
     private static List<ServerAddress> buildServerAddress(MongodbConfig mongodbConfig) {

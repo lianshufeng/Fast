@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserLogDao extends MongoDao<UserLog> {
 
-    public void insert(String userName){
+    public void insert(String userName) {
         UserLog u = new UserLog();
         u.setName(userName);
         u.setTime(System.currentTimeMillis());

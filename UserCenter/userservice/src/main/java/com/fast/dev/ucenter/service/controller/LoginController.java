@@ -26,7 +26,7 @@ public class LoginController extends SuperController {
 
 
     @RequestMapping("login.json")
-    public Object loginJson(@RequestParam(defaultValue = "xiaofeng")  String userName) {
+    public Object loginJson(@RequestParam(defaultValue = "xiaofeng") String userName) {
         ModelAndView modelAndView = new ModelAndView("login.html");
         modelAndView.addObject("name", new Date().getTime());
         this.userLogDao.insert(userName);

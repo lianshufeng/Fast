@@ -11,6 +11,7 @@ public class ApplicationserverApplication extends ApplicationBootSuper {
 
     /**
      * 默认入口方法
+     *
      * @param args
      */
     public static void main(String[] args) {
