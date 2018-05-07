@@ -41,12 +41,14 @@ public abstract class GeneralLockToken implements SyncToken {
      * @throws InterruptedException
      * @throws KeeperException
      */
-    public synchronized void createUserNode() throws KeeperException, InterruptedException {
-        if (isCreateUserNode == true) {
-            return;
+    public void createUserNode() throws KeeperException, InterruptedException {
+        synchronized (isCreateUserNode) {
+            if (isCreateUserNode) {
+                return;
+            }
+            this.remoteLock.createNode(userNodePath());
+            isCreateUserNode = true;
         }
-        this.remoteLock.createNode(userNodePath());
-        isCreateUserNode = true;
     }
 
     /**

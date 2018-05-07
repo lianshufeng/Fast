@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
  * @时间 2018年1月17日
  */
 @Component
-@ConfigurationProperties(prefix = "remotelock")
+@ConfigurationProperties(prefix = "fast.remotelock")
 public class LockOption {
 
     // 会话超时时间
     private int sessionTimeout = 5000;
 
     // 最大线程阻塞的时间
-    private long maxThreadWaitTime = 1000 * 60 * 60;
+    private long maxThreadWaitTime = 1000 * 60 * 60 * 24;
 
     //主机连接字符串
     private String hostConnectString;

@@ -6,6 +6,7 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
@@ -16,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,12 @@ import java.util.List;
  * @联系 251708339@qq.com
  * @时间 2017年10月9日
  */
-public abstract class MongodbConfiguration {
+@Configuration
+public class MongodbConfiguration {
 
     //Mongodb的配置
-    private MongodbConfig mongodbConfig = mongodbConfig();
+    @Resource
+    private MongodbConfig mongodbConfig;
 
     @Bean
     public MongoDbFactory mongoDbFactory() {
@@ -69,14 +73,6 @@ public abstract class MongodbConfiguration {
     public MongoTemplate mongoTemplate() {
         return new MongoTemplate(mongoDbFactory());
     }
-
-
-    /**
-     * 取mongodb的配置
-     *
-     * @return
-     */
-    public abstract MongodbConfig mongodbConfig();
 
 
     /**

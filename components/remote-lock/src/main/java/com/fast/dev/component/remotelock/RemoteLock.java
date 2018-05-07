@@ -30,23 +30,7 @@ public abstract class RemoteLock {
      *
      * @param name
      */
-    public abstract SyncToken sync(String name) throws Exception;
+    public abstract SyncToken lock(String name) throws Exception;
 
-    /**
-     * 资源令牌,仅一根线程获得资源令牌
-     *
-     * @param name
-     * @return 获得返回true, 否则为false
-     * @throws Exception
-     */
-    public abstract boolean lock(String name) throws Exception;
-
-    /**
-     * 解锁资源
-     *
-     * @param name
-     * @throws Exception
-     */
-    public abstract void unLock(String name) throws Exception;
 
 }

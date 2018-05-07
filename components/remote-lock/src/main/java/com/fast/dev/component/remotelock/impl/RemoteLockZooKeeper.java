@@ -56,7 +56,7 @@ public class RemoteLockZooKeeper extends RemoteLock {
     }
 
     @Override
-    public SyncToken sync(String name) throws KeeperException, InterruptedException {
+    public SyncToken lock(String name) throws KeeperException, InterruptedException {
         SyncLockToken actionToken = new SyncLockToken(this, name);
         // 不可执行
         if (!actionToken.canRun) {
@@ -65,16 +65,7 @@ public class RemoteLockZooKeeper extends RemoteLock {
         return actionToken;
     }
 
-    @Override
-    public boolean lock(String name) throws Exception {
-        return this.resourcesLockToken.lock(name);
-    }
 
-
-    @Override
-    public void unLock(String name) throws Exception {
-        this.resourcesLockToken.unLock(name);
-    }
 
 
     public void close() throws Exception {
@@ -127,8 +118,8 @@ public class RemoteLockZooKeeper extends RemoteLock {
 
     /**
      * 设置线程阻塞
-     *
-     * @param countDownLatch
+
+     * @param
      */
     protected void putThreadCounter(SyncLockToken safeLockToken) {
         this.threadCounterMap.put(Thread.currentThread(), safeLockToken);

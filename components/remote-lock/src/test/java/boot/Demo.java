@@ -16,12 +16,13 @@ public abstract class Demo {
 
 
     @Autowired
-    private RemoteLock remoteLock ;
+    private RemoteLock remoteLock;
 
     CountDownLatch countDownLatch = null;
 
     public void run() throws Exception {
 
+        long startTime = System.currentTimeMillis();
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(maxTheadPool());
 
         countDownLatch = new CountDownLatch((int) maxRunCount());
@@ -39,22 +40,20 @@ public abstract class Demo {
 
         countDownLatch.await();
         fixedThreadPool.shutdownNow();
-        Thread.sleep(300);
-        System.out.println("count :" + count + ", class : " + this.getClass());
+
+        System.out.println("count :" + count + ", class : " + this.getClass()+" , qps : " + ((System.currentTimeMillis()-startTime) / maxRunCount()));
     }
 
-    private void runLock(final Integer index) {
+    private  void runLock(final Integer index) {
         SyncToken lockToken = null;
         try {
-            lockToken = remoteLock.sync("test");
+            long startTime = (System.currentTimeMillis());
+            lockToken = remoteLock.lock("test");
             if (sleepTime() > 0) {
                 Thread.sleep(sleepTime());
             }
-
             count++;
-
-            System.out.println("执行:" + index + " time : " + System.currentTimeMillis() + " count : " + count);
-
+            System.out.println(Thread.currentThread() + " index:" + index + " time : " + (System.currentTimeMillis() - startTime) + " inc : " + count);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,19 +84,9 @@ public abstract class Demo {
      * @return
      */
     public long maxRunCount() {
-        return 3000;
+        return 1000;
     }
 
-    ;
-
-    /**
-     * 主机
-     *
-     * @return
-     */
-    public String host() {
-        return "127.0.0.1:2181";
-    }
 
     /**
      * 最大线程数
