@@ -4,6 +4,7 @@ import com.fast.dev.component.remotelock.RemoteLock;
 import com.fast.dev.component.remotelock.SyncToken;
 import com.fast.dev.component.remotelock.conf.LockOption;
 import com.fast.dev.component.remotelock.impl.RemoteLockZooKeeper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -12,7 +13,11 @@ import java.util.concurrent.Executors;
 public abstract class Demo {
 
     static Long count = 0l;
-    static RemoteLock remoteLock = null;
+
+
+    @Autowired
+    private RemoteLock remoteLock ;
+
     CountDownLatch countDownLatch = null;
 
     public void run() throws Exception {
@@ -21,9 +26,6 @@ public abstract class Demo {
 
         countDownLatch = new CountDownLatch((int) maxRunCount());
 
-        LockOption option = new LockOption();
-        option.setHostConnectString(host());
-        remoteLock = new RemoteLockZooKeeper(option);
 
         for (int i = 0; i < maxRunCount(); i++) {
             final Integer index = i;

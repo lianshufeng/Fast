@@ -10,12 +10,13 @@ import org.springframework.context.annotation.ComponentScan;
  * 测试代码的入口
  */
 @ComponentScan("com.fast.dev.component.remotelock")
+@ComponentScan("boot")
 public class ApplicationBoot extends ApplicationBootSuper {
 
 
     public static void main(String[] args) {
         ApplicationContext ac = SpringApplication.run(ApplicationBoot.class, args);
-        RemoteLock rl = ac.getBean(RemoteLock.class);
+
 
 
     }
