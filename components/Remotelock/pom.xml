@@ -9,11 +9,11 @@
         <groupId>com.fast.dev</groupId>
         <artifactId>PParent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../Super/PParent</relativePath>
+        <relativePath>../../super/PParent</relativePath>
     </parent>
 
     <groupId>com.fast.dev.components</groupId>
-    <artifactId>remote-lock</artifactId>
+    <artifactId>Remotelock</artifactId>
 
     <dependencies>
 

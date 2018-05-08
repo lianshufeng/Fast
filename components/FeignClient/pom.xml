@@ -10,8 +10,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>PCore</artifactId>
-    <packaging>jar</packaging>
+    <groupId>com.fast.dev.components</groupId>
+    <artifactId>FeignClient</artifactId>
 
 
 </project>

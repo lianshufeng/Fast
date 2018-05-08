@@ -25,21 +25,23 @@
     <modules>
 
         <!-- 核心 -->
-        <module>Super/PParent</module>
-        <module>Super/PCore</module>
+        <module>super/PParent</module>
+        <module>super/PCore</module>
 
 
         <!-- 模块-->
-        <module>components/mongodb</module>
-        <module>components/remote-lock</module>
+        <module>components/Mongodb</module>
+        <module>components/Remotelock</module>
+        <module>components/FeignClient</module>
+
 
         <!--应用中心-->
-        <module>Centers/ApplicationCenter/applicationserver</module>
+        <module>centers/ApplicationCenter/applicationserver</module>
 
         <!-- 用户中心-->
-        <module>Centers/UserCenter/usermanager</module>
-        <module>Centers/UserCenter/userservice</module>
-        <module>Centers/UserCenter/userserver</module>
+        <module>centers/UserCenter/usermanager</module>
+        <module>centers/UserCenter/userservice</module>
+        <module>centers/UserCenter/userserver</module>
 
 
 
