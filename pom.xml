@@ -34,12 +34,12 @@
         <module>components/remote-lock</module>
 
         <!--应用中心-->
-        <module>ApplicationCenter/applicationserver</module>
+        <module>Centers/ApplicationCenter/applicationserver</module>
 
         <!-- 用户中心-->
-        <module>UserCenter/usermanager</module>
-        <module>UserCenter/userservice</module>
-        <module>UserCenter/userserver</module>
+        <module>Centers/UserCenter/usermanager</module>
+        <module>Centers/UserCenter/userservice</module>
+        <module>Centers/UserCenter/userserver</module>
 
 
 
