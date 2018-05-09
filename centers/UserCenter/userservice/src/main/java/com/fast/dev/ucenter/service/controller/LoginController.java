@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
@@ -31,9 +32,21 @@ public class LoginController extends SuperController {
         modelAndView.addObject("name", new Date().getTime());
         this.userLogDao.insert(userName);
         return new HashMap<String, Object>() {{
-            put("1", new Date().getTime());
+            put("time", new Date().getTime());
         }};
     }
+
+
+
+    @ResponseBody
+    @RequestMapping("test.json")
+    public Object test(){
+        return new HashMap<String, Object>() {{
+            put("time", new Date().getTime());
+        }};
+    }
+
+
 
 
 }
