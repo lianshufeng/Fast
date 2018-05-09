@@ -33,7 +33,7 @@
         <module>components/Mongodb</module>
         <module>components/Remotelock</module>
         <module>components/FeignClient</module>
-
+        <module>components/EurekaClient</module>
 
         <!--应用中心-->
         <module>centers/ApplicationCenter/applicationserver</module>

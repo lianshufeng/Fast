@@ -19,6 +19,7 @@
 
     <dependencies>
 
+
         <dependency>
             <groupId>com.fast.dev</groupId>
             <artifactId>PCore</artifactId>
@@ -26,18 +27,12 @@
         </dependency>
 
 
+
         <!-- 注册服务客户端 -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-
-        <!--thymeleaf 依赖-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>${spring-boot.version}</version>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>EurekaClient</artifactId>
+            <version>${Project.version}</version>
         </dependency>
 
 
@@ -48,6 +43,13 @@
             <version>${Project.version}</version>
         </dependency>
 
+
+        <!--thymeleaf 依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
 
     </dependencies>
 

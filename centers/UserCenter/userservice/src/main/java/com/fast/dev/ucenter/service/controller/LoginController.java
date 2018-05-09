@@ -17,7 +17,7 @@ public class LoginController extends SuperController {
     private UserLogDao userLogDao;
 
 
-    @RequestMapping("login")
+    @RequestMapping("login.html")
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView("login.html");
         modelAndView.addObject("name", new Date().getTime());

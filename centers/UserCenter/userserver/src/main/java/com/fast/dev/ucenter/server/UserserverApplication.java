@@ -17,4 +17,7 @@ public class UserserverApplication extends ApplicationBootSuper {
     public static void main(String[] args) {
         SpringApplication.run(UserserverApplication.class, args);
     }
+
+
+
 }

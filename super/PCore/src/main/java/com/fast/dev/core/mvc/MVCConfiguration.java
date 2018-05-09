@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -40,12 +42,16 @@ public class MVCConfiguration implements WebMvcConfigurer {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(true)
-                .ignoreAcceptHeader(true)
-                .parameterName("mediaType")
-                .defaultContentType(MediaType.TEXT_HTML)
-                .mediaType("html", MediaType.TEXT_HTML)
-                .mediaType("json", MediaType.APPLICATION_JSON);
+//        configurer
+//                .favorPathExtension(true)
+//                .ignoreAcceptHeader(true)
+//                .parameterName("mediaType")
+//                .defaultContentType(MediaType.TEXT_HTML)
+//                .mediaType("html", MediaType.TEXT_HTML)
+//                .mediaType("json", MediaType.APPLICATION_JSON_UTF8)
+//                .favorPathExtension(false)
+//
+//        ;
 
 
     }
@@ -57,6 +63,14 @@ public class MVCConfiguration implements WebMvcConfigurer {
         StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
         stringConverter.setDefaultCharset(Charset.forName("UTF-8"));
         converters.add(stringConverter);
+
+
+
+        // JSON 视图
+        MappingJackson2HttpMessageConverter json = new MappingJackson2HttpMessageConverter();
+        converters.add(json);
+
+
     }
 
 
@@ -82,6 +96,7 @@ public class MVCConfiguration implements WebMvcConfigurer {
 
     /**
      * 添加拦截器
+     *
      * @param registry
      */
     @Override
@@ -117,6 +132,15 @@ public class MVCConfiguration implements WebMvcConfigurer {
         }
     }
 
+    /**
+     * 异常处理
+     *
+     * @param resolvers
+     */
+    @Override
+    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        resolvers.addAll(this.applicationContext.getBeansOfType(HandlerExceptionResolver.class).values());
+    }
 
 
 }
