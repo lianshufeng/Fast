@@ -39,12 +39,13 @@
         <!--应用中心-->
         <module>centers/ApplicationCenter/applicationserver</module>
         <module>centers/ApplicationCenter/GetWayServer</module>
+        <module>centers/ApplicationCenter/ConfigServer</module>
+
 
         <!-- 用户中心-->
         <module>centers/UserCenter/usermanager</module>
         <module>centers/UserCenter/userservice</module>
         <module>centers/UserCenter/userserver</module>
-
 
 
 
