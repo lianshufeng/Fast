@@ -1,5 +1,6 @@
 package com.fast.dev.getway;
 
+import com.fast.dev.acenter.annotation.EnableApplicationClient;
 import com.fast.dev.core.boot.ApplicationBootSuper;
 import com.fast.dev.core.mvc.MVCConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.Import;
 
 
 @EnableZuulProxy
-@EnableEurekaClient
+@EnableApplicationClient
 public class GetWayApplication extends ApplicationBootSuper {
 
 

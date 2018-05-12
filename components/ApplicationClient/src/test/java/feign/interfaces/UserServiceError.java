@@ -1,4 +1,4 @@
-package boot.interfaces;
+package feign.interfaces;
 
 import org.springframework.stereotype.Component;
 

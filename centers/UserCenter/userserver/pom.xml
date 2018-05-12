@@ -5,7 +5,7 @@
 
 
     <packaging>war</packaging>
-    <name>userserver</name>
+    <name>UserCenter</name>
 
     <parent>
         <groupId>com.fast.dev</groupId>
@@ -31,7 +31,7 @@
         <!-- 注册服务客户端 -->
         <dependency>
             <groupId>com.fast.dev.components</groupId>
-            <artifactId>EurekaClient</artifactId>
+            <artifactId>ApplicationCenterClient</artifactId>
             <version>${Project.version}</version>
         </dependency>
 
