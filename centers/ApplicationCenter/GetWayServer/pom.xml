@@ -27,7 +27,7 @@
 
         <dependency>
             <groupId>com.fast.dev.components</groupId>
-            <artifactId>ApplicationCenterClient</artifactId>
+            <artifactId>ApplicationClient</artifactId>
             <version>${Project.version}</version>
         </dependency>
 

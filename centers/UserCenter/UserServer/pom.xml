@@ -3,9 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <packaging>war</packaging>
-    <name>UserCenter</name>
 
     <parent>
         <groupId>com.fast.dev</groupId>
@@ -31,7 +29,7 @@
         <!-- 注册服务客户端 -->
         <dependency>
             <groupId>com.fast.dev.components</groupId>
-            <artifactId>ApplicationCenterClient</artifactId>
+            <artifactId>ApplicationClient</artifactId>
             <version>${Project.version}</version>
         </dependency>
 
@@ -39,7 +37,7 @@
         <!--用户中心的用户接口-->
         <dependency>
             <groupId>com.fast.dev.ucenter</groupId>
-            <artifactId>userservice</artifactId>
+            <artifactId>UserService</artifactId>
             <version>${Project.version}</version>
         </dependency>
 

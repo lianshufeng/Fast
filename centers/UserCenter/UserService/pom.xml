@@ -25,7 +25,7 @@
         <!--用户中心的管理接口-->
         <dependency>
             <groupId>com.fast.dev.ucenter</groupId>
-            <artifactId>usermanager</artifactId>
+            <artifactId>UserManager</artifactId>
             <version>${Project.version}</version>
         </dependency>
 
