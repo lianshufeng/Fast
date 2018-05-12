@@ -3,11 +3,12 @@ package com.fast.dev.applicationserver;
 import com.fast.dev.acenter.annotation.EnableApplicationClient;
 import com.fast.dev.core.boot.ApplicationBootSuper;
 import org.springframework.boot.SpringApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 
+@EnableConfigServer
 @EnableApplicationClient
 public class ConfigServerApplication extends ApplicationBootSuper {
-
 
     /**
      * 默认入口方法
