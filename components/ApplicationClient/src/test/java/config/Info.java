@@ -24,7 +24,7 @@ public class Info extends ActuatorInfoController {
 
 
 
-    @Override
+    @RequestMapping("hi")
     public Object info() {
         return this.hi;
     }
