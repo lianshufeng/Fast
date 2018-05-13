@@ -2,7 +2,7 @@ zuul:
  routes:
   ucenter:
    stripPrefix: false
-   path: /ucenter/**
+   path: ${UserCenter.context.path}/**
    serviceId: UserServer
   demo:
    stripPrefix: false

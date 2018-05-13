@@ -42,6 +42,7 @@
 
         <!--用户中心-->
         <UserCenter.port>8010</UserCenter.port>
+        <UserCenter.context.path>/ucenter</UserCenter.context.path>
 
         <!--网关-->
         <GetWayCenter.port>80</GetWayCenter.port>
