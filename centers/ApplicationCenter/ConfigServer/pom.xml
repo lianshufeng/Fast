@@ -17,7 +17,6 @@
     <artifactId>ConfigServer</artifactId>
 
 
-
     <dependencies>
 
         <dependency>
@@ -40,9 +39,7 @@
         </dependency>
 
 
-
     </dependencies>
-
 
 
 </project>

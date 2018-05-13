@@ -20,3 +20,13 @@ fast:
   dbName: udev
   host: 127.0.0.1:27017
 
+
+#允许刷新配置
+cloud:
+ bus:
+  enabled: true
+management:
+  endpoint:
+    web:
+      exposure:
+       include: bus-refresh

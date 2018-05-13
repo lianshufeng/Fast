@@ -15,6 +15,12 @@
     <packaging>pom</packaging>
     <description>http://localhost/bus/refresh</description>
 
+
+    <!--注意：生效需要在 application 中增加下面2条-->
+    <!--spring.cloud.bus.enabled=true-->
+    <!--management.endpoints.web.exposure.include=bus-refresh-->
+    <!--刷新 POST /actuator/bus-refresh -->
+
     <dependencies>
 
         <dependency>
@@ -30,6 +36,7 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
+
         <!--bus-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -41,6 +48,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
         </dependency>
+
 
     </dependencies>
 
