@@ -32,13 +32,6 @@
             <version>${Project.version}</version>
         </dependency>
 
-        <!--  mq bus-->
-        <dependency>
-            <groupId>com.fast.dev.components</groupId>
-            <artifactId>RabbitMQBus</artifactId>
-            <version>${Project.version}</version>
-            <scope>pom</scope>
-        </dependency>
 
 
         <dependency>

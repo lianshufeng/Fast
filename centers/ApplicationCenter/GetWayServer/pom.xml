@@ -33,13 +33,6 @@
         </dependency>
 
         <!--MQBus-->
-        <dependency>
-            <groupId>com.fast.dev.components</groupId>
-            <artifactId>RabbitMQBus</artifactId>
-            <version>${Project.version}</version>
-            <scope>pom</scope>
-        </dependency>
-
 
         <!--网关服务-->
         <dependency>

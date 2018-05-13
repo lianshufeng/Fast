@@ -31,7 +31,6 @@
 
         <!-- 模块-->
         <module>components/ApplicationClient</module>
-        <module>components/RabbitMQBus</module>
         <module>components/Mongodb</module>
         <module>components/Remotelock</module>
         <module>components/Devtools</module>

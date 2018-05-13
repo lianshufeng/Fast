@@ -17,29 +17,17 @@
 
     <dependencies>
 
-
         <dependency>
             <groupId>com.fast.dev</groupId>
             <artifactId>PCore</artifactId>
             <version>${Project.version}</version>
         </dependency>
 
-
-
         <!-- 注册服务客户端 -->
         <dependency>
             <groupId>com.fast.dev.components</groupId>
             <artifactId>ApplicationClient</artifactId>
             <version>${Project.version}</version>
-        </dependency>
-
-
-        <!--MQBus-->
-        <dependency>
-            <groupId>com.fast.dev.components</groupId>
-            <artifactId>RabbitMQBus</artifactId>
-            <version>${Project.version}</version>
-            <scope>pom</scope>
         </dependency>
 
 
