@@ -1,9 +1,12 @@
 zuul:
  routes:
+  #用户中心
   ucenter:
    stripPrefix: true
    path: /ucenter/**
    serviceId: UserServer
+  #例子
   demo:
+   stripPrefix: false #是否包含path
    path: /demo/**
    serviceId: demo
