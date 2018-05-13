@@ -1,0 +1,15 @@
+zuul:
+  ribbon.eager-load.enabled: true
+  retryable: true #是否开启重试，默认全部都重试, 特殊的在 yxz-zuul-filter.yml 中配置
+  add-host-header: true
+  routes:
+    #用户相关
+    user:
+      stripPrefix: false #是否去掉代理的path前缀
+      path: /ucenter/**
+      serviceId: UserServer
+    #其他
+    demo:
+      stripPrefix: false #是否去掉代理的path前缀
+      path: /demo/**
+      serviceId: demo
