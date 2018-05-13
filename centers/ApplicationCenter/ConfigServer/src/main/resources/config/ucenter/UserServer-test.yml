@@ -1,11 +1,11 @@
-#thymeleaf Ä£°æÒıÇæ
+#thymeleaf æ¨¡ç‰ˆå¼•æ“
 spring:
  thymeleaf:
   prefix: classpath:/templates/
   suffix: .html
   mode: HTML
   encoding: UTF-8
-  #¿ª·¢½×¶ÎÈ¡Ïû»º´æ
+  #å¼€å‘é˜¶æ®µå–æ¶ˆç¼“å­˜
   cache: true
 
 #mongodb
