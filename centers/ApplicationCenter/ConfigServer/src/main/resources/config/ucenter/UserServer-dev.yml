@@ -1,5 +1,5 @@
-#thymeleaf 模版引擎
-spring:
+spring: 
+ #thymeleaf
  thymeleaf:
   prefix: classpath:/templates/
   suffix: .html
@@ -7,6 +7,12 @@ spring:
   encoding: UTF-8
   #开发阶段取消缓存
   cache: false
+ #rabbitmq
+ rabbitmq:
+  host: 127.0.0.1
+  port: 5672
+  #username=
+  #password=
 
 #mongodb
 fast:
@@ -14,10 +20,3 @@ fast:
   dbName: udev
   host: 127.0.0.1:27017
 
-#rabbitmq
-spring:
- rabbitmq:
-  host: 127.0.0.1
-  port: 5672
-  #username=
-  #password=
