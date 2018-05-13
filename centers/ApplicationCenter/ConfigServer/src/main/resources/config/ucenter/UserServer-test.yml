@@ -6,7 +6,7 @@ spring:
   mode: HTML
   encoding: UTF-8
   #开发阶段取消缓存
-  cache:true
+  cache: true
 
 #mongodb
 fast:
@@ -14,7 +14,7 @@ fast:
   dbName: utest
   host: 127.0.0.1:27017
 
-
+#rabbitmq
 spring:
  rabbitmq:
   host: 127.0.0.1
