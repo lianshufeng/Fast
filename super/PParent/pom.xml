@@ -23,7 +23,7 @@
         <!--spring cloud 版本-->
         <spring-cloud.version>Finchley.M9</spring-cloud.version>
         <spring-mvc.version>5.0.5.RELEASE</spring-mvc.version>
-        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
+        <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
 
         <!--项目版本-->
         <Project.version>1.0.0-SNAPSHOT</Project.version>

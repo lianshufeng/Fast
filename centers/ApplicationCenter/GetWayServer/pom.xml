@@ -25,9 +25,17 @@
             <version>${Project.version}</version>
         </dependency>
 
+        <!--应用中心客户端-->
         <dependency>
             <groupId>com.fast.dev.components</groupId>
             <artifactId>ApplicationClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+        <!--MQBus-->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>RabbitMQBus</artifactId>
             <version>${Project.version}</version>
         </dependency>
 

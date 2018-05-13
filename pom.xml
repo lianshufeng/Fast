@@ -30,10 +30,12 @@
 
 
         <!-- 模块-->
+        <module>components/ApplicationClient</module>
+        <module>components/RabbitMQBus</module>
         <module>components/Mongodb</module>
         <module>components/Remotelock</module>
         <module>components/Devtools</module>
-        <module>components/ApplicationClient</module>
+
 
         <!--应用中心-->
         <module>centers/ApplicationCenter/ApplicationServer</module>
@@ -47,93 +49,9 @@
         <module>centers/UserCenter/UserServer</module>
 
 
-
     </modules>
 
 
-    <!--<build>-->
-        <!--&lt;!&ndash;declares maven building resources&ndash;&gt;-->
-        <!--<resources>-->
-            <!--<resource>-->
-                <!--<directory>src/main/resources/</directory>-->
-                <!--<filtering>true</filtering>-->
-                <!--<includes>-->
-                    <!--<include>*.xml</include>-->
-                    <!--<include>*.yml</include>-->
-                    <!--<include>*.txt</include>-->
-                    <!--<include>**/*.xml</include>-->
-                    <!--<include>**/*.yml</include>-->
-                    <!--<include>**/*.ftl</include>-->
-                    <!--<include>**/*.groovy</include>-->
-                <!--</includes>-->
-            <!--</resource>-->
-        <!--</resources>-->
-
-        <!---->
-    <!--</build>-->
-
-    <!--<profiles>-->
-    <!--<profile>-->
-    <!--<id>dev</id>-->
-    <!--<activation>-->
-    <!--<activeByDefault>true</activeByDefault>-->
-    <!--</activation>-->
-    <!--<properties>-->
-    <!--<spring.profiles.active>dev</spring.profiles.active>-->
-    <!--<skip.test>true</skip.test>-->
-    <!--<config-server-id>yxz-eureka-server</config-server-id>-->
-    <!--<spring.cloud.config.uri/>-->
-    <!--<spring.cloud.config.discovery.service-id>discovery.service-id: ${config-server-id}</spring.cloud.config.discovery.service-id>-->
-    <!--<spring.cloud.config.discovery.enabled>discovery.enabled: true</spring.cloud.config.discovery.enabled>-->
-    <!--</properties>-->
-    <!--</profile>-->
-    <!--<profile>-->
-    <!--<id>prod</id>-->
-    <!--<properties>-->
-    <!--<spring.profiles.active>prod</spring.profiles.active>-->
-    <!--<skip.test>true</skip.test>-->
-    <!--<config-server-id>yxz-eureka-server</config-server-id>-->
-    <!--<spring.cloud.config.uri/>-->
-    <!--<spring.cloud.config.discovery.service-id>discovery.service-id: ${config-server-id}</spring.cloud.config.discovery.service-id>-->
-    <!--<spring.cloud.config.discovery.enabled>discovery.enabled: true</spring.cloud.config.discovery.enabled>-->
-    <!--</properties>-->
-    <!--</profile>-->
-    <!--<profile>-->
-    <!--<id>test</id>-->
-    <!--<properties>-->
-    <!--<spring.profiles.active>test</spring.profiles.active>-->
-    <!--<skip.test>true</skip.test>-->
-    <!--<config-server-id>yxz-eureka-server</config-server-id>-->
-    <!--&lt;!&ndash;<spring.cloud.config.uri>uri: http://192.168.1.248:8888</spring.cloud.config.uri>&ndash;&gt;-->
-    <!--&lt;!&ndash;<spring.cloud.config.discovery.service-id/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<spring.cloud.config.discovery.enabled/>&ndash;&gt;-->
-    <!--<spring.cloud.config.uri/>-->
-    <!--<spring.cloud.config.discovery.service-id>discovery.service-id: ${config-server-id}</spring.cloud.config.discovery.service-id>-->
-    <!--<spring.cloud.config.discovery.enabled>discovery.enabled: true</spring.cloud.config.discovery.enabled>-->
-    <!--</properties>-->
-    <!--</profile>-->
-    <!--</profiles>-->
-
-
-    <!--<dependencyManagement>-->
-    <!--<dependencies>-->
-    <!--<dependency>-->
-    <!--<groupId>org.springframework.cloud</groupId>-->
-    <!--<artifactId>spring-cloud-dependencies</artifactId>-->
-    <!--<version>${spring.cloud.version}</version>-->
-    <!--<type>pom</type>-->
-    <!--<scope>import</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>com.youna.common</groupId>-->
-    <!--<artifactId>common-dependencies</artifactId>-->
-    <!--&lt;!&ndash;<version>1.0.0-RELEASE</version>&ndash;&gt;-->
-    <!--<version>1.0.1-SNAPSHOT</version>-->
-    <!--<type>pom</type>-->
-    <!--<scope>import</scope>-->
-    <!--</dependency>-->
-    <!--</dependencies>-->
-    <!--</dependencyManagement>-->
 
 
 </project>
