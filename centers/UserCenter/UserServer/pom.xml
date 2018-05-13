@@ -13,7 +13,7 @@
     </parent>
     <groupId>com.fast.dev.ucenter</groupId>
     <artifactId>UserServer</artifactId>
-
+    <name>UserCenter</name>
 
     <dependencies>
 

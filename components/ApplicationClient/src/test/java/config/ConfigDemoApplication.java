@@ -1,4 +1,4 @@
-package feign;
+package config;
 
 import com.fast.dev.acenter.annotation.EnableApplicationClient;
 import com.fast.dev.core.boot.ApplicationBootSuper;
@@ -15,14 +15,14 @@ import org.springframework.context.annotation.Import;
 //需要使用此注解，且配置 application.properties
 
 @EnableApplicationClient
-@ComponentScan("feign")
+@ComponentScan("config")
 @Import(MVCConfiguration.class)
-public class FeignApplication extends ApplicationBootSuper {
+public class ConfigDemoApplication extends ApplicationBootSuper {
 
 
 
     public static void main(String[] args) {
-        ApplicationContext ac = SpringApplication.run(FeignApplication.class, args);
+        ApplicationContext ac = SpringApplication.run(ConfigDemoApplication.class, args);
 
 
 

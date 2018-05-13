@@ -12,6 +12,7 @@
 
     <groupId>com.fast.dev.components</groupId>
     <artifactId>ApplicationClient</artifactId>
+    <name>ApplicationClient</name>
 
 
     <dependencies>

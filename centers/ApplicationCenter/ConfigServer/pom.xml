@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
     <name>ConfigCenter</name>
-    <description>网关</description>
+    <description>配置中心</description>
 
     <parent>
         <groupId>com.fast.dev</groupId>
