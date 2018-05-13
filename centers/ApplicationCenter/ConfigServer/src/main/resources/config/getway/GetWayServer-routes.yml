@@ -8,6 +8,7 @@ zuul:
    stripPrefix: true #是否去掉代理的path前缀
    path: /**
    serviceId: UserServer
+  #例子
   demo:
    stripPrefix: false
    path: /demo/**
