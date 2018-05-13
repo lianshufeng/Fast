@@ -26,6 +26,6 @@ public class Info extends ActuatorInfoController {
 
     @Override
     public Object info() {
-        return String.valueOf(hi);
+        return this.hi;
     }
 }
