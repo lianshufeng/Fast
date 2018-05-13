@@ -6,12 +6,3 @@ spring:
   #password=
 
 
-#允许刷新配置
-cloud:
- bus:
-  enabled: true
-management:
-  endpoint:
-    web:
-      exposure:
-       include: bus-refresh

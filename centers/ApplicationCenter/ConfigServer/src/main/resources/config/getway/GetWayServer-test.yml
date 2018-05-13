@@ -4,14 +4,3 @@ spring:
   port: 5672
   #username=
   #password=
-
-
-#允许刷新配置
-cloud:
- bus:
-  enabled: true
-management:
-  endpoint:
-    web:
-      exposure:
-       include: bus-refresh

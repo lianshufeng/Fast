@@ -17,6 +17,6 @@ spring:
 #mongodb
 fast:
  mongodb:
-  dbName: udev
+  dbName: upord
   host: 127.0.0.1:27017
 
