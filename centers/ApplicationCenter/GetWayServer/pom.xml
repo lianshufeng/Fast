@@ -37,6 +37,7 @@
             <groupId>com.fast.dev.components</groupId>
             <artifactId>RabbitMQBus</artifactId>
             <version>${Project.version}</version>
+            <scope>pom</scope>
         </dependency>
 
 

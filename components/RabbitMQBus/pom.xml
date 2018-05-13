@@ -12,6 +12,8 @@
 
     <groupId>com.fast.dev.components</groupId>
     <artifactId>RabbitMQBus</artifactId>
+    <packaging>pom</packaging>
+    <description>http://localhost/bus/refresh</description>
 
     <dependencies>
 
@@ -21,6 +23,12 @@
             <version>${Project.version}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
 
         <!--bus-->
         <dependency>

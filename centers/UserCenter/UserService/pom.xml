@@ -22,6 +22,24 @@
             <version>${Project.version}</version>
         </dependency>
 
+
+        <!-- 注册服务客户端 -->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>ApplicationClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!--MQBus-->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>RabbitMQBus</artifactId>
+            <version>${Project.version}</version>
+            <scope>pom</scope>
+        </dependency>
+
+
         <!--用户中心的管理接口-->
         <dependency>
             <groupId>com.fast.dev.ucenter</groupId>
