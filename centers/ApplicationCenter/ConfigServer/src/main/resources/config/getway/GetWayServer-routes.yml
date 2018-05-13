@@ -1,8 +1,9 @@
 zuul:
  routes:
+  #用户中心
   ucenter:
    stripPrefix: false
-   path: ${UserCenter.context.path}/**
+   path: /ucenter/**
    serviceId: UserServer
   demo:
    stripPrefix: false
