@@ -47,6 +47,8 @@
         <module>centers/UserCenter/UserService</module>
         <module>centers/UserCenter/UserServer</module>
 
+		<!-- 链路追踪中心-->
+		<module>centers/TracerCenter</module>
 
     </modules>
 

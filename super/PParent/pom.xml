@@ -21,7 +21,7 @@
         <java.version>1.8</java.version>
 
         <!--spring cloud 版本-->
-        <spring-cloud.version>Finchley.M9</spring-cloud.version>
+        <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
         <spring-mvc.version>5.0.5.RELEASE</spring-mvc.version>
         <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
 
@@ -44,8 +44,14 @@
         <UserCenter.port>8010</UserCenter.port>
         <UserCenter.context.path>/ucenter</UserCenter.context.path>
 
-        <!--网关-->
+
+        <!--追踪中心-->
+        <TracerCenter.port>8020</TracerCenter.port>
+
+
+
         <GetWayCenter.port>80</GetWayCenter.port>
+
 
 
         <!-- 默认配置文件-->
@@ -222,6 +228,14 @@
 
     <repositories>
         <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/milestone</url>
@@ -230,6 +244,7 @@
             </snapshots>
         </repository>
     </repositories>
+
 
     <!--构建-->
     <build>
