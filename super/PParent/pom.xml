@@ -24,6 +24,8 @@
         <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
         <spring-mvc.version>5.0.5.RELEASE</spring-mvc.version>
         <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
+        <!-- 链路追踪版版本 -->
+        <zipkin.version>2.8.3</zipkin.version>
 
         <!--项目版本-->
         <Project.version>1.0.0-SNAPSHOT</Project.version>
@@ -51,6 +53,8 @@
 
 
         <GetWayCenter.port>80</GetWayCenter.port>
+
+
 
 
 

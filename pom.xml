@@ -34,6 +34,7 @@
         <module>components/Mongodb</module>
         <module>components/Remotelock</module>
         <module>components/Devtools</module>
+        <module>components/TracerClient</module>
 
 
         <!--应用中心-->
@@ -48,7 +49,7 @@
         <module>centers/UserCenter/UserServer</module>
 
 		<!-- 链路追踪中心-->
-		<module>centers/TracerCenter</module>
+		<module>centers/TracerServer</module>
 
     </modules>
 

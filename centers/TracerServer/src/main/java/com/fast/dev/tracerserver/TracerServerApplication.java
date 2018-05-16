@@ -3,10 +3,10 @@ package com.fast.dev.tracerserver;
 import com.fast.dev.acenter.annotation.EnableApplicationClient;
 import com.fast.dev.core.boot.ApplicationBootSuper;
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import zipkin.server.internal.EnableZipkinServer;
 
-//@EnableZipkinServer
 
+@EnableZipkinServer
 @EnableApplicationClient
 public class TracerServerApplication extends ApplicationBootSuper {
 
