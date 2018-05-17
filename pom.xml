@@ -49,7 +49,10 @@
         <module>centers/UserCenter/UserServer</module>
 
 		<!-- 链路追踪中心-->
-		<module>centers/TracerServer</module>
+		<module>centers/TracerCenter/TracerServer</module>
+
+        <!--断路器中心-->
+        <module>centers/TracerCenter/BreakerDashboardServer</module>
 
     </modules>
 

@@ -11,7 +11,7 @@
         <groupId>com.fast.dev</groupId>
         <artifactId>PParent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../super/PParent</relativePath>
+        <relativePath>../../../super/PParent</relativePath>
     </parent>
     <groupId>com.fast.dev.acenter</groupId>
     <artifactId>TracerServer</artifactId>

@@ -50,12 +50,11 @@
         <!--追踪中心-->
         <TracerCenter.port>8020</TracerCenter.port>
 
+        <!-- 断路管理-->
+        <BreakerDashboard.port>8030</BreakerDashboard.port>
 
-
+        <!-- 网关端口-->
         <GetWayCenter.port>80</GetWayCenter.port>
-
-
-
 
 
         <!-- 默认配置文件-->
@@ -90,7 +89,6 @@
             </properties>
         </profile>
     </profiles>
-
 
 
     <!--依赖-->

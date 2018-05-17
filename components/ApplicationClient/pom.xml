@@ -50,6 +50,8 @@
         </dependency>
 
 
+
+
         <!--注意：生效需要在 application 中增加下面2条-->
         <!--spring.cloud.bus.enabled=true-->
         <!--management.endpoints.web.exposure.include=bus-refresh-->
