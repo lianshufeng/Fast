@@ -2,4 +2,4 @@ turbine:
   appConfig: ucenter,applicationclient
   aggregator:
     clusterConfig: default
-  clusterNameExpression: default
+  clusterNameExpression: new String("default")
