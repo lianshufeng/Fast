@@ -35,6 +35,7 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
+
         <!--config-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

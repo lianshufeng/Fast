@@ -34,7 +34,7 @@
         <module>components/Mongodb</module>
         <module>components/Remotelock</module>
         <module>components/Devtools</module>
-        <module>components/TracerClient</module>
+        <module>components/TurbineClient</module>
 
 
         <!--应用中心-->
@@ -48,11 +48,10 @@
         <module>centers/UserCenter/UserService</module>
         <module>centers/UserCenter/UserServer</module>
 
-		<!-- 链路追踪中心-->
-		<module>centers/TracerCenter/TracerServer</module>
+		<!-- 监控中心-->
+		<module>centers/MonitorCenter/TurbineServer</module>
 
-        <!--断路器中心-->
-        <module>centers/TracerCenter/BreakerDashboardServer</module>
+
 
     </modules>
 

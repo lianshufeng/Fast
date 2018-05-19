@@ -30,35 +30,30 @@
         <Project.version>1.0.0-SNAPSHOT</Project.version>
         <Project.groupId>com.fast.dev</Project.groupId>
 
-        <!-- 主机地址-->
-        <host.url>localhost</host.url>
+
 
         <!--应用中心-->
+        <ApplicationCenter.host>localhost</ApplicationCenter.host>
         <ApplicationCenter.port>8761</ApplicationCenter.port>
-        <ApplicationCenter.url>http://${host.url}:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+        <ApplicationCenter.url>http://${ApplicationCenter.host}:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
 
         <!--配置中心-->
+        <ConfigCenter.host>localhost</ConfigCenter.host>
         <ConfigCenter.port>8000</ConfigCenter.port>
-        <ConfigCenter.url>http://${host.url}:${ConfigCenter.port}/</ConfigCenter.url>
+        <ConfigCenter.url>http://${ConfigCenter.host}:${ConfigCenter.port}/</ConfigCenter.url>
+
+        <!-- 链路追踪版版本 -->
+        <TracerCenter.host>localhost</TracerCenter.host>
+        <TracerCenter.port>8020</TracerCenter.port>
+        <TracerCenter.url>http://${TracerCenter.host}:${TracerCenter.port}/</TracerCenter.url>
+        <zipkin.version>2.8.3</zipkin.version>
 
         <!--用户中心-->
         <UserCenter.port>8010</UserCenter.port>
         <UserCenter.context.path>/ucenter</UserCenter.context.path>
 
-
-
-        <!-- 链路追踪版版本 -->
-        <zipkin.version>2.8.3</zipkin.version>
-        <!--追踪中心-->
-        <TracerCenter.port>8020</TracerCenter.port>
-
-
-        <!-- 断路管理-->
-        <BreakerDashboard.port>8030</BreakerDashboard.port>
-
         <!-- 网关端口-->
         <GetWayCenter.port>80</GetWayCenter.port>
-
 
         <!-- 默认配置文件-->
         <spring.profiles.active>dev</spring.profiles.active>

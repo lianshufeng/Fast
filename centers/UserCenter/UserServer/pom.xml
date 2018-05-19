@@ -23,13 +23,20 @@
             <version>${Project.version}</version>
         </dependency>
 
-        <!-- 注册服务客户端 -->
+        <!-- 应用中心客户端 -->
         <dependency>
             <groupId>com.fast.dev.components</groupId>
             <artifactId>ApplicationClient</artifactId>
             <version>${Project.version}</version>
         </dependency>
+        
 
+        <!-- 监控中心客户端 -->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>TurbineClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
 
         <!--用户中心的用户接口-->
         <dependency>
@@ -45,6 +52,8 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
+
+
 
 
     </dependencies>
