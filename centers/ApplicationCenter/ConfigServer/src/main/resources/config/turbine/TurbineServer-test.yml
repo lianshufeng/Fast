@@ -1,7 +1,5 @@
 turbine:
- #需要监控的应用名
- appConfig: ucenter,APPLICATIONCLIENT
- aggregator:
-  #集群名
-  clusterConfig: default
- clusterNameExpression: new String("default")
+  appConfig: ucenter,applicationclient
+  aggregator:
+    clusterConfig: default
+  clusterNameExpression: new String(\default\)
