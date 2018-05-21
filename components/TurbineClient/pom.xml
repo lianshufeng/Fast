@@ -29,19 +29,19 @@
             <version>${Project.version}</version>
         </dependency>
 
-        <!-- zipkin 客户端-->
+        <!-- zipkinserver 客户端-->
         <!--<dependency>-->
             <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-zipkin</artifactId>-->
+            <!--<artifactId>spring-cloud-starter-zipkinserver</artifactId>-->
         <!--</dependency>-->
         <!--<dependency>-->
             <!--<groupId>org.springframework.cloud</groupId>-->
             <!--<artifactId>spring-cloud-starter-sleuth</artifactId>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>io.zipkin.java</groupId>-->
-            <!--<artifactId>zipkin</artifactId>-->
-            <!--<version>${zipkin.version}</version>-->
+            <!--<groupId>io.zipkinserver.java</groupId>-->
+            <!--<artifactId>zipkinserver</artifactId>-->
+            <!--<version>${zipkinserver.version}</version>-->
         <!--</dependency>-->
 
         <!--hystrix 客户端-->

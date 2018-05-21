@@ -57,6 +57,16 @@ public class MVCConfiguration implements WebMvcConfigurer {
     }
 
 
+    /**
+     * 跨域
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+    }
+
+
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         // http 处理字符串

@@ -1,17 +1,18 @@
-package com.fast.dev.tracerserver;
+package com.fast.dev.monitor;
 
+import com.fast.dev.acenter.annotation.EnableApplicationClient;
 import com.fast.dev.core.boot.ApplicationBootSuper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.netflix.turbine.EnableTurbine;
+import zipkin.server.internal.EnableZipkinServer;
 
 
-
-//@EnableZipkinServer
-//@EnableApplicationClient
+@EnableZipkinServer
+@EnableApplicationClient
 @EnableTurbine
 @EnableHystrixDashboard
-public class TurbineServerApplication extends ApplicationBootSuper {
+public class MonitorServerApplication extends ApplicationBootSuper {
 
     /**
      * 默认入口方法
@@ -19,7 +20,7 @@ public class TurbineServerApplication extends ApplicationBootSuper {
      * @param args
      */
     public static void main(String[] args) {
-        SpringApplication.run(TurbineServerApplication.class, args);
+        SpringApplication.run(MonitorServerApplication.class, args);
     }
 
 }
