@@ -32,6 +32,10 @@ public class Info extends ActuatorInfoController {
     }
 
 
+    @RequestMapping("/")
+    public String home() {
+        return "Hello World";
+    }
 
 
     @RequestMapping("user")

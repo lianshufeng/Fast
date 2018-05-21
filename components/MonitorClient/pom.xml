@@ -27,22 +27,23 @@
             <groupId>com.fast.dev.components</groupId>
             <artifactId>ApplicationClient</artifactId>
             <version>${Project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-bus</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- zipkinserver 客户端-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-zipkinserver</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-sleuth</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>io.zipkinserver.java</groupId>-->
-            <!--<artifactId>zipkinserver</artifactId>-->
-            <!--<version>${zipkinserver.version}</version>-->
-        <!--</dependency>-->
+
 
         <!--hystrix 客户端-->
         <dependency>
@@ -64,6 +65,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+
+
+
 
 
     </dependencies>

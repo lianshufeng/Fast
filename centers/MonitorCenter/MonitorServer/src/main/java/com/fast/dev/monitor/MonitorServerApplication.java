@@ -8,10 +8,10 @@ import org.springframework.cloud.netflix.turbine.EnableTurbine;
 import zipkin.server.internal.EnableZipkinServer;
 
 
-@EnableZipkinServer
 @EnableTurbine
 @EnableHystrixDashboard
 @EnableApplicationClient
+@EnableZipkinServer
 public class MonitorServerApplication extends ApplicationBootSuper {
 
     /**

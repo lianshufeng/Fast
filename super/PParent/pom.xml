@@ -43,7 +43,7 @@
         <MonitorServer.host>localhost</MonitorServer.host>
         <MonitorServer.port>8200</MonitorServer.port>
         <MonitorServer.url>http://${MonitorServer.host}:${MonitorServer.port}/</MonitorServer.url>
-        <zipkin.version>2.8.3</zipkin.version>
+        <zipkin.version>2.8.4</zipkin.version>
 
         <!--用户中心-->
         <UserCenter.port>8100</UserCenter.port>

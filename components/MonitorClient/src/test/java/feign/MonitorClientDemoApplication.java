@@ -1,7 +1,5 @@
 package feign;
 
-import com.fast.dev.acenter.annotation.EnableApplicationClient;
-import com.fast.dev.acenter.annotation.EnableApplicationMonitorClient;
 import com.fast.dev.core.boot.ApplicationBootSuper;
 import com.fast.dev.core.mvc.MVCConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -20,8 +18,9 @@ import org.springframework.context.annotation.Import;
 @ComponentScan("feign")
 @Import(MVCConfiguration.class)
 @EnableFeignClients //必要
-@EnableApplicationClient
-@EnableApplicationMonitorClient
+//@EnableApplicationClient
+
+//@EnableApplicationMonitorClient
 public class MonitorClientDemoApplication extends ApplicationBootSuper {
 
 
