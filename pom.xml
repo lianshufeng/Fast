@@ -34,7 +34,7 @@
         <module>components/Mongodb</module>
         <module>components/Remotelock</module>
         <module>components/Devtools</module>
-        <module>components/TurbineClient</module>
+        <module>components/MonitorClient</module>
 
 
         <!--应用中心-->

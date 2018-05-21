@@ -34,7 +34,7 @@
         <!-- 监控中心客户端 -->
         <dependency>
             <groupId>com.fast.dev.components</groupId>
-            <artifactId>TurbineClient</artifactId>
+            <artifactId>MonitorClient</artifactId>
             <version>${Project.version}</version>
         </dependency>
 

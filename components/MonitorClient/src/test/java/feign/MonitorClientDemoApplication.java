@@ -1,7 +1,7 @@
 package feign;
 
 import com.fast.dev.acenter.annotation.EnableApplicationClient;
-import com.fast.dev.acenter.annotation.EnableApplicationTurbineMonitor;
+import com.fast.dev.acenter.annotation.EnableApplicationMonitorClient;
 import com.fast.dev.core.boot.ApplicationBootSuper;
 import com.fast.dev.core.mvc.MVCConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -21,13 +21,13 @@ import org.springframework.context.annotation.Import;
 @Import(MVCConfiguration.class)
 @EnableFeignClients //必要
 @EnableApplicationClient
-@EnableApplicationTurbineMonitor
-public class TurbineClientDemoApplication extends ApplicationBootSuper {
+@EnableApplicationMonitorClient
+public class MonitorClientDemoApplication extends ApplicationBootSuper {
 
 
 
     public static void main(String[] args) {
-        ApplicationContext ac = SpringApplication.run(TurbineClientDemoApplication.class, args);
+        ApplicationContext ac = SpringApplication.run(MonitorClientDemoApplication.class, args);
 
 
 

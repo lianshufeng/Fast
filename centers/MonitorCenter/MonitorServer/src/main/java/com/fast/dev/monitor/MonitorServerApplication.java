@@ -9,9 +9,9 @@ import zipkin.server.internal.EnableZipkinServer;
 
 
 @EnableZipkinServer
-@EnableApplicationClient
 @EnableTurbine
 @EnableHystrixDashboard
+@EnableApplicationClient
 public class MonitorServerApplication extends ApplicationBootSuper {
 
     /**

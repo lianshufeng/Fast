@@ -24,9 +24,15 @@ import java.lang.annotation.*;
 
 @EnableCircuitBreaker
 
+
+// zipkin
+
+
+
+
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface EnableApplicationTurbineMonitor {
+public @interface EnableApplicationMonitorClient {
 
 }
