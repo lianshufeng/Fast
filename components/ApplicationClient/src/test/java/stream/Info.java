@@ -26,6 +26,7 @@ public class Info extends ActuatorInfoController {
 
     @RequestMapping("send")
     public String send(String value) {
+        System.out.println(Thread.currentThread()+" send ---> ");
         User u = new User(value, new Date().getTime());
         OuputStreamTemplate.publish(messageChannel, u);
         return "finish";
