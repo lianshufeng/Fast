@@ -14,7 +14,7 @@ spring:
   #username=
   #password=
   #kafka
-  cloud:
+ cloud:
     stream:
       kafka:
         binder:
