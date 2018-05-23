@@ -27,20 +27,20 @@
             <groupId>com.fast.dev.components</groupId>
             <artifactId>ApplicationClient</artifactId>
             <version>${Project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-bus</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-bus-amqp</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-                </exclusion>
-            </exclusions>
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.cloud</groupId>-->
+                    <!--<artifactId>spring-cloud-bus</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.cloud</groupId>-->
+                    <!--<artifactId>spring-cloud-starter-bus-amqp</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.cloud</groupId>-->
+                    <!--<artifactId>spring-cloud-starter-stream-rabbit</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
         </dependency>
 
 

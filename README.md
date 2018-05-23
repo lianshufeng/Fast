@@ -32,7 +32,7 @@ JDK：1.8+ , IDE：idea , 推荐插件 ( Spring Assistant )
 war : idea选择环境一键打包,拷贝到tomcat运行(注意：本地端口与上下文)<br/>jar : 需要修改pom配置
 
 ## 依赖服务
-MQ(Rabbitmq) -> Git(配置中心)
+MQ ( kafka、ZooKeeper ) -> Git(配置中心)
 
 ## 启动顺序
 应用中心 -> 配置中心 -> 用户中心 -> [自定义模块] -> 网关
