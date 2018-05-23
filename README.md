@@ -26,7 +26,7 @@ Spring cloud and boot Framework
 
 
 ## 环境
-JDK：1.8+ , IDE：idea , 推荐插件 ( Spring Assistant )
+JDK：1.8+ , IDE：idea , 推荐插件 ( Spring Assistant , Maven Helper , YAML/Ansible support)
 
 ## 编译与部署
 war : idea选择环境一键打包,拷贝到tomcat运行(注意：本地端口与上下文)<br/>jar : 需要修改pom配置
