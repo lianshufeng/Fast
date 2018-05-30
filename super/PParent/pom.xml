@@ -206,6 +206,14 @@
         </dependency>
 
 
+        <!-- Get Set 需要IDE 安装 lombok plugin -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
+        </dependency>
+
+
     </dependencies>
 
 
