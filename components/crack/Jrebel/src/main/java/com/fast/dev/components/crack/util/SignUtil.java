@@ -31,7 +31,7 @@ public class SignUtil {
      * @param data
      * @return
      */
-    public byte[] sign(byte[] data) {
+    public static byte[] sign(byte[] data) {
         try {
             final Signature instance = Signature.getInstance("SHA1withRSA", d);
             instance.initSign(privateKey);
