@@ -15,21 +15,22 @@ import java.util.UUID;
 
 @ComponentScan("com.fast.dev.components.crack")
 @Import(MVCConfiguration.class)
-public class JrebelApplication extends ApplicationBootSuper {
+public class IdeaCrackApplication extends ApplicationBootSuper {
 
-    private final static Logger logger = LoggerFactory.getLogger(JrebelApplication.class);
+    private final static Logger logger = LoggerFactory.getLogger(IdeaCrackApplication.class);
 
     @Value("${server.port}")
     private int serverPort;
 
     public static void main(String[] args) {
-        SpringApplication.run(JrebelApplication.class, args);
+        SpringApplication.run(IdeaCrackApplication.class, args);
     }
 
     @PostConstruct
-    private void init(){
+    private void printActiveUrl() {
         logger.info("----------------------↓↓↓↓↓↓↓↓↓↓↓↓");
-        logger.info("online active : http://127.0.0.1:"+serverPort+"/"+UUID.randomUUID().toString());
+        logger.info("Jrebel\t online active : http://127.0.0.1:" + this.serverPort + "/" + UUID.randomUUID().toString());
+        logger.info("Idea\t online active : http://127.0.0.1:" + this.serverPort + "/");
         logger.info("----------------------↑↑↑↑↑↑↑↑↑↑↑↑");
     }
 

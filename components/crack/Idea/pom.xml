@@ -11,8 +11,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.fast.dev.components.crack</groupId>
-    <artifactId>Jrebel</artifactId>
-
+    <artifactId>Idea</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
 
@@ -25,11 +25,28 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.58</version>
+            <version>1.59</version>
         </dependency>
 
 
     </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

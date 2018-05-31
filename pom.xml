@@ -42,7 +42,7 @@
         <module>components/data/MongodbData</module>
         <module>components/data/JdbcData</module>
         <!-- 激活工具 -->
-        <module>components/crack/Jrebel</module>
+        <module>components/crack/Idea</module>
 
 
         <!--应用中心-->
