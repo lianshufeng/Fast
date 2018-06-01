@@ -14,4 +14,21 @@
     <artifactId>JdbcData</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jdbc</artifactId>
+            <version>1.0.0.BUILD-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+
+
+    </dependencies>
+
+
 </project>
