@@ -1,15 +1,13 @@
-package com.fast.dev.ucenter.service.dao;
+package com.fast.dev.ucenter.dao;
 
-import com.fast.dev.ucenter.service.domain.UserLog;
-import org.springframework.data.domain.Example;
+import com.fast.dev.ucenter.domain.UserLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
 
+@Repository
 public interface UserLogDao extends MongoRepository<UserLog, String> {
 
 

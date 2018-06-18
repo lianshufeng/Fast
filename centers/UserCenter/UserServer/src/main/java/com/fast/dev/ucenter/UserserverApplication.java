@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.server;
+package com.fast.dev.ucenter;
 
 import com.fast.dev.acenter.annotation.EnableApplicationClient;
 import com.fast.dev.acenter.annotation.EnableApplicationMonitorClient;
@@ -7,6 +7,7 @@ import com.fast.dev.core.mvc.MVCConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+
 
 
 @ComponentScan("com.fast.dev.ucenter")

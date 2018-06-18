@@ -1,8 +1,6 @@
-package com.fast.dev.ucenter.service.controller;
+package com.fast.dev.ucenter.controller;
 
-import com.fast.dev.ucenter.service.dao.UserLogDao;
-import com.fast.dev.ucenter.service.domain.UserLog;
-import com.fast.dev.ucenter.service.service.UserService;
+import com.fast.dev.ucenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

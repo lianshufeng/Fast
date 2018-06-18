@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.service.controller;
+package com.fast.dev.ucenter.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;

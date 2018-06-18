@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.server;
+package com.fast.dev.ucenter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
