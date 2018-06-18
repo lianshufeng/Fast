@@ -14,6 +14,8 @@ import java.lang.annotation.*;
 @EnableFeignClients
 //@Import({org.springframework.cloud.openfeign.FeignClientsRegistrar.class})
 
+
+
 //@EnableEurekaClient
 @Inherited
 

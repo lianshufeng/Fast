@@ -1,9 +1,7 @@
-package com.fast.dev.components.crack.controller;
+package com.fast.dev.data.controller;
 
-import com.fast.dev.components.crack.util.SignUtil;
-import lombok.experimental.var;
+import com.fast.dev.data.util.SignUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.coyote.http2.ByteUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

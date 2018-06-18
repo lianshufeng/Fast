@@ -1,13 +1,13 @@
-package com.fast.dev.component.mongodb.util;
+package com.fast.dev.data.mongo.util;
+
+
+import com.fast.dev.data.mongo.domain.SuperEntity;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Update;
-
-import com.fast.dev.component.mongodb.domain.SuperEntity;
 
 /**
  * 实体工具类

@@ -1,17 +1,34 @@
 package com.fast.dev.ucenter.service.dao;
 
-import com.fast.dev.component.mongodb.dao.MongoDao;
 import com.fast.dev.ucenter.service.domain.UserLog;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Repository
-public class UserLogDao extends MongoDao<UserLog> {
+import java.util.List;
+import java.util.Optional;
 
-    public void insert(String userName) {
-        UserLog u = new UserLog();
-        u.setName(userName);
-        u.setTime(System.currentTimeMillis());
-        this.mongoTemplate.save(u);
-    }
+
+public interface UserLogDao extends MongoRepository<UserLog, String> {
+
+
+    /**
+     * 分页查询
+     *
+     * @param name
+     * @param pageable
+     * @return
+     */
+    Page<UserLog> findByName(String name, Pageable pageable);
+
+
+
+
+
+
+
+
+
 
 }

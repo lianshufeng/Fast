@@ -35,7 +35,7 @@
         <!--mognodb 组件-->
         <dependency>
             <groupId>com.fast.dev.components</groupId>
-            <artifactId>Mongodb</artifactId>
+            <artifactId>MongodbData</artifactId>
             <version>${Project.version}</version>
         </dependency>
 

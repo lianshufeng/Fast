@@ -1,4 +1,4 @@
-package com.fast.dev.components.crack;
+package com.fast.dev.data;
 
 import com.fast.dev.core.boot.ApplicationBootSuper;
 import com.fast.dev.core.mvc.MVCConfiguration;

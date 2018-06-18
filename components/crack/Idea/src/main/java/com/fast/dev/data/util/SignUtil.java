@@ -1,4 +1,4 @@
-package com.fast.dev.components.crack.util;
+package com.fast.dev.data.util;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 

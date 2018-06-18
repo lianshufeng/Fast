@@ -1,24 +1,34 @@
 spring: 
  #thymeleaf
  thymeleaf:
+  suffix: .html
+  mode: HTML
+  prefix: classpath:/templates/
   #开发阶段取消缓存
   cache: false
+  encoding: UTF-8
+ #mongodb
+ data:
+   mongodb:
+     database: udev
+     host: 127.0.0.1:27017
+
+
+
 # rabbitmq:
 #  host: 127.0.0.1
 #  port: 5672
   #username=
   #password=
   #kafka
- cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: 127.0.0.1:9092
+# cloud:
+#    stream:
+#      kafka:
+#        binder:
+#          brokers: 127.0.0.1:9092
 
 #mongodb
-fast:
- mongodb:
-  dbName: udev
-  host: 127.0.0.1:27017
+
+
 
 

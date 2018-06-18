@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface UserDao extends MongoRepository<User, String> {
@@ -62,9 +63,6 @@ public interface UserDao extends MongoRepository<User, String> {
      * @return
      */
     Page<User> findByUserName(String name, Pageable pageable);
-
-
-
 
 
 

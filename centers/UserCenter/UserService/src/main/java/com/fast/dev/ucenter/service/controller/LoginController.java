@@ -1,6 +1,7 @@
 package com.fast.dev.ucenter.service.controller;
 
 import com.fast.dev.ucenter.service.dao.UserLogDao;
+import com.fast.dev.ucenter.service.domain.UserLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class LoginController extends SuperController {
     public Object loginJson(@RequestParam(defaultValue = "xiaofeng") String userName) {
         ModelAndView modelAndView = new ModelAndView("login.html");
         modelAndView.addObject("name", new Date().getTime());
-        this.userLogDao.insert(userName);
+        this.userLogDao.save(new UserLog(userName,System.currentTimeMillis()));
         return new HashMap<String, Object>() {{
             put("time", new Date().getTime());
         }};

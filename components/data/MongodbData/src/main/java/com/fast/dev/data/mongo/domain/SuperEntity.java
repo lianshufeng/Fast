@@ -1,4 +1,4 @@
-package com.fast.dev.component.mongodb.domain;
+package com.fast.dev.data.mongo.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
