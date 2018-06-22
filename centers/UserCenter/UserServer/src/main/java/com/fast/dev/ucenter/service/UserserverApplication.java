@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter;
+package com.fast.dev.ucenter.service;
 
 import com.fast.dev.acenter.annotation.EnableApplicationClient;
 import com.fast.dev.acenter.annotation.EnableApplicationMonitorClient;

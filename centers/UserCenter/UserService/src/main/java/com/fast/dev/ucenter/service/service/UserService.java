@@ -1,7 +1,7 @@
-package com.fast.dev.ucenter.service;
+package com.fast.dev.ucenter.service.service;
 
-import com.fast.dev.ucenter.dao.UserLogDao;
-import com.fast.dev.ucenter.domain.UserLog;
+import com.fast.dev.ucenter.service.dao.UserLogDao;
+import com.fast.dev.ucenter.service.domain.UserLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

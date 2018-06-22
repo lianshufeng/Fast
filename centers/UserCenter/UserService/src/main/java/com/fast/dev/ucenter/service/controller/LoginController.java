@@ -1,6 +1,7 @@
-package com.fast.dev.ucenter.controller;
+package com.fast.dev.ucenter.service.controller;
 
-import com.fast.dev.ucenter.service.UserService;
+import com.fast.dev.ucenter.service.dao.UserLogDao;
+import com.fast.dev.ucenter.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ public class LoginController extends SuperController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserLogDao userLogDao;
+
 
     @RequestMapping("login.html")
     public ModelAndView login() {
@@ -31,6 +35,23 @@ public class LoginController extends SuperController {
         ModelAndView modelAndView = new ModelAndView("login.html");
         modelAndView.addObject("name", new Date().getTime());
         this.userService.save(userName);
+        return new HashMap<String, Object>() {{
+            put("time", new Date().getTime());
+        }};
+    }
+
+
+    @RequestMapping("update.json")
+    public Object updateJson() {
+        userLogDao.updateUser("xiaofeng",1);
+        return new HashMap<String, Object>() {{
+            put("time", new Date().getTime());
+        }};
+    }
+
+    @RequestMapping("mapReduce.json")
+    public Object mapReduce() {
+
         return new HashMap<String, Object>() {{
             put("time", new Date().getTime());
         }};
