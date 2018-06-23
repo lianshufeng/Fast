@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Import;
 
 @EnableApplicationClient
 @ComponentScan("config")
-@Import(MVCConfiguration.class)
 public class ConfigDemoApplication extends ApplicationBootSuper {
 
 

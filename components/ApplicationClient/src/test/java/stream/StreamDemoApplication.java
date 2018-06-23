@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Import;
 
 @EnableApplicationClient
 @ComponentScan("stream")
-@Import(MVCConfiguration.class)
 public class StreamDemoApplication extends ApplicationBootSuper {
 
 

@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Import;
 
 
 @ComponentScan("demo.simple")
-@Import(MVCConfiguration.class)
 public class DemoMongodbApplication extends ApplicationBootSuper {
 
 

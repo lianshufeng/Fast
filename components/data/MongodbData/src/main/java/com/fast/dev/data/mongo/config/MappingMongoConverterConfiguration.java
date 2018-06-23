@@ -26,12 +26,7 @@ import java.util.List;
  */
 
 @Configuration
-public class MongoAutoConfigurationExtend extends MongoAutoConfiguration {
-
-    public MongoAutoConfigurationExtend(MongoProperties properties, ObjectProvider<MongoClientOptions> options, Environment environment) {
-        super(properties, options, environment);
-    }
-
+public class MappingMongoConverterConfiguration {
 
     /**
      * 自定义转换器

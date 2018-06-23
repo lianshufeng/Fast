@@ -14,7 +14,6 @@ import java.util.UUID;
 
 
 @ComponentScan("com.fast.dev.components.crack")
-@Import(MVCConfiguration.class)
 public class IdeaCrackApplication extends ApplicationBootSuper {
 
     private final static Logger logger = LoggerFactory.getLogger(IdeaCrackApplication.class);

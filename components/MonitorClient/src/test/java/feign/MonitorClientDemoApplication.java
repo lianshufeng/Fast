@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Import;
 
 
 @ComponentScan("feign")
-@Import(MVCConfiguration.class)
 @EnableFeignClients //必要
 @EnableApplicationClient
 @EnableApplicationMonitorClient

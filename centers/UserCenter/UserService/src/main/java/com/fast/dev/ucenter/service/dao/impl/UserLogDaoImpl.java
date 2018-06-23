@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.math.BigDecimal;
+
 public class UserLogDaoImpl implements UserLogDaoExtend {
 
 
@@ -18,7 +20,7 @@ public class UserLogDaoImpl implements UserLogDaoExtend {
     public void updateUser(String name, long time) {
         Query query = new Query().addCriteria(Criteria.where("name").is(name));
         Update update = new Update();
-        update.set("time",time);
+        update.set("time",new BigDecimal(time));
         this.mongoTemplate.updateMulti(query,update,UserLog.class);
     }
 
