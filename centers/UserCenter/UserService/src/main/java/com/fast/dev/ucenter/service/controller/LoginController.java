@@ -1,14 +1,19 @@
 package com.fast.dev.ucenter.service.controller;
 
 import com.fast.dev.ucenter.service.dao.UserLogDao;
+import com.fast.dev.ucenter.service.domain.UserLog;
 import com.fast.dev.ucenter.service.service.UserService;
+import org.bson.types.Decimal128;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -39,6 +44,19 @@ public class LoginController extends SuperController {
             put("time", new Date().getTime());
         }};
     }
+
+
+    @RequestMapping("find.json")
+    public Object find(@RequestParam(defaultValue = "xiaofeng") String userName, @RequestParam(defaultValue = "0") Integer page,@RequestParam(defaultValue = "20") Integer size) {
+        ModelAndView modelAndView = new ModelAndView("login.html");
+        modelAndView.addObject("name", new Date().getTime());
+        Page<UserLog> pages =  this.userLogDao.findByName(userName,PageRequest.of(page,size));
+        return new HashMap<String, Object>() {{
+            put("time", new Date().getTime());
+            put("page",pages.getContent());
+        }};
+    }
+
 
 
     @RequestMapping("update.json")

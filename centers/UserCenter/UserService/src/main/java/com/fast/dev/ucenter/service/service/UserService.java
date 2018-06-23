@@ -5,6 +5,8 @@ import com.fast.dev.ucenter.service.domain.UserLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class UserService {
 
@@ -14,7 +16,7 @@ public class UserService {
 
 
     public void save(String userName){
-        this.userLogDao.save(new UserLog(userName,System.currentTimeMillis()));
+        this.userLogDao.save(new UserLog(userName,new BigDecimal(System.currentTimeMillis())));
     }
 
 

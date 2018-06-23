@@ -3,17 +3,18 @@ package com.fast.dev.ucenter.service.domain;
 import com.fast.dev.data.mongo.domain.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Document
-@EntityScan
 public class UserLog extends SuperEntity {
 
     //名称
@@ -21,21 +22,7 @@ public class UserLog extends SuperEntity {
     private String name;
 
     //时间
-    private long time;
+    private BigDecimal time;
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
 }
