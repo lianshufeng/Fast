@@ -1,16 +1,15 @@
 package demo.simple.dao;
 
+import com.fast.dev.data.mongo.dao.MongoDao;
 import demo.simple.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 
-public interface UserDao extends MongoRepository<User, String> {
+public interface UserDao extends MongoDao<User>  {
 
 
     /**

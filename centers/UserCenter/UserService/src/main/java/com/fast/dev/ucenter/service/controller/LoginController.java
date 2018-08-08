@@ -30,7 +30,7 @@ public class LoginController extends SuperController {
     @RequestMapping("login.html")
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView("login.html");
-        modelAndView.addObject("name", new Date().getTime());
+        modelAndView.addObject("name", System.currentTimeMillis());
         return modelAndView;
     }
 
@@ -38,10 +38,10 @@ public class LoginController extends SuperController {
     @RequestMapping("login.json")
     public Object loginJson(@RequestParam(defaultValue = "xiaofeng") String userName) {
         ModelAndView modelAndView = new ModelAndView("login.html");
-        modelAndView.addObject("name", new Date().getTime());
+        modelAndView.addObject("name", System.currentTimeMillis());
         this.userService.save(userName);
         return new HashMap<String, Object>() {{
-            put("time", new Date().getTime());
+            put("time", System.currentTimeMillis());
         }};
     }
 
@@ -49,10 +49,10 @@ public class LoginController extends SuperController {
     @RequestMapping("find.json")
     public Object find(@RequestParam(defaultValue = "xiaofeng") String userName, @RequestParam(defaultValue = "0") Integer page,@RequestParam(defaultValue = "20") Integer size) {
         ModelAndView modelAndView = new ModelAndView("login.html");
-        modelAndView.addObject("name", new Date().getTime());
+        modelAndView.addObject("name", System.currentTimeMillis());
         Page<UserLog> pages =  this.userLogDao.findByName(userName,PageRequest.of(page,size));
         return new HashMap<String, Object>() {{
-            put("time", new Date().getTime());
+            put("time", System.currentTimeMillis());
             put("page",pages.getContent());
         }};
     }
@@ -63,7 +63,7 @@ public class LoginController extends SuperController {
     public Object updateJson() {
         userLogDao.updateUser("xiaofeng",1);
         return new HashMap<String, Object>() {{
-            put("time", new Date().getTime());
+            put("time", System.currentTimeMillis());
         }};
     }
 
@@ -71,7 +71,7 @@ public class LoginController extends SuperController {
     public Object mapReduce() {
 
         return new HashMap<String, Object>() {{
-            put("time", new Date().getTime());
+            put("time", System.currentTimeMillis());
         }};
     }
 
@@ -81,7 +81,7 @@ public class LoginController extends SuperController {
     @RequestMapping("test.json")
     public Object test(){
         return new HashMap<String, Object>() {{
-            put("time", new Date().getTime());
+            put("time", System.currentTimeMillis());
         }};
     }
 

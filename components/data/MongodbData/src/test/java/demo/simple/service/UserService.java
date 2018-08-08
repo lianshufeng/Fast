@@ -39,7 +39,6 @@ public class UserService {
     public String save(String userName) {
         User user = new User();
         user.setBirthdayTime(new Date(1989, 7, 25).getTime());
-        ;
         user.setCreateTime(System.currentTimeMillis());
         user.setUserName(userName);
         user.setR(new Random().nextInt(10));
