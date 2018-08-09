@@ -1,0 +1,9 @@
+
+spring:
+    data:
+        mongodb:
+            database: user
+            authentication-database: admin
+            host: 127.0.0.1:27017
+            username: admin
+            password: xiaofeng

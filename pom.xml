@@ -37,7 +37,6 @@
         <!--监控中心-->
         <module>components/MonitorClient</module>
         <!--db支持的模块-->
-        <module>components/data/JpaData</module>
         <module>components/data/MongodbData</module>
         <module>components/data/JdbcData</module>
         <!-- 激活工具 -->

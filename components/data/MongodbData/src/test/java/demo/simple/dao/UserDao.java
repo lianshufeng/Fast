@@ -1,6 +1,7 @@
 package demo.simple.dao;
 
 import com.fast.dev.data.mongo.dao.MongoDao;
+import demo.simple.dao.extend.UserDaoExtend;
 import demo.simple.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +10,7 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 
-public interface UserDao extends MongoDao<User>  {
+public interface UserDao extends MongoDao<User>, UserDaoExtend {
 
 
     /**
@@ -62,7 +63,6 @@ public interface UserDao extends MongoDao<User>  {
      * @return
      */
     Page<User> findByUserName(String name, Pageable pageable);
-
 
 
 }

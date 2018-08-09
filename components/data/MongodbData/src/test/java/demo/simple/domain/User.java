@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
-@AllArgsConstructor
 @NoArgsConstructor
 public class User extends SuperEntity {
 
@@ -26,4 +25,7 @@ public class User extends SuperEntity {
     private long birthdayTime;
 
 
+    public User(String userName) {
+        this.userName = userName;
+    }
 }

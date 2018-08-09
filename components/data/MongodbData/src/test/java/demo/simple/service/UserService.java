@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -14,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -115,9 +117,29 @@ public class UserService {
     public Object update(String name, int r, int newR) {
         Query query = new Query().addCriteria(Criteria.where("userName").is(name).and("r").is(r));
         Update update = new Update();
-        update.set("r",newR);
-        UpdateResult updateResult =  this.mongoTemplate.updateMulti(query,update , User.class);
+        update.set("r", newR);
+        UpdateResult updateResult = this.mongoTemplate.updateMulti(query, update, User.class);
         return updateResult.getModifiedCount();
+    }
+
+
+    @Transactional
+    public Object transactional(int n) {
+        boolean isReturn = false;
+        if (System.currentTimeMillis() % 2 == 0) {
+            isReturn = true;
+
+        }
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            User u = new User("test_" + System.currentTimeMillis() + "_" + i);
+            this.mongoTemplate.insert(u);
+            ids.add(u.getId());
+            if (isReturn) {
+                throw new RuntimeException("error");
+            }
+        }
+        return ids;
     }
 
 

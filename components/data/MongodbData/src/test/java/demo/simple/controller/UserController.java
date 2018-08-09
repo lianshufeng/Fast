@@ -3,7 +3,9 @@ package demo.simple.controller;
 
 import demo.simple.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -72,5 +74,13 @@ public class UserController {
     public Object update(String name, int r, int o) {
         return this.userService.update(name,r,o);
     }
+
+
+    @RequestMapping("transactional")
+    public Object transactional(@RequestParam(defaultValue = "10") Integer n) {
+        return this.userService.transactional(n);
+    }
+
+
 
 }
