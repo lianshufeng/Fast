@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.8.0-beta2</version>
+            <version>3.8.0</version>
         </dependency>
 
         <!-- db -->

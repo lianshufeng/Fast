@@ -4,6 +4,6 @@ spring:
         mongodb:
             database: user
             authentication-database: admin
-            host: 127.0.0.1:27017
+            host: 192.168.145.129:27017
             username: admin
-            password: xiaofeng
+            password: 687mongo2018

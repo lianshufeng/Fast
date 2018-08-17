@@ -1,0 +1,18 @@
+
+
+spring:
+  cloud:
+    #kafka
+    stream:
+      kafka:
+        binder:
+          brokers: 127.0.0.1:9092
+    #≈‰÷√÷––ƒ
+    config:
+      server:
+        git:
+          uri: https://github.com/lianshufeng/Fast.git
+          search-paths: centers/ApplicationCenter/ConfigServer/src/main/resources/config/**
+          force-pull: true
+#          username:
+#          password:

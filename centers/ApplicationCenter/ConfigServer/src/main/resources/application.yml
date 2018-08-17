@@ -1,0 +1,16 @@
+#Web服务器端口
+server:
+  port: ${ConfigCenter.port}
+
+#允许消息总线
+spring:
+  cloud:
+    bus:
+      enabled: true
+
+#允许端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
