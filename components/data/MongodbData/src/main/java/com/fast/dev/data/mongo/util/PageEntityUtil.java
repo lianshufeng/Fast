@@ -30,7 +30,7 @@ public class PageEntityUtil {
                 }
         );
         //转换模型
-        return new PageImpl<T>(result, new PageRequest(pages.getNumber(), pages.getSize(), pages.getSort()), pages.getTotalElements());
+        return new PageImpl<T>(result, PageRequest.of(pages.getNumber(), pages.getSize(), pages.getSort()), pages.getTotalElements());
     }
 
     /**

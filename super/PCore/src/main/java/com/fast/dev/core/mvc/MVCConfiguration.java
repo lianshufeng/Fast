@@ -33,29 +33,6 @@ public class MVCConfiguration implements WebMvcConfigurer {
     private ApplicationContext applicationContext;
 
 
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-//        允许json视图解析器
-        registry.enableContentNegotiation(jsonView());
-    }
-
-
-    @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-//        configurer
-//                .favorPathExtension(true)
-//                .ignoreAcceptHeader(true)
-//                .parameterName("mediaType")
-//                .defaultContentType(MediaType.TEXT_HTML)
-//                .mediaType("html", MediaType.TEXT_HTML)
-//                .mediaType("json", MediaType.APPLICATION_JSON_UTF8)
-//                .favorPathExtension(false)
-//
-//        ;
-
-
-    }
-
 
     /**
      * 跨域
@@ -67,27 +44,25 @@ public class MVCConfiguration implements WebMvcConfigurer {
     }
 
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        // http 处理字符串
-        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
-        stringConverter.setDefaultCharset(Charset.forName("UTF-8"));
-        converters.add(stringConverter);
-
-
-
-        // JSON 视图
-        MappingJackson2HttpMessageConverter json = new MappingJackson2HttpMessageConverter();
-        converters.add(json);
-
-
-    }
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        // http 处理字符串
+//        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
+//        stringConverter.setDefaultCharset(Charset.forName("UTF-8"));
+//        converters.add(stringConverter);
+//
+//
+//
+////        // JSON 视图
+////        MappingJackson2HttpMessageConverter json = new MappingJackson2HttpMessageConverter();
+////        converters.add(json);
+//
+//
+//    }
 
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-//        registry.addResourceHandler("/templates/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/templates/");
         registry.addResourceHandler("/resources/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/resources/");
     }
 
@@ -97,11 +72,11 @@ public class MVCConfiguration implements WebMvcConfigurer {
      *
      * @return
      */
-    @Bean
-    public View jsonView() {
-        MappingJackson2JsonView mappingJackson2JsonView = new MappingJackson2JsonView();
-        return mappingJackson2JsonView;
-    }
+//    @Bean
+//    public View jsonView() {
+//        MappingJackson2JsonView mappingJackson2JsonView = new MappingJackson2JsonView();
+//        return mappingJackson2JsonView;
+//    }
 
 
     /**

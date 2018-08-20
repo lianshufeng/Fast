@@ -62,9 +62,6 @@
             </activation>
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
-                <ConfigCenter.url>http://127.0.0.1:8000</ConfigCenter.url>
-                <MonitorServer.url>http://127.0.0.1:8200/</MonitorServer.url>
-                <ApplicationCenter.url>http://127.0.0.1:8761/eureka/</ApplicationCenter.url>
             </properties>
         </profile>
 
@@ -73,9 +70,6 @@
             <id>test</id>
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
-                <ConfigCenter.url>http://127.0.0.1:8000</ConfigCenter.url>
-                <MonitorServer.url>http://127.0.0.1:8200/</MonitorServer.url>
-                <ApplicationCenter.url>http://127.0.0.1:8761/eureka/</ApplicationCenter.url>
             </properties>
         </profile>
 
@@ -84,9 +78,6 @@
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
-                <ConfigCenter.url>http://127.0.0.1:8000</ConfigCenter.url>
-                <MonitorServer.url>http://127.0.0.1:8200/</MonitorServer.url>
-                <ApplicationCenter.url>http://127.0.0.1:8761/eureka/</ApplicationCenter.url>
             </properties>
         </profile>
     </profiles>
