@@ -1,0 +1,37 @@
+#默认端口号
+server:
+  port: 8080
+
+#  应用中心的地址
+eureka:
+  client:
+    service-url: "http://localhost:${ApplicationCenter.port}"
+    fetch-registry: true
+    register-with-eureka: true
+
+
+
+#允许消息总线
+spring:
+  cloud:
+    bus:
+      enabled: true
+
+
+#允许端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+
+
+
+
+#开启断路器
+#feign.hystrix.enabled=true
+
+
+
+
