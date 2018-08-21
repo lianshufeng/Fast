@@ -1,3 +1,7 @@
 #Web服务器端口
 server:
   port: ${ApplicationCenter.port}
+
+#当前环境
+eureka:
+  environment: ${spring.profiles.active}
