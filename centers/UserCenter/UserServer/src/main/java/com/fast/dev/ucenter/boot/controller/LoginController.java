@@ -1,9 +1,8 @@
-package com.fast.dev.ucenter.service.controller;
+package com.fast.dev.ucenter.boot.controller;
 
-import com.fast.dev.ucenter.service.dao.UserLogDao;
-import com.fast.dev.ucenter.service.domain.UserLog;
-import com.fast.dev.ucenter.service.service.UserService;
-import org.bson.types.Decimal128;
+import com.fast.dev.ucenter.boot.dao.UserLogDao;
+import com.fast.dev.ucenter.boot.domain.UserLog;
+import com.fast.dev.ucenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 
 @Controller
@@ -39,7 +36,6 @@ public class LoginController extends SuperController {
     public Object loginJson(@RequestParam(defaultValue = "xiaofeng") String userName) {
         ModelAndView modelAndView = new ModelAndView("login.html");
         modelAndView.addObject("name", System.currentTimeMillis());
-        this.userService.save(userName);
         return new HashMap<String, Object>() {{
             put("time", System.currentTimeMillis());
         }};

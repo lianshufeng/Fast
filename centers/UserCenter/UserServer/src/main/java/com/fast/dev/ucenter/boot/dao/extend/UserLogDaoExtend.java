@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.service.dao.extend;
+package com.fast.dev.ucenter.boot.dao.extend;
 
 public interface UserLogDaoExtend {
 

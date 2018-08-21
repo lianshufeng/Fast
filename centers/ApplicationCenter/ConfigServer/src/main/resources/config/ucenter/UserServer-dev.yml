@@ -12,22 +12,15 @@ spring:
    mongodb:
      database: udev
      host: 127.0.0.1:27017
+#     username:
+#     password:
 
 
+server:
+  port: ${UserCenter.port}
+  servlet:
+    context-path: ${UserCenter.context.path}
 
-# rabbitmq:
-#  host: 127.0.0.1
-#  port: 5672
-  #username=
-  #password=
-  #kafka
-# cloud:
-#    stream:
-#      kafka:
-#        binder:
-#          brokers: 127.0.0.1:9092
-
-#mongodb
 
 
 

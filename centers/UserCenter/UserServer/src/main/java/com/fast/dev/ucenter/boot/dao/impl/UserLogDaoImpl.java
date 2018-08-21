@@ -1,7 +1,7 @@
-package com.fast.dev.ucenter.service.dao.impl;
+package com.fast.dev.ucenter.boot.dao.impl;
 
-import com.fast.dev.ucenter.service.dao.extend.UserLogDaoExtend;
-import com.fast.dev.ucenter.service.domain.UserLog;
+import com.fast.dev.ucenter.boot.dao.extend.UserLogDaoExtend;
+import com.fast.dev.ucenter.boot.domain.UserLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

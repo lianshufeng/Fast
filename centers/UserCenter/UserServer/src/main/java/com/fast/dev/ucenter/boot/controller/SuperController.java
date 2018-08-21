@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.service.controller;
+package com.fast.dev.ucenter.boot.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

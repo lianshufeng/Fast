@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.service.controller;
+package com.fast.dev.ucenter.boot.controller;
 
 import com.fast.dev.core.boot.info.ActuatorInfoController;
 import org.springframework.web.bind.annotation.RestController;
