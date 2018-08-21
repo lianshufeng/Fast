@@ -1,7 +1,0 @@
-#注册发现服务
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: "http://127.0.0.1:${ApplicationCenter.port}/eureka/"

@@ -5,3 +5,10 @@ server:
 #当前环境
 eureka:
   environment: ${spring.profiles.active}
+  client:
+    fetch-registry: false
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+
+

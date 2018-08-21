@@ -8,7 +8,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: "http://127.0.0.1:${ApplicationCenter.port}/eureka/"
+      defaultZone: ${ApplicationCenter.url}
     healthcheck:
       enabled: true
 

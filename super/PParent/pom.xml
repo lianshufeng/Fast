@@ -48,6 +48,9 @@
 
         <!-- 默认配置文件-->
         <spring.profiles.active>dev</spring.profiles.active>
+        <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+        <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
+        <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
 
     </properties>
 
@@ -62,6 +65,10 @@
             </activation>
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
+
+                <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
+                <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
             </properties>
         </profile>
 
@@ -70,6 +77,10 @@
             <id>test</id>
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
+
+                <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
+                <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
             </properties>
         </profile>
 
@@ -78,6 +89,10 @@
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
+
+                <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
+                <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
             </properties>
         </profile>
     </profiles>

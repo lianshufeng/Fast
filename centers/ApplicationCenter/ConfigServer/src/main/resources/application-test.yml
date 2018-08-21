@@ -1,10 +1,5 @@
 spring:
   cloud:
-    #kafka
-    stream:
-      kafka:
-        binder:
-          brokers: 127.0.0.1:9092
     #配置中心
     config:
       server:
@@ -14,12 +9,3 @@ spring:
           force-pull: true
 #          username:
 #          password:
-
-
-#注册中心
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: "http://127.0.0.1:${ApplicationCenter.port}/eureka/"
