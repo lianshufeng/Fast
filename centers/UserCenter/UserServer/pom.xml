@@ -31,12 +31,6 @@
         </dependency>
         
 
-        <!-- 监控中心客户端 -->
-        <dependency>
-            <groupId>com.fast.dev.components</groupId>
-            <artifactId>MonitorClient</artifactId>
-            <version>${Project.version}</version>
-        </dependency>
 
         <!--用户中心的用户接口-->
         <dependency>

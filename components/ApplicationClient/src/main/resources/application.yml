@@ -9,7 +9,8 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: "http://127.0.0.1:${ApplicationCenter.port}/eureka/"
-
+    healthcheck:
+      enabled: true
 
 
 #允许端点
