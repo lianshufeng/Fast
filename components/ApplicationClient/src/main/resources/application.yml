@@ -5,26 +5,20 @@ server:
 #  应用中心的地址
 eureka:
   client:
-    service-url: "http://localhost:${ApplicationCenter.port}"
     fetch-registry: true
     register-with-eureka: true
+    service-url:
+      defaultZone: "http://127.0.0.1:${ApplicationCenter.port}/eureka/"
 
-
-
-#允许消息总线
-spring:
-  cloud:
-    bus:
-      enabled: true
 
 
 #允许端点
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-        exclude: "env,beans"
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#        exclude: "env,beans"
 
 
 
