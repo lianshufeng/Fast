@@ -50,7 +50,6 @@
 
 
         <!-- 用户中心-->
-        <module>centers/UserCenter/UserManager</module>
         <module>centers/UserCenter/UserService</module>
         <module>centers/UserCenter/UserServer</module>
 

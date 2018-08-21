@@ -23,22 +23,6 @@
         </dependency>
 
 
-
-
-        <!--用户中心的管理接口-->
-        <dependency>
-            <groupId>com.fast.dev.ucenter</groupId>
-            <artifactId>UserManager</artifactId>
-            <version>${Project.version}</version>
-        </dependency>
-
-        <!--mognodb 组件-->
-        <dependency>
-            <groupId>com.fast.dev.components</groupId>
-            <artifactId>MongodbData</artifactId>
-            <version>${Project.version}</version>
-        </dependency>
-
     </dependencies>
 
 </project>
