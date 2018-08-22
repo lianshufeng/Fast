@@ -14,9 +14,25 @@ import com.fast.dev.ucenter.core.type.UserLoginType;
 public interface UserRegister {
 
 
-    public UserRegisterToken getUserRegisterToken(LoginEnvironment loginEnvironment, UserLoginType userLoginType, String loginName);
+    /**
+     * 获取注册令牌
+     *
+     * @param userLoginType
+     * @param loginName
+     * @param loginEnvironment
+     * @return
+     */
+    public UserRegisterToken getUserRegisterToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment);
 
 
+    /**
+     * 注册
+     *
+     * @param token
+     * @param code
+     * @param passWord
+     * @return
+     */
     public TokenState register(String token, String code, String passWord);
 
 

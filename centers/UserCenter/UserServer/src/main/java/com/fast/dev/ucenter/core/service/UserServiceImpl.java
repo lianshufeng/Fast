@@ -20,8 +20,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserBaseDao userBaseDao;
 
+
     @Override
-    public UserLoginToken getUserLoginToken(LoginEnvironment loginEnvironment, UserLoginType userLoginType, String loginName) {
+    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment) {
         return null;
     }
 
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserRegisterToken getUserRegisterToken(LoginEnvironment loginEnvironment, UserLoginType userLoginType, String loginName) {
+    public UserRegisterToken getUserRegisterToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment) {
         if (userLoginType == UserLoginType.Phone) {
             return getPhoneRegisterToken(loginEnvironment, loginName);
         } else if (userLoginType == UserLoginType.UserName) {

@@ -18,7 +18,7 @@ public interface UserLogin {
      *
      * @return
      */
-    public UserLoginToken getUserLoginToken(LoginEnvironment loginEnvironment, UserLoginType userLoginType, String loginName);
+    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName,LoginEnvironment loginEnvironment);
 
 
     /**
