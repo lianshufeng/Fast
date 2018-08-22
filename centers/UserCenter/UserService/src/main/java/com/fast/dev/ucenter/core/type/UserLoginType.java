@@ -14,7 +14,7 @@ public enum UserLoginType {
     /**
      * 手机登陆
      */
-    PhoneNumber("手机"),
+    Phone("手机"),
 
 
     /**

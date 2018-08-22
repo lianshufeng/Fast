@@ -12,25 +12,9 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class UserLoginToken {
-
-    /**
-     * 令牌
-     */
-    private String token;
+public class UserLoginToken extends BasicServiceToken {
 
 
-    /**
-     * 登陆时间
-     */
-    private String loginTime;
-
-
-    /**
-     * 登陆校验
-     */
-    private LoginValidate loginValidate;
 
 
 }

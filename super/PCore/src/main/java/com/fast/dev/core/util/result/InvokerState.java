@@ -10,7 +10,13 @@ public enum InvokerState {
     /**
      * 失败
      */
-    Error("失败");
+    Error("失败"),
+
+
+    /**
+     * 异常情况
+     */
+    Exception("异常");
 
 
     private String remark;

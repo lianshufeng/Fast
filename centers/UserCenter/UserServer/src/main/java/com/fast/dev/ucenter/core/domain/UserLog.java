@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.core.core.domain;
+package com.fast.dev.ucenter.core.domain;
 
 import com.fast.dev.data.mongo.domain.SuperEntity;
 import lombok.AllArgsConstructor;

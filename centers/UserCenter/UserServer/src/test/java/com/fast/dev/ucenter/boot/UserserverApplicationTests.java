@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.core.boot;
+package com.fast.dev.ucenter.boot;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

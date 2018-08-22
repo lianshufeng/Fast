@@ -2,6 +2,7 @@ package com.fast.dev.core.util;
 
 import java.io.InputStream;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.util.StreamUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +25,13 @@ public class JsonUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String toJson(Object object) throws Exception {
-		return objectMapper.writeValueAsString(object);
+	public static String toJson(Object object)  {
+		try {
+			return objectMapper.writeValueAsString(object);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**

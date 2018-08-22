@@ -39,6 +39,8 @@
         <!--db支持的模块-->
         <module>components/data/MongodbData</module>
         <module>components/data/JdbcData</module>
+        <module>components/data/RedisData</module>
+
         <!-- 激活工具 -->
         <module>components/crack/Idea</module>
 

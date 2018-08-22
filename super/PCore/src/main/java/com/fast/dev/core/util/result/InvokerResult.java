@@ -31,13 +31,23 @@ public class InvokerResult<T> implements Serializable {
     }
 
     /**
-     * 异常
+     * 错误
      *
      * @param content
      * @return
      */
     public static InvokerResult error(Object content) {
         return new InvokerResult(InvokerState.Error, content);
+    }
+
+    /**
+     * 异常
+     *
+     * @param content
+     * @return
+     */
+    public static InvokerResult exception(Object content) {
+        return new InvokerResult(InvokerState.Exception, content);
     }
 
 

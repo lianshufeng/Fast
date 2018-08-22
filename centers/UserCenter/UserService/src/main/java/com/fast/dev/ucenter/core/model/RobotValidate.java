@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginValidate {
+public class RobotValidate {
 
     /**
      * 校验类型

@@ -1,0 +1,45 @@
+#默认端口号
+server:
+  port: ${GetWayCenter.port}
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+
+
+#允许消息总线
+spring:
+  cloud:
+    #kafka
+    stream:
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+    bus:
+      enabled: true
+    #路由表
+    config:
+      name: ${project.artifactId},${project.artifactId}-routes
+
+
+#允许端点
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#        exclude: "env,beans"
+
+
+
+
+#开启断路器
+#feign.hystrix.enabled=true
+
+
+
+
