@@ -1,6 +1,8 @@
-#Web服务器端口
+#默认端口号
 server:
-  port: ${ConfigCenter.port}
+  port: ${UserCenter.port}
+  servlet:
+    context-path: ${UserCenter.context.path}
 
 
 #注册中心
@@ -10,6 +12,7 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: ${ApplicationCenter.url}
+
 
 #允许消息总线
 spring:
@@ -22,9 +25,18 @@ spring:
     bus:
       enabled: true
 
+
+
 #允许端点
 management:
   endpoints:
     web:
       exposure:
-        include: bus-refresh
+        include: "*"
+        exclude: "env,beans"
+
+
+
+
+#开启断路器
+#feign.hystrix.enabled=true

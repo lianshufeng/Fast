@@ -16,11 +16,6 @@ spring:
 #     password:
 
 
-server:
-  port: ${UserCenter.port}
-  servlet:
-    context-path: ${UserCenter.context.path}
-
 
 
 

@@ -2,15 +2,26 @@
 server:
   port: 8080
 
-#  应用中心的地址
+#注册中心
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
       defaultZone: ${ApplicationCenter.url}
-    healthcheck:
+
+
+#允许消息总线
+spring:
+  cloud:
+    #kafka
+    stream:
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+    bus:
       enabled: true
+
 
 
 #允许端点
