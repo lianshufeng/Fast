@@ -1,10 +1,1 @@
-spring:
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: 127.0.0.1:9092
-
-    #允许消息总线
-    bus:
-      enabled: true
+#nothing
