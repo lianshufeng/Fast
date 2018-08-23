@@ -27,10 +27,6 @@ public abstract class BasicServiceToken implements Serializable {
      */
     private String token;
 
-    /**
-     * 失效时间
-     */
-    private long expireTime;
 
     /**
      * 登陆校验

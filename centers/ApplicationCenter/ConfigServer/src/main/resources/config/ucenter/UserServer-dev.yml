@@ -20,4 +20,10 @@ ucenter:
   imageValidataLength: 4
 
 
+#验证码图片配置
+kaptcha:
+  width: 100
+  height: 41
+  fontColor: "blue"
+  fontNames: "宋体,楷体,微软雅黑"
 

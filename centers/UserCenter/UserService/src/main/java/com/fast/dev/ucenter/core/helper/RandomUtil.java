@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.core.util;
+package com.fast.dev.ucenter.core.helper;
 
 import java.util.Random;
 import java.util.UUID;

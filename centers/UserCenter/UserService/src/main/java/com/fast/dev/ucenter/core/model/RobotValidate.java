@@ -32,4 +32,7 @@ public class RobotValidate {
 
 
 
+    public RobotValidate(ValidateType type) {
+        this.type = type;
+    }
 }

@@ -9,10 +9,12 @@ public enum TokenState {
 
     Success("成功") ,
 
+    CreateError("令牌创建失败") ,
+
     UserNotExist("用户不存在"),
 
 
-    UserExist("户不存在"),
+    UserExist("用户已存在"),
 
 
     PassWordError("密码错误"),

@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.core.util;
+package com.fast.dev.ucenter.core.helper;
 
 /**
  * 作者：练书锋

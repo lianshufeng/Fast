@@ -18,6 +18,11 @@ public enum ValidateType {
     Phone,
 
     /**
+     * 手机调试
+     */
+    PhoneDebug,
+
+    /**
      * 图形验证码
      */
     Image,

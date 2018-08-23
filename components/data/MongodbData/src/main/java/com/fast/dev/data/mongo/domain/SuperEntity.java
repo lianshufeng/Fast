@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.io.Serializable;
+
 /**
  * 所有对象的父类
  *
@@ -12,7 +14,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
  * @时间 2018年1月5日
  */
 @Data
-public abstract class SuperEntity {
+public abstract class SuperEntity implements Serializable {
 
     @Id
     private String id;
