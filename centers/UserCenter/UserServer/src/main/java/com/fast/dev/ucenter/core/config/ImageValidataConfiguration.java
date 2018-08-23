@@ -25,7 +25,7 @@ public class ImageValidataConfiguration {
     public DefaultKaptcha getKaptchaBean() {
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
-//        properties.setProperty("kaptcha.border", "no");
+        properties.setProperty("kaptcha.border", "no");
 //        properties.setProperty("kaptcha.border.color", "105,179,90");
         properties.setProperty("kaptcha.textproducer.font.color", kaptchaConf.getFontColor());
         properties.setProperty("kaptcha.image.width", String.valueOf(kaptchaConf.getWidth()));
