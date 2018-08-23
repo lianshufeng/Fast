@@ -41,6 +41,10 @@ public class UserServiceImpl implements UserService {
     private UserCenterConf userCenterConfig;
 
 
+    @Autowired
+    private ImageValidataHelper imageValidataHelper;
+
+
     @Override
     public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment) {
         return null;
@@ -158,7 +162,7 @@ public class UserServiceImpl implements UserService {
         // 图形验证码
         else if (robotValidate.getType() == ValidateType.Image) {
             code = ValidataCodeUtil.create(userCenterConfig.getImageValidataLength());
-            String data = "data:image/png;base64," + Base64.getEncoder().encodeToString(ImageValidataHelper.create(code));
+            String data = "data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidataHelper.create(code));
             robotValidate.setData(data);
         }
 
