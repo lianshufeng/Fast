@@ -24,6 +24,6 @@ ucenter:
 kaptcha:
   width: 100
   height: 41
-  fontColor: "blue"
+  fontColor: "red"
   fontNames: "宋体,楷体,微软雅黑"
 
