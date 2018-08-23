@@ -1,24 +1,23 @@
-spring:
-  #thymeleaf
-  thymeleaf:
-    suffix: .html
-    mode: HTML
-    prefix: classpath:/templates/
-    #开发阶段取消缓存
-    cache: false
-    encoding: UTF-8
-  #mongodb
-  data:
-    mongodb:
-      database: uprod
-      host: 127.0.0.1:27017
-        #     username:
-        #     password:
+spring: 
+ #thymeleaf
+ thymeleaf:
+  suffix: .html
+  mode: HTML
+  prefix: classpath:/templates/
+  #开发阶段取消缓存
+  cache: false
+  encoding: UTF-8
+ #mongodb
+ data:
+   mongodb:
+     database: uprod
+     host: 127.0.0.1:27017
+#     username:
+#     password:
   redis:
     host: 127.0.0.1
     port: 6379
     database: 1
-
 
 
 
