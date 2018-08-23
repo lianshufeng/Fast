@@ -15,6 +15,8 @@ public enum TokenState {
 
     UserNotExist("用户不存在"),
 
+    UserNotNull("用户不能为空"),
+
     UserExist("用户已存在"),
 
     PassWordError("密码错误"),

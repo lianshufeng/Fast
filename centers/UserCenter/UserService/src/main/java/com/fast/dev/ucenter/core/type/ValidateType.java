@@ -18,9 +18,9 @@ public enum ValidateType {
     Phone,
 
     /**
-     * 手机调试
+     * 调试模式
      */
-    PhoneDebug,
+    Debug,
 
     /**
      * 图形验证码

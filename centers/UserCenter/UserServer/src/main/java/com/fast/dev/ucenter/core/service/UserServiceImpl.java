@@ -18,6 +18,7 @@ import com.fast.dev.ucenter.core.util.TokenUtil;
 import com.fast.dev.ucenter.core.util.ValidataCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Base64;
 
@@ -79,11 +80,9 @@ public class UserServiceImpl implements UserService {
 
         //返回用户登陆令牌
         UserLoginToken userLoginToken = new UserLoginToken();
-
         userLoginToken.setRobotValidate(robotValidate);
         userLoginToken.setTokenState(TokenState.Success);
         userLoginToken.setToken(serviceToken.getToken());
-
         return userLoginToken;
     }
 
@@ -226,11 +225,8 @@ public class UserServiceImpl implements UserService {
         String code = null;
         if (robotValidate.getType() == ValidateType.Phone) {
             code = ValidataCodeUtil.createOnlyNumber(userCenterConfig.getPhoneValidataLength());
-            //手机调试模式
-            if (this.userCenterConfig.isPhoneValidataDebug()) {
-                robotValidate.setType(ValidateType.PhoneDebug);
-                robotValidate.setData(code);
-            }
+            // 发送短信
+            //doto
         }
 
         // 图形验证码
@@ -238,6 +234,13 @@ public class UserServiceImpl implements UserService {
             code = ValidataCodeUtil.create(userCenterConfig.getImageValidataLength());
             String data = "data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidataHelper.create(code));
             robotValidate.setData(data);
+        }
+
+
+        //调试
+        if (this.userCenterConfig.isDebug()) {
+            robotValidate.setType(ValidateType.Debug);
+            robotValidate.setData(code);
         }
 
 

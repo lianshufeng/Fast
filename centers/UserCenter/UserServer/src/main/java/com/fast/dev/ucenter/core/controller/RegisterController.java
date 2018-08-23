@@ -25,10 +25,10 @@ public class RegisterController extends SuperController {
      * @return
      */
     @RequestMapping("getRegisterToken")
-    public Object getRegisterToken(UserLoginType type, String loginName) {
-        Assert.notNull(type, "类型不能为空");
+    public Object getRegisterToken(UserLoginType loginType, String loginName) {
+        Assert.notNull(loginType, "类型不能为空");
         Assert.hasText(loginName, "登陆账号不能为空");
-        return InvokerResult.success(this.userService.getUserRegisterToken(type, loginName, null));
+        return InvokerResult.success(this.userService.getUserRegisterToken(loginType, loginName, null));
     }
 
 
