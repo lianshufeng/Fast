@@ -16,7 +16,7 @@ spring:
 #用户中心配置
 ucenter:
   phoneValidataLength: 4
-  phoneValidataDebug: false
+  phoneValidataDebug: true
   imageValidataLength: 4
 
 
