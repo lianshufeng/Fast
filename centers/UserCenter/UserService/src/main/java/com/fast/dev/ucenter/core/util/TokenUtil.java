@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.core.helper;
+package com.fast.dev.ucenter.core.util;
 
 /**
  * 作者：练书锋
@@ -13,7 +13,7 @@ public class TokenUtil {
      * @return
      */
     public static String create() {
-        return RandomUtil.uuid();
+        return RandomUtil.uuid(32);
     }
 
 }

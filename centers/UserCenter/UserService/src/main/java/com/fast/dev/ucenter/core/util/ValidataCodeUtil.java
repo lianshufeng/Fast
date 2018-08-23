@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.core.helper;
+package com.fast.dev.ucenter.core.util;
 
 /**
  * 作者：练书锋
@@ -17,7 +17,6 @@ public class ValidataCodeUtil {
         for (int i = 0; i < size; i++) {
             int ascCode = 48 + RandomUtil.randInt(0, 9);
             char value = (char) ascCode;
-            ;
             stringBuffer.append(value);
         }
         return stringBuffer.toString();
@@ -30,12 +29,6 @@ public class ValidataCodeUtil {
      * @return
      */
     public static String create(int size) {
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(RandomUtil.uuid());
-        //保证长度一定够
-        while (stringBuffer.length() < size) {
-            stringBuffer.append(RandomUtil.uuid());
-        }
-        return stringBuffer.substring(0, size);
+        return RandomUtil.uuid(size);
     }
 }

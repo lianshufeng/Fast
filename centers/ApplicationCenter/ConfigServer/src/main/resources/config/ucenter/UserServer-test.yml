@@ -18,11 +18,14 @@ spring:
       host: 127.0.0.1
       port: 6379
       database: 1
+
 #用户中心配置
 ucenter:
   phoneValidataLength: 4
-  phoneValidataDebug: false
+  phoneValidataDebug: true
   imageValidataLength: 4
+  serviceTokenTimeOut: 300000
+  maxCanAccessCount: 5
 
 
 #验证码图片配置
