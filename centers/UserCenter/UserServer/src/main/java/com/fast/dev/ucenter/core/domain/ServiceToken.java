@@ -29,4 +29,10 @@ public class ServiceToken extends BaseToken {
     private String validataCode;
 
 
+    /**
+     * 登陆名
+     */
+    private String loginName;
+
+
 }

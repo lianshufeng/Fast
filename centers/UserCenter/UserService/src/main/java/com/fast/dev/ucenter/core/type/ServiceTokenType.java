@@ -8,13 +8,29 @@ package com.fast.dev.ucenter.core.type;
 public enum ServiceTokenType {
 
     /**
-     * 登录
+     * 手机登录
      */
-    Login,
+    PhoneLogin("手机登陆"),
 
     /**
-     * 注册
+     * 用户名登陆
      */
-    Register
+    UserNameLogin("用户名登陆"),
 
+    /**
+     * 用户名注册
+     */
+    UserNameRegister("用户名注册"),
+
+    /**
+     * 手机注册
+     */
+    PhoneRegister("手机注册");
+
+
+    private String remark;
+
+    ServiceTokenType(String remark) {
+        this.remark = remark;
+    }
 }

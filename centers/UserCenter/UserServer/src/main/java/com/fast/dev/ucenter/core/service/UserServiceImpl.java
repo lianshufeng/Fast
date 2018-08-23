@@ -5,14 +5,17 @@ import com.fast.dev.ucenter.core.conf.UserCenterConf;
 import com.fast.dev.ucenter.core.dao.UserBaseDao;
 import com.fast.dev.ucenter.core.dao.UserTokenDao;
 import com.fast.dev.ucenter.core.domain.ServiceToken;
+import com.fast.dev.ucenter.core.domain.UserBase;
+import com.fast.dev.ucenter.core.helper.ImageValidataHelper;
 import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.ServiceTokenType;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.type.ValidateType;
-import com.fast.dev.ucenter.core.helper.RandomUtil;
-import com.fast.dev.ucenter.core.helper.ValidataCodeUtil;
-import com.fast.dev.ucenter.core.helper.ImageValidataHelper;
+import com.fast.dev.ucenter.core.util.PassWordUtil;
+import com.fast.dev.ucenter.core.util.RandomUtil;
+import com.fast.dev.ucenter.core.util.TokenUtil;
+import com.fast.dev.ucenter.core.util.ValidataCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,17 +50,60 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment) {
+
+        ServiceTokenType serviceTokenType = null;
+        if (userLoginType == UserLoginType.Phone) {
+            serviceTokenType = ServiceTokenType.PhoneLogin;
+            if (!this.userBaseDao.existsByPhone(loginName)) {
+                return new UserLoginToken(TokenState.UserNotExist);
+            }
+        } else if (userLoginType == UserLoginType.UserName) {
+            serviceTokenType = ServiceTokenType.UserNameLogin;
+            if (!this.userBaseDao.existsByUserName(loginName)) {
+                return new UserLoginToken(TokenState.UserNotExist);
+            }
+        }
+
+
+        // 机器校验
+        RobotValidate robotValidate = new RobotValidate();
+        robotValidate.setType(ValidateType.Image);
+        String code = createRobotValidate(robotValidate);
+
+
+        //  创建业务令牌
+        ServiceToken serviceToken = createServiceToken(loginEnvironment, serviceTokenType, loginName, code);
+        if (serviceToken == null) {
+            return new UserLoginToken(TokenState.CreateError);
+        }
+
+        //返回用户登陆令牌
+        UserLoginToken userLoginToken = new UserLoginToken();
+
+        userLoginToken.setRobotValidate(robotValidate);
+        userLoginToken.setTokenState(TokenState.Success);
+        userLoginToken.setToken(serviceToken.getToken());
+
+        return userLoginToken;
+    }
+
+
+    public UserLoginToken getLoginToken() {
         return null;
     }
 
+
     @Override
     public UserToken login(String token, String validateCode, String passWord) {
+
+
         return null;
     }
 
     @Override
     public TokenState logout(String token) {
-        return null;
+        boolean flag = this.userTokenDao.remove(token);
+        return flag ? TokenState.Success : TokenState.Error;
     }
 
 
@@ -76,11 +122,40 @@ public class UserServiceImpl implements UserService {
     public TokenState register(String token, String code, String passWord) {
         ServiceToken serviceToken = this.userTokenDao.query(token);
         if (serviceToken == null) {
-
+            return TokenState.TokenNotExist;
+        }
+        if (serviceToken.getServiceTokenType() != ServiceTokenType.PhoneRegister && serviceToken.getServiceTokenType() != ServiceTokenType.UserNameRegister) {
+            return TokenState.TokenNotMatch;
+        }
+        if (serviceToken.getAccessCount() > this.userCenterConfig.getMaxCanAccessCount()) {
+            return TokenState.TokenMaxLimit;
+        }
+        if (!serviceToken.getValidataCode().equals(code)) {
+            return TokenState.ValidataCodeError;
         }
 
 
-        return null;
+        //  入库
+        UserBase userBase = new UserBase();
+        this.dbHelper.saveTime(userBase);
+        if (serviceToken.getServiceTokenType() == ServiceTokenType.PhoneRegister) {
+            userBase.setPhone(serviceToken.getLoginName());
+        } else if (serviceToken.getServiceTokenType() == ServiceTokenType.UserNameRegister) {
+            userBase.setUserName(serviceToken.getLoginName());
+        }
+
+        // 设置密码
+        userBase.setSalt(RandomUtil.uuid(6));
+        userBase.setPassWord(PassWordUtil.enCode(userBase.getSalt(), passWord));
+
+        this.userBaseDao.save(userBase);
+
+        //删除这个令牌
+        if (userBase != null) {
+            this.userTokenDao.remove(serviceToken.getToken());
+        }
+
+        return userBase.getId() == null ? TokenState.Error : TokenState.Success;
     }
 
     /**
@@ -97,7 +172,7 @@ public class UserServiceImpl implements UserService {
         //手机验证的生成规则
         //创建机器校验码
         RobotValidate robotValidate = new RobotValidate(ValidateType.Phone);
-        return getRegisterToken(loginEnvironment, loginName, robotValidate);
+        return getRegisterToken(loginEnvironment, loginName, ServiceTokenType.PhoneRegister, robotValidate);
     }
 
 
@@ -114,7 +189,7 @@ public class UserServiceImpl implements UserService {
         }
         //创建机器校验码
         RobotValidate robotValidate = new RobotValidate(ValidateType.Image);
-        return getRegisterToken(loginEnvironment, loginName, robotValidate);
+        return getRegisterToken(loginEnvironment, loginName, ServiceTokenType.UserNameRegister, robotValidate);
     }
 
 
@@ -126,10 +201,10 @@ public class UserServiceImpl implements UserService {
      * @param robotValidate
      * @return
      */
-    private UserRegisterToken getRegisterToken(LoginEnvironment loginEnvironment, String loginName, RobotValidate robotValidate) {
+    private UserRegisterToken getRegisterToken(LoginEnvironment loginEnvironment, String loginName, ServiceTokenType serviceTokenType, RobotValidate robotValidate) {
         String code = createRobotValidate(robotValidate);
         //入库
-        ServiceToken serviceToken = createServiceToken(loginEnvironment, ServiceTokenType.Register, loginName, code, 5 * 60 * 1000L);
+        ServiceToken serviceToken = createServiceToken(loginEnvironment, serviceTokenType, loginName, code);
         if (serviceToken == null) {
             return new UserRegisterToken(TokenState.CreateError);
         }
@@ -147,7 +222,6 @@ public class UserServiceImpl implements UserService {
      * @return 返回 验证值
      */
     private String createRobotValidate(RobotValidate robotValidate) {
-
 
         String code = null;
         if (robotValidate.getType() == ValidateType.Phone) {
@@ -175,16 +249,16 @@ public class UserServiceImpl implements UserService {
      *
      * @return
      */
-    private ServiceToken createServiceToken(LoginEnvironment loginEnvironment, ServiceTokenType serviceTokenType, String loginName, String code, long timeOut) {
+    private ServiceToken createServiceToken(LoginEnvironment loginEnvironment, ServiceTokenType serviceTokenType, String loginName, String code) {
         ServiceToken serviceToken = new ServiceToken();
+        this.dbHelper.saveTime(serviceToken);
         serviceToken.setId(RandomUtil.uuid());
-        serviceToken.setCreateTime(dbHelper.getTime());
-        serviceToken.setUpdateTime(dbHelper.getTime());
-        serviceToken.setToken(RandomUtil.uuid());
+        serviceToken.setToken(TokenUtil.create());
         serviceToken.setServiceTokenType(serviceTokenType);
         serviceToken.setValidataCode(code);
         serviceToken.setAccessCount(0);
-        if (this.userTokenDao.createServiceToken(serviceToken, loginName, timeOut)) {
+        serviceToken.setLoginName(loginName);
+        if (this.userTokenDao.createServiceToken(serviceToken, this.userCenterConfig.getServiceTokenTimeOut())) {
             return serviceToken;
         }
         return null;

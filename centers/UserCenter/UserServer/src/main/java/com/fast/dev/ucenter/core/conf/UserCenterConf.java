@@ -29,13 +29,25 @@ public class UserCenterConf implements Serializable {
     /**
      * 是否调试模式
      */
-    private boolean phoneValidataDebug;
+    private boolean debug;
 
 
     /**
      * 图形验证码长度
      */
     private int imageValidataLength = 4;
+
+
+    /**
+     * 业务令牌超时时间
+     */
+    private long serviceTokenTimeOut = 5 * 60 * 1000L;
+
+
+    /**
+     * 最大的访问次数
+     */
+    private int maxCanAccessCount = 5;
 
 
 }

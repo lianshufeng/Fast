@@ -49,7 +49,7 @@ public class UserTokenDaoImpl implements UserTokenDao {
     }
 
     @Override
-    public boolean createServiceToken(ServiceToken serviceToken, String loginName, long timeOut) {
+    public boolean createServiceToken(ServiceToken serviceToken,  long timeOut) {
         createToken(serviceToken.getToken(), serviceToken, timeOut);
         return true;
     }

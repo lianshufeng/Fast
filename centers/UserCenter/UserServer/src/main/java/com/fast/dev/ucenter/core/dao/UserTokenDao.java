@@ -23,7 +23,7 @@ public interface UserTokenDao {
     /**
      * 创建注册令牌
      */
-    public boolean createServiceToken(ServiceToken serviceToken, String loginName, long timeOut);
+    public boolean createServiceToken(ServiceToken serviceToken, long timeOut);
 
 
     /**

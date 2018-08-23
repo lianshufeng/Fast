@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * 作者：练书锋
  * 时间：2018/8/22
- *
+ * <p>
  * 用户基础表
  */
 
@@ -20,8 +20,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Document
-public class UserBase extends SuperEntity
-{
+public class UserBase extends SuperEntity {
 
     /**
      * 用户名
@@ -46,5 +45,18 @@ public class UserBase extends SuperEntity
      */
     @Indexed(unique = true)
     private String phone;
+
+
+    /**
+     * 随机值
+     */
+    @Indexed
+    private String salt;
+
+    /**
+     * 密码
+     */
+    @Indexed
+    private String passWord;
 
 }

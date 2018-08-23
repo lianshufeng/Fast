@@ -1,5 +1,6 @@
 package com.fast.dev.ucenter.core.model;
 
+import com.fast.dev.ucenter.core.type.TokenState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserLoginToken extends BasicServiceToken {
 
-
-
-
+    public UserLoginToken(TokenState tokenState) {
+        setTokenState(tokenState);
+    }
 }
