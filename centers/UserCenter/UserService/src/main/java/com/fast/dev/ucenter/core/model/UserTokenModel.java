@@ -1,5 +1,6 @@
 package com.fast.dev.ucenter.core.model;
 
+import com.fast.dev.ucenter.core.type.TokenState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserToken {
+public class UserTokenModel {
+
+    /**
+     * 令牌状态
+     */
+    private TokenState tokenState;
 
     /**
      * 用户id
@@ -21,17 +27,16 @@ public class UserToken {
     /**
      * 用户令牌
      */
-    private String uToken;
+    private String token;
 
     /**
      * 用户密钥
      */
-    private String sToken;
-
-    /**
-     * 到期时间
-     */
-    private long expireTime;
+    private String secret;
 
 
+
+    public UserTokenModel(TokenState tokenState) {
+        this.tokenState = tokenState;
+    }
 }

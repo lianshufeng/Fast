@@ -2,7 +2,7 @@ package com.fast.dev.ucenter.core.service.extend;
 
 import com.fast.dev.ucenter.core.model.LoginEnvironment;
 import com.fast.dev.ucenter.core.model.UserLoginToken;
-import com.fast.dev.ucenter.core.model.UserToken;
+import com.fast.dev.ucenter.core.model.UserTokenModel;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 
@@ -28,7 +28,7 @@ public interface UserLogin {
      * @param validateCode
      * @param passWord
      */
-    public UserToken login(String token, String validateCode, String passWord);
+    public UserTokenModel login(String token, String validateCode, String passWord, long timeOut);
 
 
     /**

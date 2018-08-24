@@ -6,6 +6,7 @@ import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,16 +22,16 @@ public class LoginController extends SuperController {
      * @return
      */
     @RequestMapping("login")
-    public Object login(String token, String code, String passWord) {
+    public Object login(String token, String code, String passWord, @RequestParam(defaultValue = "604800000") Long timeOut) {
         Assert.hasText(token, "令牌不能为空");
         Assert.hasText(code, "校验码不能为空");
         Assert.hasText(passWord, "密码不能为空");
-        return InvokerResult.success(this.userService.login(token, code, passWord));
+        return InvokerResult.success(this.userService.login(token, code, passWord, timeOut));
     }
 
 
     /**
-     * 登陆
+     * 获取登陆令牌
      *
      * @return
      */
@@ -42,7 +43,16 @@ public class LoginController extends SuperController {
     }
 
 
-
+    /**
+     * 测试失效没
+     *
+     * @param _uToken
+     * @return
+     */
+    @RequestMapping("ping")
+    public Object ping(String _uToken) {
+        return InvokerResult.success(this.userService.ping(_uToken));
+    }
 
 
 //    @RequestMapping("login.html")

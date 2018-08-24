@@ -55,16 +55,16 @@
         <module>centers/UserCenter/UserService</module>
         <module>centers/UserCenter/UserServer</module>
 
-		<!-- 监控中心-->
-		<module>centers/MonitorCenter/MonitorServer</module>
+        <!-- 监控中心-->
+        <module>centers/MonitorCenter/MonitorServer</module>
         <module>centers/MonitorCenter/Turbine</module>
         <module>centers/MonitorCenter/Zipkin</module>
 
+        <!-- 例子-->
+        <module>demo/ApplicationDemo</module>
 
 
     </modules>
-
-
 
 
 </project>

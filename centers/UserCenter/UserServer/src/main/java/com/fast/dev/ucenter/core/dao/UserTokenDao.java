@@ -26,6 +26,7 @@ public interface UserTokenDao {
     public boolean createServiceToken(ServiceToken serviceToken, long timeOut);
 
 
+
     /**
      * 查询令牌
      *

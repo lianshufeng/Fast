@@ -13,7 +13,7 @@ public class TokenUtil {
      * @return
      */
     public static String create() {
-        return RandomUtil.uuid(32);
+        return RandomUtil.uuid();
     }
 
 }

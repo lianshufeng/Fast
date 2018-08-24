@@ -20,7 +20,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Document
-public class UserBase extends SuperEntity {
+public class BaseUser extends SuperEntity {
 
     /**
      * 用户名
