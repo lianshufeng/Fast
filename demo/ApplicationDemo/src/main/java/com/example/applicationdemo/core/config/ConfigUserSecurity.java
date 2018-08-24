@@ -1,5 +1,6 @@
 package com.example.applicationdemo.core.config;
 
+import com.fast.dev.core.mvc.MVCConfiguration;
 import com.fast.dev.ucenter.security.config.UCenterSecurity;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -10,6 +11,6 @@ import org.springframework.context.annotation.Import;
  * 配置使用用户中心的客户端
  */
 @Configuration
-@Import(UCenterSecurity.class)
+@Import({UCenterSecurity.class})
 public class ConfigUserSecurity {
 }

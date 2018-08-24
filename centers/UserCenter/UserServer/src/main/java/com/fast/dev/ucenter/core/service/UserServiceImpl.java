@@ -13,10 +13,7 @@ import com.fast.dev.ucenter.core.type.ServiceTokenType;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.type.ValidateType;
-import com.fast.dev.ucenter.core.util.PassWordUtil;
-import com.fast.dev.ucenter.core.util.RandomUtil;
-import com.fast.dev.ucenter.core.util.TokenUtil;
-import com.fast.dev.ucenter.core.util.ValidataCodeUtil;
+import com.fast.dev.ucenter.core.util.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -119,17 +116,15 @@ public class UserServiceImpl implements UserService {
 
         // 用户令牌并入库
         UserToken userToken = new UserToken();
-        this.dbHelper.saveTime(userToken);
         userToken.setId(RandomUtil.uuid());
+        this.dbHelper.saveTime(userToken);
+        userToken.setUid(baseUser.getId());
         userToken.setSecret(TokenUtil.create());
         userToken.setToken(TokenUtil.create());
         UserTokenModel userTokenModel = null;
         if (this.userTokenDao.createUserToken(userToken, timeOut)) {
-            userTokenModel = new UserTokenModel(TokenState.Success);
-            BeanUtils.copyProperties(userToken, userTokenModel);
-            userTokenModel.setUid(baseUser.getId());
+            userTokenModel = BaseTokenUtil.toUserTokenModel(userToken);
         }
-
         return userTokenModel;
     }
 

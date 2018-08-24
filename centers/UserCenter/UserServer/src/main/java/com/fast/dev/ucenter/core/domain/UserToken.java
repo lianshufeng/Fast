@@ -1,6 +1,5 @@
 package com.fast.dev.ucenter.core.domain;
 
-import com.fast.dev.data.mongo.domain.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserToken extends BaseToken {
+
+
+    /**
+     * 用户id
+     */
+    private String uid;
 
 
     /**

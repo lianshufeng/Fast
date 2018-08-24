@@ -1,6 +1,9 @@
 package com.example.applicationdemo.core.controller;
 
 import com.fast.dev.core.util.result.InvokerResult;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,8 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestUser {
 
     @RequestMapping("ping")
+    @Secured({ "ROLE_DBA", "ROLE_ADMIN" })
     public Object ping() {
-        return InvokerResult.success("11");
+        return InvokerResult.success("ping");
+    }
+
+
+    @RequestMapping("login")
+    public Object login() {
+        return InvokerResult.success("login");
     }
 
 

@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.core.controller;
+package com.fast.dev.ucenter.core.controller.user;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

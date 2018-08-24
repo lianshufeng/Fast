@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 作者：练书锋
  * 时间：2018/8/21
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTokenModel {
+public class UserTokenModel implements Serializable {
 
     /**
      * 令牌状态
@@ -33,7 +35,6 @@ public class UserTokenModel {
      * 用户密钥
      */
     private String secret;
-
 
 
     public UserTokenModel(TokenState tokenState) {

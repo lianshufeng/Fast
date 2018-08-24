@@ -26,7 +26,6 @@ public interface UserTokenDao {
     public boolean createServiceToken(ServiceToken serviceToken, long timeOut);
 
 
-
     /**
      * 查询令牌
      *
@@ -35,6 +34,16 @@ public interface UserTokenDao {
      * @return
      */
     public <T extends BaseToken> T query(String token);
+
+
+    /**
+     * 仅仅查询不做修改操作
+     *
+     * @param token
+     * @param <T>
+     * @return
+     */
+    public <T extends BaseToken> T queryOnly(String token);
 
 
     /**

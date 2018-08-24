@@ -1,0 +1,12 @@
+#用户令牌的缓存配置
+tokencache:
+  timeToLiveSeconds: 60
+  timeToIdleSeconds: 60
+  maxMemoryCount: 1000
+  overflowToDisk: false
+
+
+#使用断路器
+fegin:
+  hystrix:
+    enabled: true

@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.core.controller;
+package com.fast.dev.ucenter.core.controller.user;
 
 import com.fast.dev.core.util.result.InvokerResult;
 import com.fast.dev.ucenter.core.service.UserService;

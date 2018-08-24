@@ -49,26 +49,28 @@ public class UserTokenDaoImpl implements UserTokenDao {
     }
 
     @Override
-    public boolean createServiceToken(ServiceToken serviceToken,  long timeOut) {
+    public boolean createServiceToken(ServiceToken serviceToken, long timeOut) {
         createToken(serviceToken.getToken(), serviceToken, timeOut);
         return true;
     }
 
     @Override
     public <T extends BaseToken> T query(String token) {
-        ValueOperations valueOperations = this.redisTemplate.opsForValue();
-        Object o = valueOperations.get(token);
-        if (o == null) {
-            return null;
-        }
-
         // 访问次数+1 并入库
-        BaseToken baseToken = (BaseToken) o;
+        BaseToken baseToken = queryOnly(token);
         baseToken.setAccessCount(baseToken.getAccessCount() + 1);
         baseToken.setUpdateTime(dbHelper.getTime());
+        ValueOperations valueOperations = this.redisTemplate.opsForValue();
         valueOperations.set(token, baseToken);
-
         return (T) baseToken;
+    }
+
+
+    @Override
+    public <T extends BaseToken> T queryOnly(String token) {
+        ValueOperations valueOperations = this.redisTemplate.opsForValue();
+        Object o = valueOperations.get(token);
+        return (T) o;
     }
 
     @Override

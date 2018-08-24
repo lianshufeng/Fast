@@ -33,6 +33,11 @@ public class MVCConfiguration implements WebMvcConfigurer {
     private ApplicationContext applicationContext;
 
 
+    /**
+     * 静态资源
+     */
+    public final static String StaticResources = "resources";
+
 
     /**
      * 跨域
@@ -63,7 +68,7 @@ public class MVCConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/resources/");
+        registry.addResourceHandler("/"+StaticResources+"/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/"+StaticResources+"/");
     }
 
 
@@ -98,7 +103,7 @@ public class MVCConfiguration implements WebMvcConfigurer {
         Collections.sort(urlInterceptorList, new Comparator<UrlInterceptor>() {
             @Override
             public int compare(UrlInterceptor urlInterceptor1, UrlInterceptor urlInterceptor2) {
-                return urlInterceptor2.level() > urlInterceptor1.level() ? -1 : 1;
+                return urlInterceptor2.order() > urlInterceptor1.order() ? -1 : 1;
             }
         });
         // 依次添加
