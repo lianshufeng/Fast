@@ -40,6 +40,8 @@
         <module>components/data/MongodbData</module>
         <module>components/data/JdbcData</module>
         <module>components/data/RedisData</module>
+        <!--用户安全-->
+        <module>components/UserSecurity</module>
 
         <!-- 激活工具 -->
         <module>components/crack/Idea</module>
@@ -62,6 +64,7 @@
 
         <!-- 例子-->
         <module>demo/ApplicationDemo</module>
+
 
 
     </modules>
