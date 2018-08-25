@@ -39,20 +39,24 @@ public class SecurityAuthenticationHelper {
      *
      * @param httpServletRequest
      */
-    public void authenticate(HttpServletRequest httpServletRequest) {
+    public void authenticate(final HttpServletRequest httpServletRequest) {
         //先清空缓存
-        SecurityContextHolder.clearContext();
+        release();
         String uToken = getToken(httpServletRequest);
         if (uToken == null) {
             return;
         }
+        //缓存或远程查询
         UserAuthenticationModel userAuthenticationModel = this.userTokenCache.get(uToken);
-        //为空这远程查询
         if (userAuthenticationModel == null) {
             userAuthenticationModel = remoteUserCenterService.query(uToken);
         }
         //设置当前用户的角色
-        setUserAuthentication(userAuthenticationModel);
+        setUserAuthentication(httpServletRequest, userAuthenticationModel);
+        //缓存数据
+        if (userAuthenticationModel != null) {
+            this.userTokenCache.put(uToken, userAuthenticationModel);
+        }
     }
 
 
@@ -67,7 +71,7 @@ public class SecurityAuthenticationHelper {
     /**
      * 设置当前用户的权限
      */
-    private void setUserAuthentication(UserAuthenticationModel userAuthenticationModel) {
+    private void setUserAuthentication(HttpServletRequest httpServletRequest, UserAuthenticationModel userAuthenticationModel) {
         if (userAuthenticationModel == null) {
             return;
         }
@@ -77,6 +81,8 @@ public class SecurityAuthenticationHelper {
         }
         UserAuthenticationToken userAuthenticationToken = new UserAuthenticationToken(authorities);
         userAuthenticationToken.setUser(userAuthenticationModel);
+        userAuthenticationToken.setAuthenticated(true);
+        userAuthenticationToken.setDetails(httpServletRequest.getRemoteHost());
 
         //置为当前用户的请求
         SecurityContextHolder.getContext().setAuthentication(userAuthenticationToken);

@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestUser {
 
     @RequestMapping("ping")
-    @Secured({ "ROLE_DBA", "ROLE_ADMIN" })
+    @PreAuthorize("hasRole('ROLE_USER')")
+//    @Secured({"user", "admin"})
     public Object ping() {
         return InvokerResult.success("ping");
     }

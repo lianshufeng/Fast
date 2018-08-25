@@ -19,4 +19,17 @@ public class UserManagerImpl implements UserManagerService {
         UserToken userToken = this.userTokenDao.queryOnly(token);
         return BaseTokenUtil.toUserTokenModel(userToken);
     }
+
+    @Override
+    public boolean logout(String token) {
+
+        boolean flag = this.userTokenDao.remove(token);
+
+        //删除令牌
+        if (flag){
+            //doto,发送消息总线通知到各模块，清空缓存
+
+        }
+        return flag;
+    }
 }

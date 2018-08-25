@@ -22,4 +22,8 @@ public interface UserManagerService {
     public UserTokenModel queryByUserToken(@RequestParam("token") String token);
 
 
+    @RequestMapping(value = "/ucenter/manager/logout", method = RequestMethod.POST)
+    public boolean logout(@RequestParam("token") String token);
+
+
 }

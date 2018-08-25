@@ -25,7 +25,7 @@ public class UserTokenInterceptor implements UrlInterceptor {
 
     @Override
     public String[] excludePathPatterns() {
-        return new String[]{"/" + MVCConfiguration.StaticResources + "/**"};
+        return new String[]{"/" + MVCConfiguration.StaticResources + "/**","/error"};
     }
 
     @Override

@@ -51,6 +51,7 @@ public class LoginController extends SuperController {
      */
     @RequestMapping("ping")
     public Object ping(String _uToken) {
+        Assert.notNull(_uToken, "令牌不能为空");
         return InvokerResult.success(this.userService.ping(_uToken));
     }
 

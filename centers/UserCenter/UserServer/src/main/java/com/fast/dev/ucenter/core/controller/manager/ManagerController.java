@@ -20,4 +20,11 @@ public class ManagerController {
     }
 
 
+    @RequestMapping("logout")
+    public Object logout(String token) {
+        Assert.hasText(token, "用户令牌不能为空");
+        return this.userManager.logout(token);
+    }
+
+
 }

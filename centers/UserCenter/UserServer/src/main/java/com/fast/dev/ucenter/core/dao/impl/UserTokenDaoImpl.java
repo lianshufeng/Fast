@@ -58,6 +58,9 @@ public class UserTokenDaoImpl implements UserTokenDao {
     public <T extends BaseToken> T query(String token) {
         // 访问次数+1 并入库
         BaseToken baseToken = queryOnly(token);
+        if (baseToken == null) {
+            return null;
+        }
         baseToken.setAccessCount(baseToken.getAccessCount() + 1);
         baseToken.setUpdateTime(dbHelper.getTime());
         ValueOperations valueOperations = this.redisTemplate.opsForValue();

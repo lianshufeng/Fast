@@ -1,6 +1,5 @@
 package com.fast.dev.ucenter.security.model;
 
-import com.fast.dev.ucenter.core.model.UserTokenModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,23 +7,23 @@ import lombok.NoArgsConstructor;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 用户身份
+ */
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class UserAuthenticationModel extends UserTokenModel {
-
+public class UserIdentity {
 
     /**
      * 角色列表
      */
     private Set<String> roles;
 
-
     /**
      * 其他信息
      */
     private Map<String, Object> other;
-
-
 
 
 }
