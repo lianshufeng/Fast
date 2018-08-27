@@ -5,6 +5,10 @@ tokencache:
   maxMemoryCount: 1000
   overflowToDisk: false
 
+usersecurity:
+  rolePrefixName: "ROLE_"
+  needSecurityMethodUrl: "/**/*"
+  excludeSecurityMethodUrl: "/resources/**,/error"
 
 #使用断路器
 fegin:

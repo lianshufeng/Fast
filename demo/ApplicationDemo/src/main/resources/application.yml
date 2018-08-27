@@ -23,6 +23,15 @@ spring:
       enabled: true
 
 
+#权限配置
+usersecurity:
+  #默认不使用角色前缀
+  rolePrefixName: ""
+  needSecurityMethodUrl: "/**/*"
+  excludeSecurityMethodUrl: "/resources/**,/error"
+
+
+
 
 #允许端点
 #management:
@@ -35,9 +44,8 @@ spring:
 
 
 
-#开启断路器
-#feign.hystrix.enabled=true
-
-
-
+#使用断路器
+feign:
+  hystrix:
+    enabled: true
 

@@ -18,7 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @ConfigurationProperties(prefix = "tokencache")
-public class UserTokenConf implements Serializable {
+public class UserTokenCacheConf implements Serializable {
 
 
     // 总共缓存的时间（单位秒）

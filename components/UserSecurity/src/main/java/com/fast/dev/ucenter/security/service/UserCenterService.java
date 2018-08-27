@@ -1,7 +1,7 @@
 package com.fast.dev.ucenter.security.service;
 
 import com.fast.dev.ucenter.core.model.UserTokenModel;
-import com.fast.dev.ucenter.security.model.UserAuthenticationModel;
+import com.fast.dev.ucenter.security.model.UserAuth;
 import com.fast.dev.ucenter.security.model.UserIdentity;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
 import org.springframework.beans.BeanUtils;
@@ -41,7 +41,7 @@ public class UserCenterService {
      * @param token
      * @return
      */
-    public UserAuthenticationModel query(String token) {
+    public UserAuth query(String token) {
         UserTokenModel userTokenModel = this.remoteUserCenterService.queryByUserToken(token);
         if (userTokenModel == null || this.userAuthentication == null) {
             return null;
@@ -51,10 +51,13 @@ public class UserCenterService {
         if (userIdentity == null) {
             return null;
         }
-        UserAuthenticationModel userAuthenticationModel = new UserAuthenticationModel();
-        BeanUtils.copyProperties(userTokenModel,userAuthenticationModel);
-        BeanUtils.copyProperties(userIdentity,userAuthenticationModel);
-        return userAuthenticationModel;
+        UserAuth userAuth = new UserAuth();
+        //拷贝令牌信息
+        BeanUtils.copyProperties(userTokenModel, userAuth);
+        //拷贝权限信息
+        BeanUtils.copyProperties(userIdentity, userAuth);
+
+        return userAuth;
     }
 
 }

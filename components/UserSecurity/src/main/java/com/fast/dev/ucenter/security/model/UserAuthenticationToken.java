@@ -12,11 +12,6 @@ import java.util.Collection;
 @Data
 public class UserAuthenticationToken extends AbstractAuthenticationToken {
 
-    /**
-     * 权限
-     */
-    private UserAuthenticationModel user;
-
 
     public UserAuthenticationToken(Collection<? extends GrantedAuthority> authorities) {
         super(authorities);

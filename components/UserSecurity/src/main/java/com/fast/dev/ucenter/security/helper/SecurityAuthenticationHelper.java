@@ -2,7 +2,7 @@ package com.fast.dev.ucenter.security.helper;
 
 import com.fast.dev.ucenter.core.service.UserManagerService;
 import com.fast.dev.ucenter.security.cache.UserTokenCache;
-import com.fast.dev.ucenter.security.model.UserAuthenticationModel;
+import com.fast.dev.ucenter.security.model.UserAuth;
 import com.fast.dev.ucenter.security.model.UserAuthenticationToken;
 import com.fast.dev.ucenter.security.service.UserCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class SecurityAuthenticationHelper {
             return;
         }
         //缓存或远程查询
-        UserAuthenticationModel userAuthenticationModel = this.userTokenCache.get(uToken);
+        UserAuth userAuthenticationModel = this.userTokenCache.get(uToken);
         if (userAuthenticationModel == null) {
             userAuthenticationModel = remoteUserCenterService.query(uToken);
         }
@@ -71,18 +71,18 @@ public class SecurityAuthenticationHelper {
     /**
      * 设置当前用户的权限
      */
-    private void setUserAuthentication(HttpServletRequest httpServletRequest, UserAuthenticationModel userAuthenticationModel) {
-        if (userAuthenticationModel == null) {
+    private void setUserAuthentication(HttpServletRequest httpServletRequest, UserAuth userAuth) {
+        if (userAuth == null) {
             return;
         }
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        for (String roleName : userAuthenticationModel.getRoles()) {
+        for (String roleName : userAuth.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(roleName));
         }
         UserAuthenticationToken userAuthenticationToken = new UserAuthenticationToken(authorities);
-        userAuthenticationToken.setUser(userAuthenticationModel);
         userAuthenticationToken.setAuthenticated(true);
-        userAuthenticationToken.setDetails(httpServletRequest.getRemoteHost());
+        userAuthenticationToken.setDetails(userAuth);
+
 
         //置为当前用户的请求
         SecurityContextHolder.getContext().setAuthentication(userAuthenticationToken);

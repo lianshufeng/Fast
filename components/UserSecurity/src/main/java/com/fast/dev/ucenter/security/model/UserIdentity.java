@@ -23,7 +23,7 @@ public class UserIdentity {
     /**
      * 其他信息
      */
-    private Map<String, Object> other;
+    private Map<String, Object> details;
 
 
 }

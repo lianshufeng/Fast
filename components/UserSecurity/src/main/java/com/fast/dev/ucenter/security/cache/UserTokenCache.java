@@ -1,7 +1,7 @@
 package com.fast.dev.ucenter.security.cache;
 
-import com.fast.dev.ucenter.security.conf.UserTokenConf;
-import com.fast.dev.ucenter.security.model.UserAuthenticationModel;
+import com.fast.dev.ucenter.security.conf.UserTokenCacheConf;
+import com.fast.dev.ucenter.security.model.UserAuth;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -16,7 +16,7 @@ import javax.annotation.PreDestroy;
 public class UserTokenCache {
 
     @Autowired
-    private UserTokenConf userTokenConf;
+    private UserTokenCacheConf userTokenConf;
 
     private CacheManager cacheManager = CacheManager.create();
 
@@ -33,19 +33,19 @@ public class UserTokenCache {
     /**
      * 设置缓存
      */
-    public void put(String uToken, UserAuthenticationModel userAuthenticationModel) {
+    public void put(String uToken, UserAuth userAuthenticationModel) {
         this.tokenCache.put(new Element(uToken, userAuthenticationModel));
     }
 
     /**
      * 取出缓存
      */
-    public UserAuthenticationModel get(String uToken) {
+    public UserAuth get(String uToken) {
         Element element = this.tokenCache.get(uToken);
         if (element == null) {
             return null;
         }
-        return (UserAuthenticationModel) element.getObjectValue();
+        return (UserAuth) element.getObjectValue();
     }
 
     /**

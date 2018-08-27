@@ -1,8 +1,10 @@
 package com.example.applicationdemo.core.controller;
 
+import com.fast.dev.core.util.JsonUtil;
 import com.fast.dev.core.util.result.InvokerResult;
+import com.fast.dev.ucenter.security.helper.UserHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,16 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestUser {
 
+
+    @Autowired
+    private UserHelper userHelper;
+
     @RequestMapping("ping")
-    @PreAuthorize("hasRole('ROLE_USER')")
-//    @Secured({"user", "admin"})
+//    @PreAuthorize("hasRole('AUTH_USER')")
+//    @Secured({"test","AUTH_USER"})
+    @Secured({"user"})
     public Object ping() {
+        System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
         return InvokerResult.success("ping");
     }
 
 
     @RequestMapping("login")
     public Object login() {
+        System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
         return InvokerResult.success("login");
     }
 

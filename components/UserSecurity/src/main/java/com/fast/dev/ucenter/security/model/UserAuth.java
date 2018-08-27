@@ -1,7 +1,6 @@
 package com.fast.dev.ucenter.security.model;
 
 import com.fast.dev.ucenter.core.model.UserTokenModel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,7 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
-public class UserAuthenticationModel extends UserTokenModel {
+public class UserAuth extends UserTokenModel {
 
 
     /**
@@ -20,11 +19,9 @@ public class UserAuthenticationModel extends UserTokenModel {
 
 
     /**
-     * 其他信息
+     * 详情
      */
-    private Map<String, Object> other;
-
-
+    private Map<String, Object> details;
 
 
 }

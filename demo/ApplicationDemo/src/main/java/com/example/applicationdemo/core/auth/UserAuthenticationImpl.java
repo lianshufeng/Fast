@@ -25,6 +25,7 @@ public class UserAuthenticationImpl implements UserAuthentication {
             add("user");
             add("test");
             add("ROLE_USER");
+            add("AUTH_USER");
         }};
         Map<String, Object> other = new HashMap<>();
         other.put("t", System.currentTimeMillis());

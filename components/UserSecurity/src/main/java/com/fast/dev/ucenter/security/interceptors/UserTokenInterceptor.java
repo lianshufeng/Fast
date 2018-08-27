@@ -2,6 +2,7 @@ package com.fast.dev.ucenter.security.interceptors;
 
 import com.fast.dev.core.interceptors.UrlInterceptor;
 import com.fast.dev.core.mvc.MVCConfiguration;
+import com.fast.dev.ucenter.security.conf.UserSecurityConf;
 import com.fast.dev.ucenter.security.helper.SecurityAuthenticationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,14 +19,19 @@ public class UserTokenInterceptor implements UrlInterceptor {
     @Autowired
     private SecurityAuthenticationHelper securityAuthenticationHelper;
 
+
+    @Autowired
+    private UserSecurityConf userSecurityConfig;
+
+
     @Override
     public String[] addPathPatterns() {
-        return new String[]{"/**/*"};
+        return this.userSecurityConfig.getNeedSecurityMethodUrl();
     }
 
     @Override
     public String[] excludePathPatterns() {
-        return new String[]{"/" + MVCConfiguration.StaticResources + "/**","/error"};
+        return this.userSecurityConfig.getExcludeSecurityMethodUrl();
     }
 
     @Override
