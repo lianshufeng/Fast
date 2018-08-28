@@ -8,11 +8,16 @@ import com.fast.dev.ucenter.security.helper.UserHelper;
 import com.fast.dev.ucenter.security.interceptors.UserTokenInterceptor;
 import com.fast.dev.ucenter.security.service.UserCenterService;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterServiceError;
+import com.fast.dev.ucenter.security.stream.UserStream;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 注册所有需要依赖的bean
  */
+
+
+@ComponentScan({"com.fast.dev.ucenter.security.stream"})
 public class UserSecurityBeansConfig {
 
     @Bean
@@ -58,5 +63,6 @@ public class UserSecurityBeansConfig {
     public RemoteUserCenterServiceError remoteUserCenterServiceError() {
         return new RemoteUserCenterServiceError();
     }
+
 
 }

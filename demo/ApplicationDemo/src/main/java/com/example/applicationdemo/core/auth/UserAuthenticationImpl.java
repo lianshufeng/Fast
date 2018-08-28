@@ -19,7 +19,7 @@ public class UserAuthenticationImpl implements UserAuthentication {
     public UserIdentity authentication(UserTokenModel userTokenModel) {
 
         System.out.println("uid:" + userTokenModel.getUid());
-        System.out.println("token:" + userTokenModel.getToken());
+        System.out.println("token:" + userTokenModel.getuToken());
 
         Set<String> roles = new HashSet<String>() {{
             add("user");

@@ -20,9 +20,9 @@ public class BaseTokenUtil {
             return null;
         }
         UserTokenModel userTokenModel = new UserTokenModel(TokenState.Success);
-        userTokenModel.setToken(userToken.getToken());
-        userTokenModel.setSecret(userToken.getSecret());
-        userTokenModel.setUid(userToken.getId());
+        userTokenModel.setuToken(userToken.getToken());
+        userTokenModel.setsToken(userToken.getSecret());
+        userTokenModel.setUid(userToken.getUid());
         return userTokenModel;
     }
 }

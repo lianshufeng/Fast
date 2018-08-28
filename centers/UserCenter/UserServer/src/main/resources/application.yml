@@ -14,17 +14,24 @@ eureka:
       defaultZone: ${ApplicationCenter.url}
 
 
+
+
 #允许消息总线
 spring:
   cloud:
-    #kafka
     stream:
+      bindings:
+        UserCenterInputStream:
+          group: "UserCenterStream"
+        UserCenterOuputStream:
+          group: "UserCenterStream"
+          destination: "UserCenterInputStream"
+      #kafka
       kafka:
         binder:
           brokers: ${Kafka.brokers}
     bus:
       enabled: true
-
 
 
 #允许端点

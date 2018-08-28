@@ -45,7 +45,7 @@ public class TestUser {
     public Object logout() {
         System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
         //调用管理模块进行通知注销
-        this.remoteUserCenterService.logout(userHelper.getUser().getToken());
+        this.remoteUserCenterService.logout(userHelper.getUser().getuToken());
         return InvokerResult.success("logout");
     }
 

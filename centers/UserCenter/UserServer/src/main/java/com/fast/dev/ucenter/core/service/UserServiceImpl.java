@@ -13,7 +13,10 @@ import com.fast.dev.ucenter.core.type.ServiceTokenType;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.type.ValidateType;
-import com.fast.dev.ucenter.core.util.*;
+import com.fast.dev.ucenter.core.util.PassWordUtil;
+import com.fast.dev.ucenter.core.util.RandomUtil;
+import com.fast.dev.ucenter.core.util.TokenUtil;
+import com.fast.dev.ucenter.core.util.ValidateCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,7 @@ import java.util.Base64;
  * 时间：2018/8/21
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseUserService implements UserService {
 
     @Autowired
     private BaseUserDao baseUserDao;
@@ -111,26 +114,8 @@ public class UserServiceImpl implements UserService {
         }
         //删除登陆令牌
         userTokenDao.remove(token);
-
-
-        // 用户令牌并入库
-        UserToken userToken = new UserToken();
-        userToken.setId(RandomUtil.uuid());
-        this.dbHelper.saveTime(userToken);
-        userToken.setUid(baseUser.getId());
-        userToken.setSecret(TokenUtil.create());
-        userToken.setToken(TokenUtil.create());
-        UserTokenModel userTokenModel = null;
-        if (this.userTokenDao.createUserToken(userToken, timeOut)) {
-            userTokenModel = BaseTokenUtil.toUserTokenModel(userToken);
-        }
-        return userTokenModel;
-    }
-
-    @Override
-    public TokenState logout(String token) {
-        boolean flag = this.userTokenDao.remove(token);
-        return flag ? TokenState.Success : TokenState.Error;
+        //创建用户令牌（入库并返回令牌对象）
+        return createUserToken(baseUser, timeOut);
     }
 
 
@@ -158,26 +143,26 @@ public class UserServiceImpl implements UserService {
 
 
         //  入库
-        BaseUser userBase = new BaseUser();
-        this.dbHelper.saveTime(userBase);
+        BaseUser baseUser = new BaseUser();
         if (serviceToken.getServiceTokenType() == ServiceTokenType.PhoneRegister) {
-            userBase.setPhone(serviceToken.getLoginName());
+            baseUser.setPhone(serviceToken.getLoginName());
         } else if (serviceToken.getServiceTokenType() == ServiceTokenType.UserNameRegister) {
-            userBase.setUserName(serviceToken.getLoginName());
+            baseUser.setUserName(serviceToken.getLoginName());
         }
 
         // 设置密码
-        userBase.setSalt(RandomUtil.uuid(6));
-        userBase.setPassWord(PassWordUtil.enCode(userBase.getSalt(), passWord));
+        baseUser.setSalt(RandomUtil.uuid(6));
+        baseUser.setPassWord(PassWordUtil.enCode(baseUser.getSalt(), passWord));
 
-        baseUserDao.save(userBase);
+        //注册新用户入库
+        createRegisterUser(baseUser);
 
         //删除这个令牌
-        if (userBase != null) {
+        if (baseUser.getId() != null) {
             this.userTokenDao.remove(serviceToken.getToken());
         }
 
-        return userBase.getId() == null ? TokenState.Error : TokenState.Success;
+        return baseUser.getId() == null ? TokenState.Error : TokenState.Success;
     }
 
 

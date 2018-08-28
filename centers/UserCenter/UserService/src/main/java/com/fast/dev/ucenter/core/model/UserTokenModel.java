@@ -11,9 +11,6 @@ import java.io.Serializable;
  * 作者：练书锋
  * 时间：2018/8/21
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserTokenModel implements Serializable {
 
     /**
@@ -29,15 +26,51 @@ public class UserTokenModel implements Serializable {
     /**
      * 用户令牌
      */
-    private String token;
+    private String uToken;
 
     /**
      * 用户密钥
      */
-    private String secret;
+    private String sToken;
 
+
+    public TokenState getTokenState() {
+        return tokenState;
+    }
+
+    public void setTokenState(TokenState tokenState) {
+        this.tokenState = tokenState;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getuToken() {
+        return uToken;
+    }
+
+    public void setuToken(String uToken) {
+        this.uToken = uToken;
+    }
+
+    public String getsToken() {
+        return sToken;
+    }
+
+    public void setsToken(String sToken) {
+        this.sToken = sToken;
+    }
 
     public UserTokenModel(TokenState tokenState) {
         this.tokenState = tokenState;
+    }
+
+    public UserTokenModel() {
+
     }
 }

@@ -3,7 +3,6 @@ package com.fast.dev.ucenter.core.service.extend;
 import com.fast.dev.ucenter.core.model.LoginEnvironment;
 import com.fast.dev.ucenter.core.model.UserLoginToken;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
-import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 
 /**
@@ -18,7 +17,7 @@ public interface UserLogin {
      *
      * @return
      */
-    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName,LoginEnvironment loginEnvironment);
+    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment);
 
 
     /**
@@ -36,7 +35,7 @@ public interface UserLogin {
      *
      * @param token
      */
-    public TokenState logout(String token);
+    public boolean logout(String token);
 
 
 }
