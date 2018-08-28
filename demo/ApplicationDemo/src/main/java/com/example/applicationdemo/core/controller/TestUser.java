@@ -34,8 +34,8 @@ public class TestUser {
     }
 
 
-    @RequestMapping("login")
-    public Object login() {
+    @RequestMapping("test")
+    public Object test() {
         System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
         return InvokerResult.success("login");
     }

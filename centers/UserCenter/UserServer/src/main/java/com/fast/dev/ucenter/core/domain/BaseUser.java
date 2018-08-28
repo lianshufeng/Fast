@@ -25,30 +25,30 @@ public class BaseUser extends SuperEntity {
     /**
      * 用户名
      */
-    @Indexed(unique = true)
+    @Indexed(unique = true, sparse = true)
     private String userName;
 
     /**
      * 身份证
      */
-    @Indexed(unique = true)
+    @Indexed(unique = true, sparse = true)
     private String idCard;
 
     /**
      * 邮箱
      */
-    @Indexed(unique = true)
+    @Indexed(unique = true, sparse = true)
     private String mail;
 
     /**
      * 电话号码
      */
-    @Indexed(unique = true)
+    @Indexed(unique = true, sparse = true)
     private String phone;
 
 
     /**
-     * 随机值
+     * 盐值
      */
     @Indexed
     private String salt;
