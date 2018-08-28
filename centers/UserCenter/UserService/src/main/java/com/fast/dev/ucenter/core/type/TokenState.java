@@ -29,7 +29,7 @@ public enum TokenState {
 
     TokenMaxLimit("令牌超过最大的访问限制"),
 
-    ValidataCodeError("验证码不正确"),
+    ValidateCodeError("验证码不正确"),
     ;
     private String remark;
 

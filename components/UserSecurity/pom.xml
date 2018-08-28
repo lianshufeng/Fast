@@ -13,6 +13,10 @@
     <groupId>com.fast.dev.components</groupId>
     <artifactId>UserSecurity</artifactId>
 
+    <properties>
+        <Spring.Security.Version>5.0.7.RELEASE</Spring.Security.Version>
+    </properties>
+
 
     <dependencies>
 
@@ -24,12 +28,22 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-security</artifactId>-->
+            <!--<version>${spring-boot.version}</version>-->
+        <!--</dependency>-->
 
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${Spring.Security.Version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${Spring.Security.Version}</version>
+        </dependency>
 
         <dependency>
             <groupId>net.sf.ehcache</groupId>

@@ -3,9 +3,9 @@ package com.example.applicationdemo.core.controller;
 import com.fast.dev.core.util.JsonUtil;
 import com.fast.dev.core.util.result.InvokerResult;
 import com.fast.dev.ucenter.security.helper.UserHelper;
+import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class TestUser {
+
+
+    @Autowired
+    private RemoteUserCenterService remoteUserCenterService;
 
 
     @Autowired
@@ -34,6 +38,15 @@ public class TestUser {
     public Object login() {
         System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
         return InvokerResult.success("login");
+    }
+
+    @RequestMapping("logout")
+    @Secured({"user"})
+    public Object logout() {
+        System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
+        //调用管理模块进行通知注销
+        this.remoteUserCenterService.logout(userHelper.getUser().getToken());
+        return InvokerResult.success("logout");
     }
 
 

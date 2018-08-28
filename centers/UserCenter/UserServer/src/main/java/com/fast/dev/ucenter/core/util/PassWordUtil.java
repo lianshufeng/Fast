@@ -19,7 +19,7 @@ public class PassWordUtil {
      * @param target
      * @return
      */
-    public static boolean validata(String salt, String source, String target) {
+    public static boolean validate(String salt, String source, String target) {
         if (StringUtils.isEmpty(salt) || StringUtils.isEmpty(source) || StringUtils.isEmpty(target)) {
             return false;
         }

@@ -4,7 +4,7 @@ package com.fast.dev.ucenter.core.util;
  * 作者：练书锋
  * 时间：2018/8/23
  */
-public class ValidataCodeUtil {
+public class ValidateCodeUtil {
 
     /**
      * 创建仅数字的编码

@@ -6,8 +6,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.security.DenyAll;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 作者：练书锋
@@ -24,7 +25,7 @@ public class UserCenterConf implements Serializable {
     /**
      * 手机验证长度
      */
-    private int phoneValidataLength = 6;
+    private int phoneValidateLength = 6;
 
     /**
      * 是否调试模式
@@ -35,7 +36,7 @@ public class UserCenterConf implements Serializable {
     /**
      * 图形验证码长度
      */
-    private int imageValidataLength = 4;
+    private int imageValidateLength = 4;
 
 
     /**
@@ -48,6 +49,12 @@ public class UserCenterConf implements Serializable {
      * 最大的访问次数
      */
     private int maxCanAccessCount = 5;
+
+
+    /**
+     * 其他应用配置
+     */
+    private Map<String, UserCenterConf> app = new HashMap<>();
 
 
 }

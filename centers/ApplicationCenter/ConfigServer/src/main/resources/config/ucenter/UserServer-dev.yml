@@ -16,9 +16,9 @@ spring:
 
 #用户中心配置
 ucenter:
-  phoneValidataLength: 4
+  phoneValidateLength: 4
   debug: true
-  imageValidataLength: 4
+  imageValidateLength: 4
   serviceTokenTimeOut: 300000
   maxCanAccessCount: 5
 

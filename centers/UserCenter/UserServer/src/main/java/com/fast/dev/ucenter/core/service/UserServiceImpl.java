@@ -7,14 +7,13 @@ import com.fast.dev.ucenter.core.dao.UserTokenDao;
 import com.fast.dev.ucenter.core.domain.BaseUser;
 import com.fast.dev.ucenter.core.domain.ServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
-import com.fast.dev.ucenter.core.helper.ImageValidataHelper;
+import com.fast.dev.ucenter.core.helper.ImageValidateHelper;
 import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.ServiceTokenType;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.type.ValidateType;
 import com.fast.dev.ucenter.core.util.*;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Autowired
-    private ImageValidataHelper imageValidataHelper;
+    private ImageValidateHelper imageValidateHelper;
 
 
     @Override
@@ -86,7 +85,7 @@ public class UserServiceImpl implements UserService {
     public UserTokenModel login(String token, String validateCode, String passWord, long timeOut) {
         //取出业务令牌并校验令牌的合法性
         ServiceToken serviceToken = this.userTokenDao.query(token);
-        TokenState tokenState = validataToken(serviceToken, validateCode);
+        TokenState tokenState = validateToken(serviceToken, validateCode);
         if (tokenState != null) {
             return new UserTokenModel(tokenState);
         }
@@ -107,7 +106,7 @@ public class UserServiceImpl implements UserService {
         }
 
         //密码校验
-        if (!PassWordUtil.validata(baseUser.getSalt(), passWord, baseUser.getPassWord())) {
+        if (!PassWordUtil.validate(baseUser.getSalt(), passWord, baseUser.getPassWord())) {
             return new UserTokenModel(TokenState.PassWordError);
         }
         //删除登陆令牌
@@ -149,7 +148,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public TokenState register(String token, String validateCode, String passWord) {
         ServiceToken serviceToken = this.userTokenDao.query(token);
-        TokenState tokenState = validataToken(serviceToken, validateCode);
+        TokenState tokenState = validateToken(serviceToken, validateCode);
         if (tokenState != null) {
             return tokenState;
         }
@@ -186,18 +185,18 @@ public class UserServiceImpl implements UserService {
      * 校验令牌
      *
      * @param serviceToken
-     * @param validataCode
+     * @param validateCode
      * @return
      */
-    private TokenState validataToken(ServiceToken serviceToken, String validataCode) {
+    private TokenState validateToken(ServiceToken serviceToken, String validateCode) {
         if (serviceToken == null) {
             return TokenState.TokenNotExist;
         }
         if (serviceToken.getAccessCount() > this.userCenterConfig.getMaxCanAccessCount()) {
             return TokenState.TokenMaxLimit;
         }
-        if (!serviceToken.getValidataCode().equals(validataCode)) {
-            return TokenState.ValidataCodeError;
+        if (!serviceToken.getValidateCode().equals(validateCode)) {
+            return TokenState.ValidateCodeError;
         }
         return null;
     }
@@ -270,15 +269,15 @@ public class UserServiceImpl implements UserService {
 
         String code = null;
         if (robotValidate.getType() == ValidateType.Phone) {
-            code = ValidataCodeUtil.createOnlyNumber(userCenterConfig.getPhoneValidataLength());
+            code = ValidateCodeUtil.createOnlyNumber(userCenterConfig.getPhoneValidateLength());
             // 发送短信
             //doto
         }
 
         // 图形验证码
         else if (robotValidate.getType() == ValidateType.Image) {
-            code = ValidataCodeUtil.create(userCenterConfig.getImageValidataLength());
-            String data = "data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidataHelper.create(code));
+            code = ValidateCodeUtil.create(userCenterConfig.getPhoneValidateLength());
+            String data = "data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidateHelper.create(code));
             robotValidate.setData(data);
         }
         //调试
@@ -301,7 +300,7 @@ public class UserServiceImpl implements UserService {
         serviceToken.setId(RandomUtil.uuid());
         serviceToken.setToken(TokenUtil.create());
         serviceToken.setServiceTokenType(serviceTokenType);
-        serviceToken.setValidataCode(code);
+        serviceToken.setValidateCode(code);
         serviceToken.setAccessCount(0);
         serviceToken.setLoginName(loginName);
         if (this.userTokenDao.createServiceToken(serviceToken, this.userCenterConfig.getServiceTokenTimeOut())) {

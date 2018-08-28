@@ -1,4 +1,4 @@
-package com.fast.dev.ucenter.security.config;
+package com.fast.dev.ucenter.security.config.impl;
 
 import com.fast.dev.ucenter.security.conf.UserSecurityConf;
 import org.springframework.beans.factory.annotation.Autowired;

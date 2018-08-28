@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream;
  * 时间：2018/8/23
  */
 @Component
-public class ImageValidataHelper {
+public class ImageValidateHelper {
 
     @Autowired
     private DefaultKaptcha defaultKaptcha;

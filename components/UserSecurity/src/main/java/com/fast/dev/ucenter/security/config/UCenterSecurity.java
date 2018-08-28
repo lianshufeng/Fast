@@ -1,10 +1,11 @@
 package com.fast.dev.ucenter.security.config;
 
 import com.fast.dev.core.mvc.MVCConfiguration;
+import com.fast.dev.ucenter.security.config.impl.MethodSecurityConfig;
+import com.fast.dev.ucenter.security.config.impl.UserSecurityBeansConfig;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,8 +25,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class UCenterSecurity extends WebSecurityConfigurerAdapter {
 
 
-
-
     @Override
     public void configure(WebSecurity web) throws Exception {
         //排除不拦截的静态资源
@@ -37,12 +36,12 @@ public class UCenterSecurity extends WebSecurityConfigurerAdapter {
         http
                 .csrf()
                 .disable()
+                .logout()
+                .disable()
                 .authorizeRequests()
                 .anyRequest()
                 .permitAll();
     }
-
-
 
 
 }

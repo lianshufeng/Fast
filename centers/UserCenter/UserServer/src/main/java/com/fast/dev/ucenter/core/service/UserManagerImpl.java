@@ -22,11 +22,9 @@ public class UserManagerImpl implements UserManagerService {
 
     @Override
     public boolean logout(String token) {
-
         boolean flag = this.userTokenDao.remove(token);
-
         //删除令牌
-        if (flag){
+        if (flag) {
             //doto,发送消息总线通知到各模块，清空缓存
 
         }

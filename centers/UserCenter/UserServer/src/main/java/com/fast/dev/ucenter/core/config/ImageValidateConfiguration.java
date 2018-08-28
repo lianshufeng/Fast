@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 
 @Configuration
-public class ImageValidataConfiguration {
+public class ImageValidateConfiguration {
 
 
     @Autowired

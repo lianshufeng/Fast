@@ -26,7 +26,7 @@ public class ServiceToken extends BaseToken {
     /**
      * 校验码
      */
-    private String validataCode;
+    private String validateCode;
 
 
     /**

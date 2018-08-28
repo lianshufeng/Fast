@@ -39,13 +39,11 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>com.fast.dev.components</groupId>
             <artifactId>RedisData</artifactId>
             <version>${Project.version}</version>
         </dependency>
-
 
 
         <!--用户中心的用户接口-->
@@ -64,6 +62,7 @@
         </dependency>
 
 
+        <!-- 编码-->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -71,9 +70,7 @@
         </dependency>
 
 
-
-
-
+        <!-- 验证码生成器 -->
         <dependency>
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
@@ -82,8 +79,6 @@
 
 
     </dependencies>
-
-
 
 
     <build>
