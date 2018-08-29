@@ -24,7 +24,7 @@ public class UserTokenCacheConf implements Serializable {
     private long timeToLiveSeconds = 600;
 
     // 最后一次访问缓存的日期至失效之时的时间间隔（单位秒）
-    private long timeToIdleSeconds = 60;
+    private long timeToIdleSeconds = 300;
 
     // 最大的缓存对象的数量
     private int maxMemoryCount = 1000;

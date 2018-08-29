@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,15 +22,15 @@ import java.util.Map;
 public class UserCenterConf implements Serializable {
 
     /**
-     * 手机验证长度
-     */
-    private int phoneValidateLength = 6;
-
-    /**
      * 是否调试模式
      */
     private boolean debug;
 
+
+    /**
+     * 手机验证长度
+     */
+    private int phoneValidateLength = 6;
 
     /**
      * 图形验证码长度
@@ -54,7 +53,7 @@ public class UserCenterConf implements Serializable {
     /**
      * 其他应用配置
      */
-    private Map<String, UserCenterConf> app = new HashMap<>();
+    private Map<String, UserCenterConf> app;
 
 
 }

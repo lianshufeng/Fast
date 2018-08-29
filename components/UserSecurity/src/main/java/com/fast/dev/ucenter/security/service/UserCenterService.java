@@ -4,6 +4,7 @@ import com.fast.dev.ucenter.core.model.UserTokenModel;
 import com.fast.dev.ucenter.security.model.UserAuth;
 import com.fast.dev.ucenter.security.model.UserIdentity;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
+import com.fast.dev.ucenter.security.util.TimeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -23,6 +24,7 @@ public class UserCenterService {
 
     @Autowired
     private ApplicationContext applicationContext;
+
 
     private UserAuthentication userAuthentication;
 
@@ -56,7 +58,8 @@ public class UserCenterService {
         BeanUtils.copyProperties(userTokenModel, userAuth);
         //拷贝权限信息
         BeanUtils.copyProperties(userIdentity, userAuth);
-
+        //设置创建时间
+        userAuth.setCreateTime(TimeUtil.getTime());
         return userAuth;
     }
 

@@ -2,6 +2,7 @@ package com.fast.dev.ucenter.security.cache;
 
 import com.fast.dev.ucenter.security.conf.UserTokenCacheConf;
 import com.fast.dev.ucenter.security.model.UserAuth;
+import com.fast.dev.ucenter.security.util.TimeUtil;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -34,7 +35,8 @@ public class UserTokenCache {
      * 设置缓存
      */
     public void put(String uToken, UserAuth userAuthenticationModel) {
-        this.tokenCache.put(new Element(uToken, userAuthenticationModel));
+        Element element = new Element(uToken, userAuthenticationModel);
+        this.tokenCache.put(element);
     }
 
     /**
@@ -45,7 +47,13 @@ public class UserTokenCache {
         if (element == null) {
             return null;
         }
-        return (UserAuth) element.getObjectValue();
+        UserAuth userAuth = (UserAuth) element.getObjectValue();
+        //缓存超时
+        if (TimeUtil.getTime() > userAuth.getCreateTime() + userAuth.getExpireTime() ) {
+            this.remove(uToken);
+            return null;
+        }
+        return userAuth;
     }
 
     /**

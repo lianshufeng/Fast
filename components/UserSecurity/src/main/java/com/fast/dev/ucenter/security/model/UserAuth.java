@@ -1,9 +1,6 @@
 package com.fast.dev.ucenter.security.model;
 
 import com.fast.dev.ucenter.core.model.UserTokenModel;
-import com.fast.dev.ucenter.core.type.TokenState;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +23,12 @@ public class UserAuth extends UserTokenModel {
     private Map<String, Object> details;
 
 
+    /**
+     * 创建时间
+     */
+    private long createTime;
+
+
     public Set<String> getRoles() {
         return roles;
     }
@@ -40,5 +43,13 @@ public class UserAuth extends UserTokenModel {
 
     public void setDetails(Map<String, Object> details) {
         this.details = details;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 }
