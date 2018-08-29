@@ -20,9 +20,8 @@ import java.io.Serializable;
 @ConfigurationProperties(prefix = "tokencache")
 public class UserTokenCacheConf implements Serializable {
 
-
     // 总共缓存的时间（单位秒）
-    private long timeToLiveSeconds = 60;
+    private long timeToLiveSeconds = 600;
 
     // 最后一次访问缓存的日期至失效之时的时间间隔（单位秒）
     private long timeToIdleSeconds = 60;

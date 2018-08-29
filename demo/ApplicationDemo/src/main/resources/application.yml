@@ -31,7 +31,7 @@ spring:
 
 #权限配置
 usersecurity:
-  #默认不使用角色前缀
+  #不使用角色前缀
   rolePrefixName: ""
   needSecurityMethodUrl: "/**/*"
   excludeSecurityMethodUrl: "/resources/**,/error"

@@ -33,12 +33,14 @@ public class UserTokenDaoImpl implements UserTokenDao {
      * 写DB
      *
      * @param key
-     * @param token
+     * @param baseToken
      * @param timeOut
      */
-    private void createToken(String key, Serializable token, long timeOut) {
+    private void createToken(String key, BaseToken baseToken, long timeOut) {
         ValueOperations valueOperations = this.redisTemplate.opsForValue();
-        valueOperations.set(key, token, timeOut, TimeUnit.MILLISECONDS);
+        valueOperations.set(key, baseToken, timeOut, TimeUnit.MILLISECONDS);
+        //设置到期时间
+        setExpireTime(baseToken);
     }
 
 
@@ -72,13 +74,27 @@ public class UserTokenDaoImpl implements UserTokenDao {
     @Override
     public <T extends BaseToken> T queryOnly(String token) {
         ValueOperations valueOperations = this.redisTemplate.opsForValue();
-        Object o = valueOperations.get(token);
-        return (T) o;
+        BaseToken baseToken = (BaseToken) valueOperations.get(token);
+        if (baseToken == null) {
+            return null;
+        }
+        //设置到期时间
+        setExpireTime(baseToken);
+        return (T) baseToken;
     }
 
     @Override
     public boolean remove(String token) {
         ValueOperations valueOperations = this.redisTemplate.opsForValue();
         return this.redisTemplate.delete(token);
+    }
+
+
+    /**
+     * 设置到期时间
+     * @param baseToken
+     */
+    private void setExpireTime(BaseToken baseToken){
+        baseToken.setExpireTime(this.redisTemplate.getExpire(baseToken.getToken(), TimeUnit.MILLISECONDS));
     }
 }

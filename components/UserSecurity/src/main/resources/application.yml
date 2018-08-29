@@ -1,6 +1,6 @@
 #用户令牌的缓存配置
 tokencache:
-  timeToLiveSeconds: 60
+  timeToLiveSeconds: 600
   timeToIdleSeconds: 60
   maxMemoryCount: 1000
   overflowToDisk: false

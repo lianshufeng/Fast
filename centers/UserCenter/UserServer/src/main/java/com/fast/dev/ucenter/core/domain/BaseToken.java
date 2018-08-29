@@ -25,4 +25,11 @@ public class BaseToken extends SuperEntity {
      */
     private int accessCount;
 
+
+    /**
+     * 到期时间
+     */
+    private long expireTime;
+
+
 }

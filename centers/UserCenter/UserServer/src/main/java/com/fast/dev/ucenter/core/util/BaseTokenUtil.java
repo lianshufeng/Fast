@@ -23,6 +23,7 @@ public class BaseTokenUtil {
         userTokenModel.setuToken(userToken.getToken());
         userTokenModel.setsToken(userToken.getSecret());
         userTokenModel.setUid(userToken.getUid());
+        userTokenModel.setExpireTime(userToken.getExpireTime());
         return userTokenModel;
     }
 }

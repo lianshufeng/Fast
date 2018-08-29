@@ -1,9 +1,6 @@
 package com.fast.dev.ucenter.core.model;
 
 import com.fast.dev.ucenter.core.type.TokenState;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -32,6 +29,12 @@ public class UserTokenModel implements Serializable {
      * 用户密钥
      */
     private String sToken;
+
+
+    /**
+     * 到期时间
+     */
+    private long expireTime;
 
 
     public TokenState getTokenState() {
@@ -68,6 +71,14 @@ public class UserTokenModel implements Serializable {
 
     public UserTokenModel(TokenState tokenState) {
         this.tokenState = tokenState;
+    }
+
+    public long getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(long expireTime) {
+        this.expireTime = expireTime;
     }
 
     public UserTokenModel() {
