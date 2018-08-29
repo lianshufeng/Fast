@@ -11,7 +11,8 @@ import com.fast.dev.ucenter.core.domain.BaseUser;
 public interface BaseUserDao extends MongoDao<BaseUser>, BaseUserDaoExtend {
 
     /**
-     *  手机是否已注册过
+     * 手机是否已注册过
+     *
      * @param phone
      * @return
      */
@@ -19,7 +20,8 @@ public interface BaseUserDao extends MongoDao<BaseUser>, BaseUserDaoExtend {
 
 
     /**
-     *  用户名是否已注册
+     * 用户名是否已注册
+     *
      * @param userName
      * @return
      */
@@ -27,6 +29,7 @@ public interface BaseUserDao extends MongoDao<BaseUser>, BaseUserDaoExtend {
 
     /**
      * 通过手机查询
+     *
      * @param phone
      * @return
      */
@@ -35,11 +38,29 @@ public interface BaseUserDao extends MongoDao<BaseUser>, BaseUserDaoExtend {
 
     /**
      * 通过手机查询
+     *
      * @param userName
      * @return
      */
     BaseUser findTop1ByUserName(String userName);
 
+
+    /**
+     * 通过邮箱
+     *
+     * @param mail
+     * @return
+     */
+    BaseUser findTop1ByMail(String mail);
+
+
+    /**
+     * 通过身份证
+     *
+     * @param idCard
+     * @return
+     */
+    BaseUser findTop1ByIdCard(String idCard);
 
 
 }

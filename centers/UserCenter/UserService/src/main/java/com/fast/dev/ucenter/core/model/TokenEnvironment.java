@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 /**
  * 作者：练书锋
  * 时间：2018/8/21
- * 登陆的环境
+ * 令牌环境
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginEnvironment {
+public class TokenEnvironment {
 
 
     /**
@@ -36,7 +36,7 @@ public class LoginEnvironment {
     /**
      * 登陆来源系统(App)标识
      */
-    private String from;
+    private String app;
 
 
 }

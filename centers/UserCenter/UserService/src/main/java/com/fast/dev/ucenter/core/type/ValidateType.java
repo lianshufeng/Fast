@@ -8,6 +8,11 @@ package com.fast.dev.ucenter.core.type;
 public enum ValidateType {
 
     /**
+     * 调试模式
+     */
+    Debug,
+
+    /**
      * 无需校验
      */
     None,
@@ -18,14 +23,13 @@ public enum ValidateType {
     Phone,
 
     /**
-     * 调试模式
-     */
-    Debug,
-
-    /**
      * 图形验证码
      */
     Image,
 
+    /**
+     * 邮件验证
+     */
+    Mail
 
 }

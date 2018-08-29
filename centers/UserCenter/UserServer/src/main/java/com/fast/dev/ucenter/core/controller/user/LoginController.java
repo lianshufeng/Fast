@@ -1,6 +1,7 @@
 package com.fast.dev.ucenter.core.controller.user;
 
 import com.fast.dev.core.util.result.InvokerResult;
+import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.service.UserService;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,10 @@ public class LoginController extends SuperController {
      * @return
      */
     @RequestMapping("getLoginToken")
-    public Object getLoginToken(UserLoginType loginType, String loginName) {
+    public Object getLoginToken(UserLoginType loginType, String loginName, TokenEnvironment env) {
         Assert.notNull(loginType, "类型不能为空");
         Assert.hasText(loginName, "登陆账号不能为空");
-        return InvokerResult.success(this.userService.getUserLoginToken(loginType, loginName, null));
+        return InvokerResult.success(this.userService.getUserLoginToken(loginType, loginName, env));
     }
 
 
@@ -48,7 +49,6 @@ public class LoginController extends SuperController {
         Assert.hasText(_uToken, "用户令牌不能为空");
         return InvokerResult.success(this.userService.logout(_uToken));
     }
-
 
 
     /**

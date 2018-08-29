@@ -1,6 +1,7 @@
 package com.fast.dev.ucenter.core.controller.user;
 
 import com.fast.dev.core.util.result.InvokerResult;
+import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.service.UserService;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,10 @@ public class RegisterController extends SuperController {
      * @return
      */
     @RequestMapping("getRegisterToken")
-    public Object getRegisterToken(UserLoginType loginType, String loginName) {
+    public Object getRegisterToken(UserLoginType loginType, String loginName, TokenEnvironment env) {
         Assert.notNull(loginType, "类型不能为空");
         Assert.hasText(loginName, "登陆账号不能为空");
-        return InvokerResult.success(this.userService.getUserRegisterToken(loginType, loginName, null));
+        return InvokerResult.success(this.userService.getUserRegisterToken(loginType, loginName, env));
     }
 
 

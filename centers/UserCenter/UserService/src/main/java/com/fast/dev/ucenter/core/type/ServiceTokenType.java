@@ -8,29 +8,78 @@ package com.fast.dev.ucenter.core.type;
 public enum ServiceTokenType {
 
     /**
+     * 手机注册
+     */
+    PhoneRegister("手机注册", "Phone", ServiceType.Register),
+    /**
      * 手机登录
      */
-    PhoneLogin("手机登陆"),
+    PhoneLogin("手机登陆", "Phone", ServiceType.Login),
 
     /**
      * 用户名登陆
      */
-    UserNameLogin("用户名登陆"),
+    UserNameLogin("用户名登陆", "UserName", ServiceType.Login),
 
     /**
      * 用户名注册
      */
-    UserNameRegister("用户名注册"),
+    UserNameRegister("用户名注册", "UserName", ServiceType.Register),
+
 
     /**
-     * 手机注册
+     * 邮箱登陆
      */
-    PhoneRegister("手机注册");
+    MailLogin("邮箱登陆", "Mail", ServiceType.Login),
+
+    /**
+     * 邮箱注册
+     */
+    MailRegister("邮箱注册", "Mail", ServiceType.Register),
+
+    /**
+     * 身份证登陆
+     */
+    IdCardLogin("邮箱登陆", "IdCard", ServiceType.Login),
+
+    /**
+     * 身份证注册
+     */
+    IdCardRegister("邮箱注册", "IdCard", ServiceType.Register),
 
 
+    ;
+
+    /**
+     * 备注
+     */
     private String remark;
 
-    ServiceTokenType(String remark) {
+    /**
+     * 登陆方式
+     */
+    private String loginType;
+
+    /**
+     * 业务类型
+     */
+    private ServiceType serviceType;
+
+    ServiceTokenType(String remark, String loginType, ServiceType serviceType) {
         this.remark = remark;
+        this.loginType = loginType;
+        this.serviceType = serviceType;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public String getLoginType() {
+        return loginType;
+    }
+
+    public ServiceType getServiceType() {
+        return serviceType;
     }
 }

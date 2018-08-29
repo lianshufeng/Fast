@@ -1,9 +1,10 @@
 package com.fast.dev.ucenter.core.service.extend;
 
-import com.fast.dev.ucenter.core.model.LoginEnvironment;
+import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.model.UserLoginToken;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
 import com.fast.dev.ucenter.core.type.UserLoginType;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 作者：练书锋
@@ -17,7 +18,7 @@ public interface UserLogin {
      *
      * @return
      */
-    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment);
+    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName,  @RequestParam TokenEnvironment tokenEnvironment);
 
 
     /**

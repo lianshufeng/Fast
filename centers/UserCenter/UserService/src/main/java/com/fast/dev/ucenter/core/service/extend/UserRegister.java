@@ -1,6 +1,6 @@
 package com.fast.dev.ucenter.core.service.extend;
 
-import com.fast.dev.ucenter.core.model.LoginEnvironment;
+import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.model.UserRegisterToken;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
@@ -19,10 +19,10 @@ public interface UserRegister {
      *
      * @param userLoginType
      * @param loginName
-     * @param loginEnvironment
+     * @param tokenEnvironment
      * @return
      */
-    public UserRegisterToken getUserRegisterToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment);
+    public UserRegisterToken getUserRegisterToken(UserLoginType userLoginType, String loginName, TokenEnvironment tokenEnvironment);
 
 
     /**

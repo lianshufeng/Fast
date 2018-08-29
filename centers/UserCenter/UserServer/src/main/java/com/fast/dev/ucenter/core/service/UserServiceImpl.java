@@ -7,20 +7,16 @@ import com.fast.dev.ucenter.core.dao.UserTokenDao;
 import com.fast.dev.ucenter.core.domain.BaseUser;
 import com.fast.dev.ucenter.core.domain.ServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
-import com.fast.dev.ucenter.core.helper.ImageValidateHelper;
 import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.ServiceTokenType;
+import com.fast.dev.ucenter.core.type.ServiceType;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
-import com.fast.dev.ucenter.core.type.ValidateType;
 import com.fast.dev.ucenter.core.util.PassWordUtil;
 import com.fast.dev.ucenter.core.util.RandomUtil;
 import com.fast.dev.ucenter.core.util.TokenUtil;
-import com.fast.dev.ucenter.core.util.ValidateCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Base64;
 
 /**
  * 作者：练书锋
@@ -45,40 +41,33 @@ public class UserServiceImpl extends BaseUserService implements UserService {
     private UserCenterConf userCenterConfig;
 
 
-    @Autowired
-    private ImageValidateHelper imageValidateHelper;
-
-
     @Override
-    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment) {
-        ServiceTokenType serviceTokenType = null;
-        if (userLoginType == UserLoginType.Phone) {
-            serviceTokenType = ServiceTokenType.PhoneLogin;
-            if (!baseUserDao.existsByPhone(loginName)) {
-                return new UserLoginToken(TokenState.UserNotExist);
-            }
-        } else if (userLoginType == UserLoginType.UserName) {
-            serviceTokenType = ServiceTokenType.UserNameLogin;
-            if (!baseUserDao.existsByUserName(loginName)) {
-                return new UserLoginToken(TokenState.UserNotExist);
-            }
+    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, TokenEnvironment tokenEnvironment) {
+
+        //不支持的类型
+        if (userLoginType.getRegisterService() == null) {
+            return new UserLoginToken(TokenState.NotSupportType);
         }
+
+        //判断用户是否存在
+        if (!existsUser(userLoginType, loginName)) {
+            return new UserLoginToken(TokenState.UserNotExist);
+        }
+
         // 机器校验
-        RobotValidate robotValidate = new RobotValidate();
-        robotValidate.setType(ValidateType.Image);
+        RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
         String code = createRobotValidate(robotValidate);
 
 
         //  创建业务令牌
-        ServiceToken serviceToken = createServiceToken(loginEnvironment, serviceTokenType, loginName, code);
+        ServiceToken serviceToken = createServiceToken(tokenEnvironment, userLoginType.getLoginService(), loginName, code);
         if (serviceToken == null) {
             return new UserLoginToken(TokenState.CreateError);
         }
 
         //返回用户登陆令牌
-        UserLoginToken userLoginToken = new UserLoginToken();
+        UserLoginToken userLoginToken = new UserLoginToken(TokenState.Success);
         userLoginToken.setRobotValidate(robotValidate);
-        userLoginToken.setTokenState(TokenState.Success);
         userLoginToken.setToken(serviceToken.getToken());
         return userLoginToken;
     }
@@ -86,24 +75,23 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
     @Override
     public UserTokenModel login(String token, String validateCode, String passWord, long timeOut) {
-        //取出业务令牌并校验令牌的合法性
+        //取出业务令牌并验证码校验
         ServiceToken serviceToken = this.userTokenDao.query(token);
         TokenState tokenState = validateToken(serviceToken, validateCode);
         if (tokenState != null) {
             return new UserTokenModel(tokenState);
         }
-        if (serviceToken.getServiceTokenType() != ServiceTokenType.UserNameLogin && serviceToken.getServiceTokenType() != ServiceTokenType.PhoneLogin) {
+
+        //判断业务令牌是否合法
+        if (serviceToken.getServiceTokenType().getServiceType() != ServiceType.Login) {
             return new UserTokenModel(TokenState.TokenNotMatch);
         }
 
+        //删除登陆令牌
+        this.userTokenDao.remove(token);
 
         //根据登陆方式取用户信息
-        BaseUser baseUser = null;
-        if (serviceToken.getServiceTokenType() == ServiceTokenType.PhoneLogin) {
-            baseUser = baseUserDao.findTop1ByPhone(serviceToken.getLoginName());
-        } else if (serviceToken.getServiceTokenType() == ServiceTokenType.UserNameLogin) {
-            baseUser = baseUserDao.findTop1ByUserName(serviceToken.getLoginName());
-        }
+        BaseUser baseUser = findBaseUser(serviceToken);
         if (baseUser == null) {
             return new UserTokenModel(TokenState.UserNotExist);
         }
@@ -112,55 +100,70 @@ public class UserServiceImpl extends BaseUserService implements UserService {
         if (!PassWordUtil.validate(baseUser.getSalt(), passWord, baseUser.getPassWord())) {
             return new UserTokenModel(TokenState.PassWordError);
         }
-        //删除登陆令牌
-        userTokenDao.remove(token);
+
+
+
         //创建用户令牌（入库并返回令牌对象）
         return createUserToken(baseUser, timeOut);
     }
 
 
     @Override
-    public UserRegisterToken getUserRegisterToken(UserLoginType userLoginType, String loginName, LoginEnvironment loginEnvironment) {
-        if (userLoginType == UserLoginType.Phone) {
-            return getPhoneRegisterToken(loginEnvironment, loginName);
-        } else if (userLoginType == UserLoginType.UserName) {
-            return getUserNameRegisterToken(loginEnvironment, loginName);
+    public UserRegisterToken getUserRegisterToken(UserLoginType userLoginType, String loginName, TokenEnvironment loginEnvironment) {
+
+        //不支持的类型
+        if (userLoginType.getRegisterService() == null) {
+            return new UserRegisterToken(TokenState.NotSupportType);
         }
-        //不支持的注册方式
-        return new UserRegisterToken(TokenState.NotSupportType);
+
+        //用户是否存在
+        if (existsUser(userLoginType, loginName)) {
+            return new UserRegisterToken(TokenState.UserExist);
+        }
+
+        //生成机器校验码
+        RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
+        String code = createRobotValidate(robotValidate);
+
+
+        //创建业务令牌
+        ServiceToken serviceToken = createServiceToken(loginEnvironment, userLoginType.getRegisterService(), loginName, code);
+        if (serviceToken == null) {
+            return new UserRegisterToken(TokenState.CreateError);
+        }
+
+        UserRegisterToken userRegisterToken = new UserRegisterToken(TokenState.Success);
+        userRegisterToken.setRobotValidate(robotValidate);
+        userRegisterToken.setToken(serviceToken.getToken());
+        return userRegisterToken;
     }
 
     @Override
     public TokenState register(String token, String validateCode, String passWord) {
+        //校验业务令牌的验证码
         ServiceToken serviceToken = this.userTokenDao.query(token);
         TokenState tokenState = validateToken(serviceToken, validateCode);
         if (tokenState != null) {
             return tokenState;
         }
-        if (serviceToken.getServiceTokenType() != ServiceTokenType.PhoneRegister && serviceToken.getServiceTokenType() != ServiceTokenType.UserNameRegister) {
+
+        //业务令牌类型匹配判断
+        if (serviceToken.getServiceTokenType().getServiceType() != ServiceType.Register) {
             return TokenState.TokenNotMatch;
         }
 
+        //删除这个业务令牌
+        this.userTokenDao.remove(serviceToken.getToken());
 
-        //  入库
-        BaseUser baseUser = new BaseUser();
-        if (serviceToken.getServiceTokenType() == ServiceTokenType.PhoneRegister) {
-            baseUser.setPhone(serviceToken.getLoginName());
-        } else if (serviceToken.getServiceTokenType() == ServiceTokenType.UserNameRegister) {
-            baseUser.setUserName(serviceToken.getLoginName());
+        //  实例化对象
+        BaseUser baseUser = newBaseUser(serviceToken, passWord);
+        if (baseUser == null) {
+            return TokenState.Error;
         }
-
-        // 设置密码
-        baseUser.setSalt(RandomUtil.uuid(6));
-        baseUser.setPassWord(PassWordUtil.enCode(baseUser.getSalt(), passWord));
 
         //注册新用户入库
         createRegisterUser(baseUser);
 
-        //删除这个令牌
-        if (baseUser.getId() != null) {
-            this.userTokenDao.remove(serviceToken.getToken());
-        }
 
         return baseUser.getId() == null ? TokenState.Error : TokenState.Success;
     }
@@ -188,98 +191,11 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
 
     /**
-     * 获取收注册令牌
-     *
-     * @param loginEnvironment
-     * @param loginName
-     * @return
-     */
-    public UserRegisterToken getPhoneRegisterToken(LoginEnvironment loginEnvironment, String loginName) {
-        if (baseUserDao.existsByPhone(loginName)) {
-            return new UserRegisterToken(TokenState.UserExist);
-        }
-        //手机验证的生成规则
-        //创建机器校验码
-        RobotValidate robotValidate = new RobotValidate(ValidateType.Phone);
-        return getRegisterToken(loginEnvironment, loginName, ServiceTokenType.PhoneRegister, robotValidate);
-    }
-
-
-    /**
-     * 获取用户名注册令牌
-     *
-     * @param loginEnvironment
-     * @param loginName
-     * @return
-     */
-    public UserRegisterToken getUserNameRegisterToken(LoginEnvironment loginEnvironment, String loginName) {
-        if (baseUserDao.existsByUserName(loginName)) {
-            return new UserRegisterToken(TokenState.UserExist);
-        }
-        //创建机器校验码
-        RobotValidate robotValidate = new RobotValidate(ValidateType.Image);
-        return getRegisterToken(loginEnvironment, loginName, ServiceTokenType.UserNameRegister, robotValidate);
-    }
-
-
-    /**
-     * 获取注册令牌
-     *
-     * @param loginEnvironment
-     * @param loginName
-     * @param robotValidate
-     * @return
-     */
-    private UserRegisterToken getRegisterToken(LoginEnvironment loginEnvironment, String loginName, ServiceTokenType serviceTokenType, RobotValidate robotValidate) {
-        String code = createRobotValidate(robotValidate);
-        //入库
-        ServiceToken serviceToken = createServiceToken(loginEnvironment, serviceTokenType, loginName, code);
-        if (serviceToken == null) {
-            return new UserRegisterToken(TokenState.CreateError);
-        }
-        UserRegisterToken userRegisterToken = new UserRegisterToken();
-        userRegisterToken.setRobotValidate(robotValidate);
-        userRegisterToken.setToken(serviceToken.getToken());
-        userRegisterToken.setTokenState(TokenState.Success);
-        return userRegisterToken;
-    }
-
-
-    /**
-     * 创建机器验证码
-     *
-     * @return 返回 验证值
-     */
-    private String createRobotValidate(RobotValidate robotValidate) {
-
-        String code = null;
-        if (robotValidate.getType() == ValidateType.Phone) {
-            code = ValidateCodeUtil.createOnlyNumber(userCenterConfig.getPhoneValidateLength());
-            // 发送短信
-            //doto
-        }
-
-        // 图形验证码
-        else if (robotValidate.getType() == ValidateType.Image) {
-            code = ValidateCodeUtil.create(userCenterConfig.getPhoneValidateLength());
-            String data = "data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidateHelper.create(code));
-            robotValidate.setData(data);
-        }
-        //调试
-        if (this.userCenterConfig.isDebug()) {
-            robotValidate.setType(ValidateType.Debug);
-            robotValidate.setData(code);
-        }
-
-        return code;
-    }
-
-    /**
      * 创建业务令牌
      *
      * @return
      */
-    private ServiceToken createServiceToken(LoginEnvironment loginEnvironment, ServiceTokenType serviceTokenType, String loginName, String code) {
+    private ServiceToken createServiceToken(TokenEnvironment loginEnvironment, ServiceTokenType serviceTokenType, String loginName, String code) {
         ServiceToken serviceToken = new ServiceToken();
         this.dbHelper.saveTime(serviceToken);
         serviceToken.setId(RandomUtil.uuid());
@@ -297,7 +213,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
     @Override
     public boolean ping(String uToken) {
-        UserToken userToken = userTokenDao.query(uToken);
+        UserToken userToken = userTokenDao.queryOnly(uToken);
         return userToken != null;
     }
 }
