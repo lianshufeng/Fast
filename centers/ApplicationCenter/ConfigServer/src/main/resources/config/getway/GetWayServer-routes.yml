@@ -7,6 +7,6 @@ zuul:
   routes:
     #  用户中心
     ucenter:
-      stripPrefix: true #是否去掉代理的path前缀
+      stripPrefix: false #是否去掉代理的path前缀
       path: "/ucenter/**"
       serviceId: UserServer
