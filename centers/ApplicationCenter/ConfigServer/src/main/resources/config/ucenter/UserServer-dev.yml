@@ -27,7 +27,7 @@ kaptcha:
 ucenter:
   validate:
     #全局配置
-    debug: false
+    debug: true
     serviceTokenTimeOut: 300000
     maxCanAccessCount: 5
     rule:
