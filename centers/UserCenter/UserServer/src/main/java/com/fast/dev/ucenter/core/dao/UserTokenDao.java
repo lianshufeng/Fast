@@ -15,9 +15,9 @@ public interface UserTokenDao {
     /**
      * 创建登陆令牌
      *
-     * @param timeOut
+     * @param expireTime
      */
-    public boolean createUserToken(UserToken userToken, long timeOut);
+    public boolean createUserToken(UserToken userToken, long expireTime);
 
 
     /**

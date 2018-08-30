@@ -34,25 +34,25 @@ public class UserTokenDaoImpl implements UserTokenDao {
      *
      * @param key
      * @param baseToken
-     * @param timeOut
+     * @param expireTime
      */
-    private void createToken(String key, BaseToken baseToken, long timeOut) {
+    private void createToken(String key, BaseToken baseToken, long expireTime) {
         ValueOperations valueOperations = this.redisTemplate.opsForValue();
-        valueOperations.set(key, baseToken, timeOut, TimeUnit.MILLISECONDS);
+        valueOperations.set(key, baseToken, expireTime, TimeUnit.MILLISECONDS);
         //设置到期时间
         setExpireTime(baseToken);
     }
 
 
     @Override
-    public boolean createUserToken(UserToken userToken, long timeOut) {
-        createToken(userToken.getToken(), userToken, timeOut);
+    public boolean createUserToken(UserToken userToken, long expireTime) {
+        createToken(userToken.getToken(), userToken, expireTime);
         return true;
     }
 
     @Override
-    public boolean createServiceToken(ServiceToken serviceToken, long timeOut) {
-        createToken(serviceToken.getToken(), serviceToken, timeOut);
+    public boolean createServiceToken(ServiceToken serviceToken, long expireTime) {
+        createToken(serviceToken.getToken(), serviceToken, expireTime);
         return true;
     }
 

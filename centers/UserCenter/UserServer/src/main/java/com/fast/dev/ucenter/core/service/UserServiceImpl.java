@@ -1,12 +1,13 @@
 package com.fast.dev.ucenter.core.service;
 
 import com.fast.dev.data.mongo.helper.DBHelper;
-import com.fast.dev.ucenter.core.conf.UserCenterConf;
+import com.fast.dev.ucenter.core.conf.ValidateDataConf;
 import com.fast.dev.ucenter.core.dao.BaseUserDao;
 import com.fast.dev.ucenter.core.dao.UserTokenDao;
 import com.fast.dev.ucenter.core.domain.BaseUser;
 import com.fast.dev.ucenter.core.domain.ServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
+import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
 import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.ServiceTokenType;
 import com.fast.dev.ucenter.core.type.ServiceType;
@@ -38,7 +39,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
 
     @Autowired
-    private UserCenterConf userCenterConfig;
+    private ValidateDataHelper validateDataHelper;
 
 
     @Override
@@ -56,7 +57,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         // 机器校验
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(robotValidate);
+        String code = createRobotValidate(tokenEnvironment, robotValidate);
 
 
         //  创建业务令牌
@@ -74,7 +75,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
 
     @Override
-    public UserTokenModel login(String token, String validateCode, String passWord, long timeOut) {
+    public UserTokenModel login(TokenEnvironment env, String token, String validateCode, String passWord, long expireTime) {
         //取出业务令牌并验证码校验
         ServiceToken serviceToken = this.userTokenDao.query(token);
         TokenState tokenState = validateToken(serviceToken, validateCode);
@@ -87,8 +88,6 @@ public class UserServiceImpl extends BaseUserService implements UserService {
             return new UserTokenModel(TokenState.TokenNotMatch);
         }
 
-        //删除登陆令牌
-        this.userTokenDao.remove(token);
 
         //根据登陆方式取用户信息
         BaseUser baseUser = findBaseUser(serviceToken);
@@ -101,10 +100,12 @@ public class UserServiceImpl extends BaseUserService implements UserService {
             return new UserTokenModel(TokenState.PassWordError);
         }
 
+        //删除登陆令牌
+        this.userTokenDao.remove(token);
 
 
         //创建用户令牌（入库并返回令牌对象）
-        return createUserToken(baseUser, timeOut);
+        return createUserToken(env, baseUser, expireTime);
     }
 
 
@@ -123,7 +124,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         //生成机器校验码
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(robotValidate);
+        String code = createRobotValidate(loginEnvironment, robotValidate);
 
 
         //创建业务令牌
@@ -139,17 +140,17 @@ public class UserServiceImpl extends BaseUserService implements UserService {
     }
 
     @Override
-    public TokenState register(String token, String validateCode, String passWord) {
+    public UserRegisterModel register(TokenEnvironment env, String token, String validateCode, String passWord) {
         //校验业务令牌的验证码
         ServiceToken serviceToken = this.userTokenDao.query(token);
         TokenState tokenState = validateToken(serviceToken, validateCode);
         if (tokenState != null) {
-            return tokenState;
+            return new UserRegisterModel(tokenState);
         }
 
         //业务令牌类型匹配判断
         if (serviceToken.getServiceTokenType().getServiceType() != ServiceType.Register) {
-            return TokenState.TokenNotMatch;
+            return new UserRegisterModel(TokenState.TokenNotMatch);
         }
 
         //删除这个业务令牌
@@ -158,14 +159,14 @@ public class UserServiceImpl extends BaseUserService implements UserService {
         //  实例化对象
         BaseUser baseUser = newBaseUser(serviceToken, passWord);
         if (baseUser == null) {
-            return TokenState.Error;
+            return new UserRegisterModel(TokenState.Error);
         }
 
         //注册新用户入库
         createRegisterUser(baseUser);
 
-
-        return baseUser.getId() == null ? TokenState.Error : TokenState.Success;
+        TokenState state = baseUser.getId() == null ? TokenState.Error : TokenState.Success;
+        return new UserRegisterModel(state, baseUser.getId());
     }
 
 
@@ -180,7 +181,9 @@ public class UserServiceImpl extends BaseUserService implements UserService {
         if (serviceToken == null) {
             return TokenState.TokenNotExist;
         }
-        if (serviceToken.getAccessCount() > this.userCenterConfig.getMaxCanAccessCount()) {
+        //通过应用名取出对应的的配置
+        ValidateDataConf validateDataConf = this.validateDataHelper.get(serviceToken.getCreateTokenEnvironment().getApp());
+        if (serviceToken.getAccessCount() > validateDataConf.getMaxCanAccessCount()) {
             return TokenState.TokenMaxLimit;
         }
         if (!serviceToken.getValidateCode().equals(validateCode)) {
@@ -196,6 +199,9 @@ public class UserServiceImpl extends BaseUserService implements UserService {
      * @return
      */
     private ServiceToken createServiceToken(TokenEnvironment loginEnvironment, ServiceTokenType serviceTokenType, String loginName, String code) {
+        //取出对应的配置
+        ValidateDataConf validateDataConf = this.validateDataHelper.get(loginEnvironment.getApp());
+
         ServiceToken serviceToken = new ServiceToken();
         this.dbHelper.saveTime(serviceToken);
         serviceToken.setId(RandomUtil.uuid());
@@ -204,7 +210,8 @@ public class UserServiceImpl extends BaseUserService implements UserService {
         serviceToken.setValidateCode(code);
         serviceToken.setAccessCount(0);
         serviceToken.setLoginName(loginName);
-        if (this.userTokenDao.createServiceToken(serviceToken, this.userCenterConfig.getServiceTokenTimeOut())) {
+        serviceToken.setCreateTokenEnvironment(loginEnvironment);
+        if (this.userTokenDao.createServiceToken(serviceToken, validateDataConf.getServiceTokenTimeOut())) {
             return serviceToken;
         }
         return null;

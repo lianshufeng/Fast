@@ -18,7 +18,7 @@ public interface UserLogin {
      *
      * @return
      */
-    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName,  @RequestParam TokenEnvironment tokenEnvironment);
+    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, @RequestParam TokenEnvironment tokenEnvironment);
 
 
     /**
@@ -28,7 +28,7 @@ public interface UserLogin {
      * @param validateCode
      * @param passWord
      */
-    public UserTokenModel login(String token, String validateCode, String passWord, long timeOut);
+    public UserTokenModel login(TokenEnvironment env, String token, String validateCode, String passWord, long expireTime);
 
 
     /**

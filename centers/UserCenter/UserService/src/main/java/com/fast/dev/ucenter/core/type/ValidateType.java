@@ -18,9 +18,9 @@ public enum ValidateType {
     None,
 
     /**
-     * 手机验证码
+     * 手机短信验证码
      */
-    Phone,
+    Sms,
 
     /**
      * 图形验证码

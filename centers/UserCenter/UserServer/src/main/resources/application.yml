@@ -50,20 +50,23 @@ management:
 
 
   #测试代码，后面移动到配置中心里
+
+
+
+
 ucenter:
-  app:
-    demo1:
-      phoneValidateLength: 6
-      debug: true
-      imageValidateLength: 6
-      serviceTokenTimeOut: 300000
-      maxCanAccessCount: 5
-    demo2:
-      phoneValidateLength: 4
-      debug: false
-      imageValidateLength: 7
-      serviceTokenTimeOut: 300000
-      maxCanAccessCount: 5
-      app:
-        simple1:
-          debug: true
+  validate:
+    app:
+      demo1:
+        debug: true
+        serviceTokenTimeOut: 300000
+        maxCanAccessCount: 5
+        rule:
+          Sms:
+            length: 4
+            scope: Number
+            extraCharset: ""
+          Image:
+            length: 4
+            scope: Charset
+            extraCharset: ""

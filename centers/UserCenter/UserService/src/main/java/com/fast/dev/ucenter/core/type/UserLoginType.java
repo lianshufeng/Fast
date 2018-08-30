@@ -14,7 +14,7 @@ public enum UserLoginType {
     /**
      * 手机登陆
      */
-    Phone("手机", ValidateType.Phone, ServiceTokenType.PhoneRegister, ServiceTokenType.PhoneLogin),
+    Phone("手机", ValidateType.Sms, ServiceTokenType.PhoneRegister, ServiceTokenType.PhoneLogin),
 
     /**
      * 邮箱

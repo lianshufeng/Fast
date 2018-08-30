@@ -1,6 +1,7 @@
 package com.fast.dev.ucenter.core.domain;
 
 import com.fast.dev.data.mongo.domain.SuperEntity;
+import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,12 @@ public class BaseToken extends SuperEntity {
      * 到期时间
      */
     private long expireTime;
+
+
+    /**
+     * 创建令牌时候的环境
+     */
+    private TokenEnvironment createTokenEnvironment;
 
 
 }

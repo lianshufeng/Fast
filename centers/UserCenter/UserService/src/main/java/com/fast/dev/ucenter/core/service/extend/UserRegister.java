@@ -1,6 +1,7 @@
 package com.fast.dev.ucenter.core.service.extend;
 
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
+import com.fast.dev.ucenter.core.model.UserRegisterModel;
 import com.fast.dev.ucenter.core.model.UserRegisterToken;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
@@ -33,7 +34,7 @@ public interface UserRegister {
      * @param passWord
      * @return
      */
-    public TokenState register(String token, String code, String passWord);
+    public UserRegisterModel register(TokenEnvironment env, String token, String code, String passWord);
 
 
 }

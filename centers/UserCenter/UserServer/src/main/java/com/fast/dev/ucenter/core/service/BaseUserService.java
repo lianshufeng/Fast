@@ -1,7 +1,7 @@
 package com.fast.dev.ucenter.core.service;
 
 import com.fast.dev.data.mongo.helper.DBHelper;
-import com.fast.dev.ucenter.core.conf.UserCenterConf;
+import com.fast.dev.ucenter.core.conf.ValidateDataConf;
 import com.fast.dev.ucenter.core.dao.BaseUserDao;
 import com.fast.dev.ucenter.core.dao.UserTokenDao;
 import com.fast.dev.ucenter.core.domain.BaseToken;
@@ -10,12 +10,17 @@ import com.fast.dev.ucenter.core.domain.ServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
 import com.fast.dev.ucenter.core.helper.ImageValidateHelper;
 import com.fast.dev.ucenter.core.helper.UserPushMessageHelper;
+import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
 import com.fast.dev.ucenter.core.model.RobotValidate;
+import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
 import com.fast.dev.ucenter.core.type.ServiceTokenType;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.type.ValidateType;
-import com.fast.dev.ucenter.core.util.*;
+import com.fast.dev.ucenter.core.util.BaseTokenUtil;
+import com.fast.dev.ucenter.core.util.PassWordUtil;
+import com.fast.dev.ucenter.core.util.RandomUtil;
+import com.fast.dev.ucenter.core.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Base64;
@@ -42,7 +47,7 @@ public class BaseUserService {
 
 
     @Autowired
-    private UserCenterConf userCenterConfig;
+    private ValidateDataHelper validateDataHelper;
 
 
     @Autowired
@@ -76,7 +81,7 @@ public class BaseUserService {
      * @param baseUser
      * @return
      */
-    public UserTokenModel createUserToken(BaseUser baseUser, long timeOut) {
+    public UserTokenModel createUserToken(TokenEnvironment env, BaseUser baseUser, long expireTime) {
         // 用户令牌并入库
         UserToken userToken = new UserToken();
         userToken.setId(RandomUtil.uuid());
@@ -84,8 +89,9 @@ public class BaseUserService {
         userToken.setUid(baseUser.getId());
         userToken.setSecret(TokenUtil.create());
         userToken.setToken(TokenUtil.create());
+        userToken.setCreateTokenEnvironment(env);
         UserTokenModel userTokenModel = null;
-        if (this.userTokenDao.createUserToken(userToken, timeOut)) {
+        if (this.userTokenDao.createUserToken(userToken, expireTime)) {
             userTokenModel = BaseTokenUtil.toUserTokenModel(userToken);
             this.userPushMessageHelper.pushLoginMsg(userToken);
         }
@@ -170,25 +176,35 @@ public class BaseUserService {
      *
      * @return 返回 验证值
      */
-    protected String createRobotValidate(RobotValidate robotValidate) {
+    protected String createRobotValidate(TokenEnvironment tokenEnvironment, RobotValidate robotValidate) {
 
-        String code = null;
-        if (robotValidate.getType() == ValidateType.Phone) {
-            code = ValidateCodeUtil.createOnlyNumber(userCenterConfig.getPhoneValidateLength());
-            // 发送短信
-            //doto
+        //取出当前适合的配置信息
+        ValidateDataConf validateDataConf = validateDataHelper.get(tokenEnvironment.getApp());
+
+        //生成对应的验证码
+        String code = ValidateDataHelper.getValidateRandomValue(validateDataConf.getRule().get(robotValidate.getType()));
+
+        //手机验证码
+        if (robotValidate.getType() == ValidateType.Sms) {
+            robotValidate.setData(null);
         }
-
+        //邮箱
+        else if (robotValidate.getType() == ValidateType.Mail) {
+            robotValidate.setData(null);
+        }
         // 图形验证码
         else if (robotValidate.getType() == ValidateType.Image) {
-            code = ValidateCodeUtil.create(userCenterConfig.getPhoneValidateLength());
-            String data = "data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidateHelper.create(code));
-            robotValidate.setData(data);
+            robotValidate.setData("data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidateHelper.create(code)));
         }
+
+
         //调试
-        if (this.userCenterConfig.isDebug()) {
+        if (validateDataConf.isDebug()) {
             robotValidate.setType(ValidateType.Debug);
             robotValidate.setData(code);
+        } else {
+            //doto 发送邮件或短信
+
         }
 
         return code;

@@ -23,11 +23,11 @@ public class LoginController extends SuperController {
      * @return
      */
     @RequestMapping("login")
-    public Object login(String token, String code, String passWord, @RequestParam(defaultValue = "604800000") Long timeOut) {
+    public Object login(String token, String code, String passWord, @RequestParam(defaultValue = "604800000") Long expireTime, TokenEnvironment env) {
         Assert.hasText(token, "令牌不能为空");
         Assert.hasText(code, "校验码不能为空");
         Assert.hasText(passWord, "密码不能为空");
-        return InvokerResult.success(this.userService.login(token, code, passWord, timeOut));
+        return InvokerResult.success(this.userService.login(env, token, code, passWord, expireTime));
     }
 
 

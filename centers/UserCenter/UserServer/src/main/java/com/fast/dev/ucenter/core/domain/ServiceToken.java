@@ -1,5 +1,6 @@
 package com.fast.dev.ucenter.core.domain;
 
+import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.type.ServiceTokenType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,5 @@ public class ServiceToken extends BaseToken {
      * 登陆名
      */
     private String loginName;
-
 
 }
