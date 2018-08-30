@@ -2,9 +2,8 @@ zuul:
   ribbon.eager-load.enabled: true
   retryable: true #是否开启重试，默认全部都重试
   add-host-header: true
-  # ignoredServices: "*"
-  #禁止转发管理接口
-#  ignoredPatterns: "/**/manager/**"
+  # ignoredServices: "*" #默认不转发所有
+  ignoredPatterns: "/**/manager/**" #禁止转发管理接口
   routes:
     #  用户中心
     ucenter:
