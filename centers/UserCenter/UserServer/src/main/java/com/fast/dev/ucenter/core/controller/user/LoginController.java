@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class LoginController extends SuperController {
@@ -64,12 +65,12 @@ public class LoginController extends SuperController {
     }
 
 
-//    @RequestMapping("login.html")
-//    public ModelAndView login() {
-//        ModelAndView modelAndView = new ModelAndView("login.html");
-//        modelAndView.addObject("name", System.currentTimeMillis());
-//        return modelAndView;
-//    }
+    @RequestMapping("login.html")
+    public ModelAndView login() {
+        ModelAndView modelAndView = new ModelAndView("login.html");
+        modelAndView.addObject("name", System.currentTimeMillis());
+        return modelAndView;
+    }
 
 
 }

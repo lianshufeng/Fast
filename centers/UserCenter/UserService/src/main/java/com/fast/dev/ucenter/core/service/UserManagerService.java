@@ -12,22 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface UserManagerService {
 
 
-    /**
-     * 通过令牌查询详情
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = "/manager/queryUserToken", method = RequestMethod.POST)
-    UserTokenModel queryByUserToken(@RequestParam("token") String token);
+    @RequestMapping(value = "/ucenter/manager/queryUserToken", method = RequestMethod.POST)
+    public UserTokenModel queryByUserToken(@RequestParam("token") String token);
 
 
-    /**
-     * 注销
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = "/manager/logout", method = RequestMethod.POST)
-    boolean logout(@RequestParam("token") String token);
+    @RequestMapping(value = "/ucenter/manager/logout", method = RequestMethod.POST)
+    public boolean logout(@RequestParam("token") String token);
 
 
 }
