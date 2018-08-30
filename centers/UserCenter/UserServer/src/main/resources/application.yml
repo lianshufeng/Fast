@@ -1,9 +1,6 @@
 #默认端口号
 server:
   port: ${UserCenter.port}
-  servlet:
-    context-path: ${UserCenter.context.path}
-
 
 #注册中心
 eureka:
