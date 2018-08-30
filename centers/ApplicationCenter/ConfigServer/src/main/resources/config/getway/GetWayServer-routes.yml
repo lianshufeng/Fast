@@ -2,7 +2,7 @@ zuul:
  ribbon.eager-load.enabled: true
  retryable: true #是否开启重试，默认全部都重试
  add-host-header: true
-# ignoredPatterns:
+ ignoredPatterns: "/**/manager/**"
  routes:
 #  用户中心
   ucenter:
