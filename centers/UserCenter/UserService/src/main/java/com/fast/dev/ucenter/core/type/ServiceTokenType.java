@@ -8,6 +8,11 @@ package com.fast.dev.ucenter.core.type;
 public enum ServiceTokenType {
 
     /**
+     * 快捷登陆
+     */
+    FastLogin("快捷登陆", "Phone", ServiceType.Fast),
+
+    /**
      * 手机注册
      */
     PhoneRegister("手机注册", "Phone", ServiceType.Register),

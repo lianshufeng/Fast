@@ -1,10 +1,10 @@
 package com.fast.dev.ucenter.core.service.extend;
 
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
+import com.fast.dev.ucenter.core.model.UserFastToken;
 import com.fast.dev.ucenter.core.model.UserLoginToken;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
 import com.fast.dev.ucenter.core.type.UserLoginType;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 作者：练书锋
@@ -18,7 +18,7 @@ public interface UserLogin {
      *
      * @return
      */
-    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, @RequestParam TokenEnvironment tokenEnvironment);
+    public UserLoginToken getUserLoginToken(UserLoginType userLoginType, String loginName, TokenEnvironment tokenEnvironment);
 
 
     /**
@@ -37,6 +37,28 @@ public interface UserLogin {
      * @param token
      */
     public boolean logout(String token);
+
+
+    /**
+     * 获取快捷令牌
+     *
+     * @param phone
+     * @param tokenEnvironment
+     * @return
+     */
+    public UserFastToken getFastToken(String phone, TokenEnvironment tokenEnvironment);
+
+
+    /**
+     * 快捷登陆
+     *
+     * @param env
+     * @param token
+     * @param validateCode
+     * @param expireTime
+     * @return
+     */
+    public UserTokenModel fast(TokenEnvironment env, String token, String validateCode, long expireTime);
 
 
 }

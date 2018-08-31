@@ -176,10 +176,12 @@ public class BaseUserService {
      *
      * @return 返回 验证值
      */
-    protected String createRobotValidate(TokenEnvironment tokenEnvironment, RobotValidate robotValidate) {
+    protected String createRobotValidate(TokenEnvironment tokenEnvironment, RobotValidate robotValidate, String loginName) {
 
         //取出当前适合的配置信息
         ValidateDataConf validateDataConf = validateDataHelper.get(tokenEnvironment.getApp());
+        System.out.println(tokenEnvironment);
+        System.out.println(validateDataConf);
 
         //生成对应的验证码
         String code = ValidateDataHelper.getValidateRandomValue(validateDataConf.getRule().get(robotValidate.getType()));

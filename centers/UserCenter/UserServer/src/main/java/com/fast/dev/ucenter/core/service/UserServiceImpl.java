@@ -9,10 +9,7 @@ import com.fast.dev.ucenter.core.domain.ServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
 import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
 import com.fast.dev.ucenter.core.model.*;
-import com.fast.dev.ucenter.core.type.ServiceTokenType;
-import com.fast.dev.ucenter.core.type.ServiceType;
-import com.fast.dev.ucenter.core.type.TokenState;
-import com.fast.dev.ucenter.core.type.UserLoginType;
+import com.fast.dev.ucenter.core.type.*;
 import com.fast.dev.ucenter.core.util.PassWordUtil;
 import com.fast.dev.ucenter.core.util.RandomUtil;
 import com.fast.dev.ucenter.core.util.TokenUtil;
@@ -57,7 +54,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         // 机器校验
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(tokenEnvironment, robotValidate);
+        String code = createRobotValidate(tokenEnvironment, robotValidate, loginName);
 
 
         //  创建业务令牌
@@ -124,7 +121,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         //生成机器校验码
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(loginEnvironment, robotValidate);
+        String code = createRobotValidate(loginEnvironment, robotValidate, loginName);
 
 
         //创建业务令牌
@@ -222,5 +219,32 @@ public class UserServiceImpl extends BaseUserService implements UserService {
     public boolean ping(String uToken) {
         UserToken userToken = userTokenDao.queryOnly(uToken);
         return userToken != null;
+    }
+
+
+    @Override
+    public UserFastToken getFastToken(String phone, TokenEnvironment tokenEnvironment) {
+
+        // 机器校验
+        RobotValidate robotValidate = new RobotValidate(ValidateType.Sms);
+        String code = createRobotValidate(tokenEnvironment, robotValidate, phone);
+
+
+        //  创建业务令牌
+        ServiceToken serviceToken = createServiceToken(tokenEnvironment, ServiceTokenType.FastLogin, phone, code);
+        if (serviceToken == null) {
+            return new UserFastToken(TokenState.CreateError);
+        }
+
+        //返回用户登陆令牌
+        UserFastToken userFastToken = new UserFastToken(TokenState.Success);
+        userFastToken.setRobotValidate(robotValidate);
+        userFastToken.setToken(serviceToken.getToken());
+        return userFastToken;
+    }
+
+    @Override
+    public UserTokenModel fast(TokenEnvironment env, String token, String validateCode, long expireTime) {
+        return null;
     }
 }

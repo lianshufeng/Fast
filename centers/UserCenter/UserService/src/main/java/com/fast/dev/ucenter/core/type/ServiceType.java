@@ -6,6 +6,10 @@ package com.fast.dev.ucenter.core.type;
 public enum ServiceType {
 
     /**
+     * 快捷操作
+     */
+    Fast,
+    /**
      * 登陆
      */
     Login,
