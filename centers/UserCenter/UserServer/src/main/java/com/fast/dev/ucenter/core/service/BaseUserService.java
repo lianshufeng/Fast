@@ -150,6 +150,10 @@ public class BaseUserService {
     }
 
 
+
+
+
+
     /**
      * 查询y用户
      *
@@ -172,6 +176,15 @@ public class BaseUserService {
 
 
     /**
+     * 通过手机号码查找用户，若不存在则新建一个
+     * @return
+     */
+    public BaseUser findAndSaveBaseUser(ServiceToken serviceToken){
+        return this.baseUserDao.findAndSaveBaseUser(serviceToken.getLoginName());
+    }
+
+
+    /**
      * 创建机器验证码
      *
      * @return 返回 验证值
@@ -180,8 +193,6 @@ public class BaseUserService {
 
         //取出当前适合的配置信息
         ValidateDataConf validateDataConf = validateDataHelper.get(tokenEnvironment.getApp());
-        System.out.println(tokenEnvironment);
-        System.out.println(validateDataConf);
 
         //生成对应的验证码
         String code = ValidateDataHelper.getValidateRandomValue(validateDataConf.getRule().get(robotValidate.getType()));

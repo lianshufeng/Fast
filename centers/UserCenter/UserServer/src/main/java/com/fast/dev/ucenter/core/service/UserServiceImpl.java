@@ -236,7 +236,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
             return new UserFastToken(TokenState.CreateError);
         }
 
-        //返回用户登陆令牌
+        //返回快捷令牌
         UserFastToken userFastToken = new UserFastToken(TokenState.Success);
         userFastToken.setRobotValidate(robotValidate);
         userFastToken.setToken(serviceToken.getToken());
@@ -245,6 +245,25 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
     @Override
     public UserTokenModel fast(TokenEnvironment env, String token, String validateCode, long expireTime) {
-        return null;
+        //查询令牌并判断校验码是否有效
+        ServiceToken serviceToken = this.userTokenDao.query(token);
+        TokenState tokenState = validateToken(serviceToken, validateCode);
+        if (tokenState != null) {
+            return new UserTokenModel(tokenState);
+        }
+
+        //判断业务令牌是否合法
+        if (serviceToken.getServiceTokenType() != ServiceTokenType.FastLogin) {
+            return new UserTokenModel(TokenState.TokenNotMatch);
+        }
+
+        //根据登陆方式取用户信息
+        BaseUser baseUser = findAndSaveBaseUser(serviceToken);
+
+        //删除登陆令牌
+        this.userTokenDao.remove(token);
+
+        //创建用户令牌（入库并返回令牌对象）
+        return createUserToken(env, baseUser, expireTime);
     }
 }

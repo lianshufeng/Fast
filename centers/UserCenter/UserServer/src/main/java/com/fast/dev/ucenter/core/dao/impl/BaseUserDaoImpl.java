@@ -1,12 +1,15 @@
 package com.fast.dev.ucenter.core.dao.impl;
 
+import com.fast.dev.data.mongo.helper.DBHelper;
 import com.fast.dev.ucenter.core.dao.extend.BaseUserDaoExtend;
 import com.fast.dev.ucenter.core.domain.BaseUser;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * 作者：练书锋
@@ -17,6 +20,9 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    private DBHelper dbHelper;
 
 
     @Override
@@ -36,5 +42,24 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
             return null;
         }
         return baseUser.getSalt();
+    }
+
+
+    @Override
+    public BaseUser findAndSaveBaseUser(String phone) {
+        //查询用户手机号码
+        Query query = new Query().addCriteria(Criteria.where("phone").is(phone));
+
+        //若没有找到改用户则创建新用户
+        Update update = new Update();
+        update.setOnInsert("phone", phone);
+        update.setOnInsert("_class", BaseUser.class.getName());
+        this.dbHelper.saveTime(update);
+
+        FindAndModifyOptions options = new FindAndModifyOptions();
+        options.returnNew(true);
+        options.upsert(true);
+
+        return this.mongoTemplate.findAndModify(query, update, options, BaseUser.class);
     }
 }
