@@ -1,0 +1,6 @@
+#注册中心
+eureka:
+  instance:
+    prefer-ip-address: true #注册使用ip
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #实例id
+    ip-address: 192.168.208.131 #可访问的ip地址
