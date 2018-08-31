@@ -14,10 +14,10 @@ spring:
       host: 127.0.0.1:27017
     #     username:
     #     password:
-    redis:
-      host: 127.0.0.1
-      port: 6379
-      database: 1
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
 
 
 

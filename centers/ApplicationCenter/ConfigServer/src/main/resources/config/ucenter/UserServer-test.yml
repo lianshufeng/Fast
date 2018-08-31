@@ -14,10 +14,10 @@ spring:
       host: 192.168.145.129:27017
       username: ucenter
       password: ucenter7758
-    redis:
-      host: 192.168.145.129
-      port: 6379
-      database: 1
+  redis:
+    host: 192.168.145.129
+    port: 6379
+    database: 1
 
 
 
