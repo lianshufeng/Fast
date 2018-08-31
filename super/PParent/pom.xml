@@ -80,7 +80,7 @@
 
                 <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
                 <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
+                <Kafka.brokers>192.168.145.129:9092</Kafka.brokers>
             </properties>
         </profile>
 
