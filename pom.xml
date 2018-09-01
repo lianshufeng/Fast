@@ -37,9 +37,10 @@
         <!--监控中心-->
         <module>components/MonitorClient</module>
         <!--db支持的模块-->
+        <module>components/data/BaseData</module>
         <module>components/data/MongodbData</module>
-        <module>components/data/JdbcData</module>
         <module>components/data/RedisData</module>
+        <module>components/data/JpaData</module>
         <!--用户安全-->
         <module>components/UserSecurity</module>
 
@@ -64,7 +65,6 @@
 
         <!-- 例子-->
         <module>demo/ApplicationDemo</module>
-
 
 
     </modules>

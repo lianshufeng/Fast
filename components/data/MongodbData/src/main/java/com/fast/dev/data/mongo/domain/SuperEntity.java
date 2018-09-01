@@ -21,11 +21,11 @@ public abstract class SuperEntity implements Serializable {
 
     // 创建时间
     @Indexed
-    private long createTime;
+    private Long createTime;
 
     // 修改时间
     @Indexed
-    private long updateTime;
+    private Long updateTime;
 
 
 }

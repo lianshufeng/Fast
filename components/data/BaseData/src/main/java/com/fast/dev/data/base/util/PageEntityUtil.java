@@ -1,5 +1,4 @@
-package com.fast.dev.data.mongo.util;
-
+package com.fast.dev.data.base.util;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;

@@ -11,23 +11,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.fast.dev.components</groupId>
-    <artifactId>JdbcData</artifactId>
+    <artifactId>BaseData</artifactId>
 
 
     <dependencies>
 
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jdbc</artifactId>
-            <version>1.0.0.BUILD-SNAPSHOT</version>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>PCore</artifactId>
+            <version>${Project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.4.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
-
 
     </dependencies>
 

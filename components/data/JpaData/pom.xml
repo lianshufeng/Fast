@@ -11,7 +11,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.fast.dev.components</groupId>
-    <artifactId>MongodbData</artifactId>
+    <artifactId>JpaData</artifactId>
+
+
+    <properties>
+        <Hsqldb.version>2.4.1</Hsqldb.version>
+        <JodaTime.version>2.10</JodaTime.version>
+    </properties>
+
 
     <dependencies>
 
@@ -25,44 +32,33 @@
         </dependency>
 
 
-        <!--spring-boot-data-demo-->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${JodaTime.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${Hsqldb.version}</version>
+        </dependency>
+
+         <!--spring 数据源-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
             <version>${spring-boot.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.mongodb</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
-
-        <!--驱动版本号-->
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>3.8.0</version>
-        </dependency>
-
-        <!-- db -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-mongodb</artifactId>
-            <version>2.1.0.M3</version>
-        </dependency>
-
-        <!-- db -->
+        <!--  JDBC 驱动-->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.data</groupId>-->
-            <!--<artifactId>spring-data-mongodb</artifactId>-->
-            <!--<version>2.0.9.RELEASE</version>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+            <!--<version>8.0.12</version>-->
         <!--</dependency>-->
 
 
-
     </dependencies>
-
 
 </project>
