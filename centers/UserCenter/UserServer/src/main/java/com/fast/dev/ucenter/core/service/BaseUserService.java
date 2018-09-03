@@ -19,6 +19,7 @@ import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
 import com.fast.dev.ucenter.core.model.ValidateData;
 import com.fast.dev.ucenter.core.type.ServiceTokenType;
+import com.fast.dev.ucenter.core.type.ServiceType;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.type.ValidateType;
 import com.fast.dev.ucenter.core.util.BaseTokenUtil;
@@ -195,7 +196,7 @@ public class BaseUserService {
      *
      * @return 返回 验证值
      */
-    protected String createRobotValidate(TokenEnvironment tokenEnvironment, RobotValidate robotValidate, String loginName) {
+    protected String createRobotValidate(TokenEnvironment tokenEnvironment, RobotValidate robotValidate, ServiceType serviceType, String loginName) {
 
         //取出当前适合的配置信息
         ValidateDataConf validateDataConf = validateDataHelper.get(tokenEnvironment.getApp());
@@ -231,11 +232,10 @@ public class BaseUserService {
             if (robotValidate.getType() == ValidateType.Sms || robotValidate.getType() == ValidateType.Mail) {
                 PlatformMessage message = new PlatformMessage();
                 message.setContent(new HashMap<String, Object>() {{
-                    put("type", robotValidate.getType());
                     put("code", code);
                 }});
                 //设置模版id
-//                message.setTemplateId(validateData.getTemplateId());
+                message.setTemplateId(validateData.getTemplate().get(serviceType));
                 message.setNumber(new String[]{loginName});
                 //通过短信模版类型映射消息类型
                 message.setMessageType(MessageType.valueOf(robotValidate.getType().name()));

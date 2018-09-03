@@ -54,7 +54,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         // 机器校验
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(tokenEnvironment, robotValidate, loginName);
+        String code = createRobotValidate(tokenEnvironment, robotValidate, ServiceType.Login, loginName);
 
 
         //  创建业务令牌
@@ -121,7 +121,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         //生成机器校验码
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(loginEnvironment, robotValidate, loginName);
+        String code = createRobotValidate(loginEnvironment, robotValidate, ServiceType.Register, loginName);
 
 
         //创建业务令牌
@@ -227,7 +227,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         // 机器校验
         RobotValidate robotValidate = new RobotValidate(ValidateType.Sms);
-        String code = createRobotValidate(tokenEnvironment, robotValidate, phone);
+        String code = createRobotValidate(tokenEnvironment, robotValidate, ServiceType.Fast, phone);
 
 
         //  创建业务令牌
