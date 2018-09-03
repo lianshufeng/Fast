@@ -235,6 +235,7 @@ public class BaseUserService {
                 }});
                 //设置模版id
                 message.setTemplateId(validateData.getTemplateId());
+                message.setNumber(new String[]{loginName});
                 this.pushMessageHelper.pushPlatformMessage(message);
             }
         }

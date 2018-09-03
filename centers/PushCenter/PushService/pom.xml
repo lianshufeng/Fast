@@ -22,14 +22,6 @@
         </dependency>
 
 
-        <!--用户中心-->
-        <dependency>
-            <groupId>com.fast.dev.ucenter</groupId>
-            <artifactId>UserService</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-
 
         <!--仅保留message用于声明接口-->
         <dependency>

@@ -28,6 +28,14 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!--用户中心-->
+        <dependency>
+            <groupId>com.fast.dev.ucenter</groupId>
+            <artifactId>UserService</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
         <!-- 推送平台的接口-->
         <dependency>
             <groupId>com.fast.dev.pushcenter</groupId>
