@@ -54,6 +54,15 @@
         </dependency>
 
 
+
+        <!-- 依赖推送中心 -->
+        <dependency>
+            <groupId>com.fast.dev.pushcenter</groupId>
+            <artifactId>PushService</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
         <!--thymeleaf 依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

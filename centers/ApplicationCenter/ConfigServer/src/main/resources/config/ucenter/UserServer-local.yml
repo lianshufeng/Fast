@@ -40,25 +40,17 @@ ucenter:
     serviceTokenTimeOut: 300000
     maxCanAccessCount: 5
     rule:
+      Mail:
+        length: 8
+        scope: Number
+        extraCharset: ""
+        templateId: "uCenterMail"
       Sms:
         length: 4
         scope: Number
         extraCharset: ""
+        templateId: "uCenterSms"
       Image:
         length: 4
         scope: Charset
         extraCharset: ""
-    app:
-      demo1:
-        debug: true
-        serviceTokenTimeOut: 300000
-        maxCanAccessCount: 5
-        rule:
-          Sms:
-            length: 4
-            scope: Number
-            extraCharset: ""
-          Image:
-            length: 4
-            scope: Charset
-            extraCharset: ""

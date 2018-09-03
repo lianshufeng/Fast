@@ -22,11 +22,18 @@ spring:
   cloud:
     stream:
       bindings:
+        #用户中心
         UserCenterInputStream:
           group: "UserCenterStream"
         UserCenterOuputStream:
           group: "UserCenterStream"
           destination: "UserCenterInputStream"
+        #推送中心
+        PushCenterInputStream:
+          group: "PushCenterStream"
+        PushCenterOuputStream:
+          group: "PushCenterStream"
+          destination: "PushCenterInputStream"
       #kafka
       kafka:
         binder:

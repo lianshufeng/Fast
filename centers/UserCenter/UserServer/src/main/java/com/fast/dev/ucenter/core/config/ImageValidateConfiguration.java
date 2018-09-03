@@ -3,10 +3,10 @@ package com.fast.dev.ucenter.core.config;
 import com.fast.dev.ucenter.core.conf.KaptchaConf;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import java.util.Properties;
 
 /**
@@ -18,7 +18,7 @@ import java.util.Properties;
 public class ImageValidateConfiguration {
 
 
-    @Autowired
+    @Resource
     private KaptchaConf kaptchaConf;
 
     @Bean

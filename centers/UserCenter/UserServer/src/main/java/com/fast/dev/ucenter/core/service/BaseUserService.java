@@ -1,6 +1,8 @@
 package com.fast.dev.ucenter.core.service;
 
 import com.fast.dev.data.mongo.helper.DBHelper;
+import com.fast.dev.pushcenter.core.helper.PushMessageHelper;
+import com.fast.dev.pushcenter.core.model.PlatformMessage;
 import com.fast.dev.ucenter.core.conf.ValidateDataConf;
 import com.fast.dev.ucenter.core.dao.BaseUserDao;
 import com.fast.dev.ucenter.core.dao.UserTokenDao;
@@ -14,6 +16,7 @@ import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
 import com.fast.dev.ucenter.core.model.RobotValidate;
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
+import com.fast.dev.ucenter.core.model.ValidateData;
 import com.fast.dev.ucenter.core.type.ServiceTokenType;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.type.ValidateType;
@@ -24,6 +27,7 @@ import com.fast.dev.ucenter.core.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Base64;
+import java.util.HashMap;
 
 /**
  * 通用用户的业务
@@ -52,6 +56,10 @@ public class BaseUserService {
 
     @Autowired
     private ImageValidateHelper imageValidateHelper;
+
+
+    @Autowired
+    private PushMessageHelper pushMessageHelper;
 
 
     /**
@@ -150,10 +158,6 @@ public class BaseUserService {
     }
 
 
-
-
-
-
     /**
      * 查询y用户
      *
@@ -177,9 +181,10 @@ public class BaseUserService {
 
     /**
      * 通过手机号码查找用户，若不存在则新建一个
+     *
      * @return
      */
-    public BaseUser findAndSaveBaseUser(ServiceToken serviceToken){
+    public BaseUser findAndSaveBaseUser(ServiceToken serviceToken) {
         return this.baseUserDao.findAndSaveBaseUser(serviceToken.getLoginName());
     }
 
@@ -194,8 +199,13 @@ public class BaseUserService {
         //取出当前适合的配置信息
         ValidateDataConf validateDataConf = validateDataHelper.get(tokenEnvironment.getApp());
 
+        // 校验数据
+        ValidateData validateData = validateDataConf.getRule().get(robotValidate.getType());
+        if (validateData == null) {
+            validateData = new ValidateData();
+        }
         //生成对应的验证码
-        String code = ValidateDataHelper.getValidateRandomValue(validateDataConf.getRule().get(robotValidate.getType()));
+        String code = ValidateDataHelper.getValidateRandomValue(validateData);
 
         //手机验证码
         if (robotValidate.getType() == ValidateType.Sms) {
@@ -217,7 +227,16 @@ public class BaseUserService {
             robotValidate.setData(code);
         } else {
             //doto 发送邮件或短信
-
+            if (robotValidate.getType() == ValidateType.Sms || robotValidate.getType() == ValidateType.Mail) {
+                PlatformMessage message = new PlatformMessage();
+                message.setContent(new HashMap<String,Object>(){{
+                    put("type",robotValidate.getType());
+                    put("code",code);
+                }});
+                //设置模版id
+                message.setTemplateId(validateData.getTemplateId());
+                this.pushMessageHelper.pushPlatformMessage(message);
+            }
         }
 
         return code;

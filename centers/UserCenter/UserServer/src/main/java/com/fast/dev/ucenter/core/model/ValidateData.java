@@ -15,10 +15,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ValidateData {
 
+
     /**
      * 数据值的范围
      */
     private ValidateCodeScope scope = ValidateCodeScope.Charset;
+
 
     /**
      * 长度
@@ -31,5 +33,10 @@ public class ValidateData {
      */
     private String[] extraCharset = new String[]{};
 
+
+    /**
+     * 模版id
+     */
+    private String templateId;
 
 }

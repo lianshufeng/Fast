@@ -11,12 +11,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.fast.dev.pushcenter</groupId>
-    <artifactId>PushManager</artifactId>
+    <artifactId>PushService</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.fast.dev</groupId>
             <artifactId>PCore</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <!--用户中心-->
+        <dependency>
+            <groupId>com.fast.dev.ucenter</groupId>
+            <artifactId>UserService</artifactId>
             <version>${project.version}</version>
         </dependency>
 

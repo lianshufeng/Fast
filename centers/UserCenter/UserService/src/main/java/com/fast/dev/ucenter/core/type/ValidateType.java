@@ -21,15 +21,14 @@ public enum ValidateType {
      * 手机短信验证码
      */
     Sms,
-
+    /**
+     * 邮件验证
+     */
+    Mail,
     /**
      * 图形验证码
      */
     Image,
 
-    /**
-     * 邮件验证
-     */
-    Mail
 
 }

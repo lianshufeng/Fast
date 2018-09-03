@@ -31,7 +31,7 @@
         <!-- 推送平台的接口-->
         <dependency>
             <groupId>com.fast.dev.pushcenter</groupId>
-            <artifactId>PushManager</artifactId>
+            <artifactId>PushService</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -21,8 +21,11 @@ spring:
   cloud:
     stream:
       bindings:
-        UserCenterInputStream:
-          group: "UserCenterStream"
+        PushCenterInputStream:
+          group: "PushCenterStream"
+        PushCenterOuputStream:
+          group: "PushCenterStream"
+          destination: "PushCenterInputStream"
       #kafka
       kafka:
         binder:
