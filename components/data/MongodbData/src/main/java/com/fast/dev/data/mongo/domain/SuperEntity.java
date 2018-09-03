@@ -1,9 +1,13 @@
 package com.fast.dev.data.mongo.domain;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import javax.persistence.EntityListeners;
 import java.io.Serializable;
 
 /**
@@ -14,17 +18,25 @@ import java.io.Serializable;
  * @时间 2018年1月5日
  */
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public abstract class SuperEntity implements Serializable {
 
     @Id
     private String id;
 
-    // 创建时间
+    /**
+     * 创建时间
+     */
+
     @Indexed
+    @CreatedDate
     private Long createTime;
 
-    // 修改时间
+    /**
+     * 修改时间
+     */
     @Indexed
+    @LastModifiedDate
     private Long updateTime;
 
 

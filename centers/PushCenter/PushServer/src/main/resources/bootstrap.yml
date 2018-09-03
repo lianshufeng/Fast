@@ -1,0 +1,14 @@
+###需拷贝到每一个模块下
+
+spring:
+  # 应用名
+  application:
+    name: ${project.artifactId}
+  # 当前读取配置文件的类型
+  profiles:
+    active: ${spring.profiles.active}
+  #配置中心
+  cloud:
+    config:
+      uri: ${ConfigCenter.url}
+      name: ${project.artifactId},ConfigCenter

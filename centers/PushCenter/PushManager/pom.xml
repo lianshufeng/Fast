@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.fast.dev</groupId>
+        <artifactId>PParent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../../super/PParent</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fast.dev.pushcenter</groupId>
+    <artifactId>PushManager</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>PCore</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+
+        <!--仅保留message用于声明接口-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tuple</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.integration</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.retry</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+
+
+
+
+</project>
