@@ -61,6 +61,14 @@ ucenter:
           Sms:
             length: 4
             scope: Number
-            templateId: "uCenterSms"
+            template:
+              Fast: "UserFastLogin"
+              Login: "UserLogin"
+              Register: "UserRegister"
+              UpdatePassWord: "UserUpdatePassWord"
           Mail:
-            templateId: "uCenterMail"
+            template:
+              Fast: "UserFastLogin"
+              Login: "UserLogin"
+              Register: "UserRegister"
+              UpdatePassWord: "UserUpdatePassWord"
