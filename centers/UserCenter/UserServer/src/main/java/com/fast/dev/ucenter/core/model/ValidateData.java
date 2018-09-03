@@ -1,9 +1,13 @@
 package com.fast.dev.ucenter.core.model;
 
+import com.fast.dev.ucenter.core.type.ServiceType;
 import com.fast.dev.ucenter.core.type.ValidateCodeScope;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 作者：练书锋
@@ -35,8 +39,9 @@ public class ValidateData {
 
 
     /**
-     * 模版id
+     * 具体校验的业务模版
      */
-    private String templateId;
+    private Map<ServiceType, String> template;
+
 
 }

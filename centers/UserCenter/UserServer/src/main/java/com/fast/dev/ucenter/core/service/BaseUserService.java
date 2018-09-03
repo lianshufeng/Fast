@@ -3,6 +3,7 @@ package com.fast.dev.ucenter.core.service;
 import com.fast.dev.data.mongo.helper.DBHelper;
 import com.fast.dev.pushcenter.core.helper.PushMessageHelper;
 import com.fast.dev.pushcenter.core.model.PlatformMessage;
+import com.fast.dev.pushcenter.core.type.MessageType;
 import com.fast.dev.ucenter.core.conf.ValidateDataConf;
 import com.fast.dev.ucenter.core.dao.BaseUserDao;
 import com.fast.dev.ucenter.core.dao.UserTokenDao;
@@ -229,13 +230,15 @@ public class BaseUserService {
             //doto 发送邮件或短信
             if (robotValidate.getType() == ValidateType.Sms || robotValidate.getType() == ValidateType.Mail) {
                 PlatformMessage message = new PlatformMessage();
-                message.setContent(new HashMap<String,Object>(){{
-                    put("type",robotValidate.getType());
-                    put("code",code);
+                message.setContent(new HashMap<String, Object>() {{
+                    put("type", robotValidate.getType());
+                    put("code", code);
                 }});
                 //设置模版id
                 message.setTemplateId(validateData.getTemplateId());
                 message.setNumber(new String[]{loginName});
+                //通过短信模版类型映射消息类型
+                message.setMessageType(MessageType.valueOf(robotValidate.getType().name()));
                 this.pushMessageHelper.pushPlatformMessage(message);
             }
         }
