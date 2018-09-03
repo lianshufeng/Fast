@@ -54,3 +54,11 @@ ucenter:
         length: 4
         scope: Charset
         extraCharset: ""
+    app:
+      demo1:
+        debug: false
+        rule:
+          Sms:
+            templateId: "uCenterSms"
+          Mail:
+            templateId: "uCenterMail"
