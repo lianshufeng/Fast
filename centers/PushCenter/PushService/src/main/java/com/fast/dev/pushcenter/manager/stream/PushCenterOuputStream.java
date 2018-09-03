@@ -1,6 +1,6 @@
-package com.fast.dev.pushcenter.core.stream;
+package com.fast.dev.pushcenter.manager.stream;
 
-import com.fast.dev.pushcenter.core.model.BaseMessage;
+import com.fast.dev.pushcenter.manager.model.BaseMessage;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -24,7 +24,9 @@ public interface PushCenterOuputStream {
      * @param
      */
     public static boolean publish(final MessageChannel messageChannel, BaseMessage baseMessage) {
-        Message message = MessageBuilder.withPayload(baseMessage).build();
+        Message message = MessageBuilder.withPayload(baseMessage)
+                .setHeader("PushMessageType", baseMessage.getClass().getSimpleName())
+                .build();
         return messageChannel.send(message);
     }
 

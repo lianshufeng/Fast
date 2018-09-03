@@ -1,4 +1,4 @@
-package com.fast.dev.pushcenter.core.type;
+package com.fast.dev.pushcenter.manager.type;
 
 /**
  * 作者：练书锋

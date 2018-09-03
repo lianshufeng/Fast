@@ -1,4 +1,4 @@
-package com.fast.dev.pushcenter.core.model;
+package com.fast.dev.pushcenter.manager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,17 +7,18 @@ import lombok.NoArgsConstructor;
 /**
  * 作者：练书锋
  * 时间：2018/9/3
- * 用户消息
+ * 平台消息
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserMessage extends  BaseMessage {
+public class PlatformMessage extends BaseMessage {
+
 
     /**
-     * 用户id
+     * 平台号码
      */
-    private String[] uid;
+    private String[] number;
 
 
 }

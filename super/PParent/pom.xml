@@ -43,6 +43,9 @@
         <UserCenter.port>8100</UserCenter.port>
         <UserCenter.context.path>/ucenter</UserCenter.context.path>
 
+        <!--推送中心-->
+        <PushCenter.port>8300</PushCenter.port>
+
         <!-- 网关端口-->
         <GetWayCenter.port>80</GetWayCenter.port>
 

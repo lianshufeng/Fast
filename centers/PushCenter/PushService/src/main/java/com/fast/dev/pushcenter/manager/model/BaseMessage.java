@@ -1,6 +1,6 @@
-package com.fast.dev.pushcenter.core.model;
+package com.fast.dev.pushcenter.manager.model;
 
-import com.fast.dev.pushcenter.core.type.MessageType;
+import com.fast.dev.pushcenter.manager.type.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

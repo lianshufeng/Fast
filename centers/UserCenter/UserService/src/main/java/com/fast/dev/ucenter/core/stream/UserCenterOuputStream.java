@@ -1,5 +1,6 @@
 package com.fast.dev.ucenter.core.stream;
 
+import com.fast.dev.ucenter.core.model.UserMessage;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -22,7 +23,7 @@ public interface UserCenterOuputStream {
      *
      * @param
      */
-    public static boolean publish(final MessageChannel messageChannel, Object body) {
+    public static boolean publish(final MessageChannel messageChannel, UserMessage body) {
         Message message = MessageBuilder.withPayload(body).build();
         return messageChannel.send(message);
     }

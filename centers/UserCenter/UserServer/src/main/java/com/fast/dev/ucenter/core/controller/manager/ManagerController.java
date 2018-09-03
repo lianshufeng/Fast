@@ -27,4 +27,10 @@ public class ManagerController {
     }
 
 
+    @RequestMapping("queryUserId")
+    public Object queryUserId(String uid) {
+        Assert.hasText(uid, "用户id不能为空");
+        return this.userManager.queryUserId(uid);
+    }
+
 }

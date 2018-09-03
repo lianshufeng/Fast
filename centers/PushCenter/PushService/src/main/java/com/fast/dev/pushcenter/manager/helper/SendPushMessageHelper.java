@@ -1,13 +1,11 @@
-package com.fast.dev.pushcenter.core.helper;
+package com.fast.dev.pushcenter.manager.helper;
 
-import com.fast.dev.pushcenter.core.model.BaseMessage;
-import com.fast.dev.pushcenter.core.model.PlatformMessage;
-import com.fast.dev.pushcenter.core.model.UserMessage;
-import com.fast.dev.pushcenter.core.stream.PushCenterOuputStream;
+import com.fast.dev.pushcenter.manager.model.PlatformMessage;
+import com.fast.dev.pushcenter.manager.model.UserMessage;
+import com.fast.dev.pushcenter.manager.stream.PushCenterOuputStream;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -16,9 +14,8 @@ import javax.annotation.Resource;
  * 时间：2018/9/3
  * 推送平台的发送
  */
-@Component
 @EnableBinding(value = {PushCenterOuputStream.class})
-public class PushMessageHelper {
+public class SendPushMessageHelper {
 
     @Resource
     @Output(PushCenterOuputStream.name)

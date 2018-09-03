@@ -63,4 +63,12 @@ public interface BaseUserDao extends MongoDao<BaseUser>, BaseUserDaoExtend {
     BaseUser findTop1ByIdCard(String idCard);
 
 
+    /**
+     * 根据用户id查询该用户详情
+     * @param uid
+     * @return
+     */
+    BaseUser findTop1ById(String uid);
+
+
 }

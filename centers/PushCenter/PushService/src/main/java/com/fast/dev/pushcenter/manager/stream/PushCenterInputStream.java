@@ -1,4 +1,4 @@
-package com.fast.dev.pushcenter.core.stream;
+package com.fast.dev.pushcenter.manager.stream;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

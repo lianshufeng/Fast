@@ -1,6 +1,6 @@
 #推送中心随机端口
 server:
-  port: 0
+  port: ${PushCenter.port}
 
 
 
