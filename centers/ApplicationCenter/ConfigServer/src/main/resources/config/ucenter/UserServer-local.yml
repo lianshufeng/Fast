@@ -59,6 +59,8 @@ ucenter:
         debug: false
         rule:
           Sms:
+            length: 4
+            scope: Number
             templateId: "uCenterSms"
           Mail:
             templateId: "uCenterMail"
