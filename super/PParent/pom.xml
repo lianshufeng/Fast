@@ -47,7 +47,7 @@
         <GetWayCenter.port>80</GetWayCenter.port>
 
         <!-- 默认配置文件-->
-        <spring.profiles.active>dev</spring.profiles.active>
+        <spring.profiles.active>local</spring.profiles.active>
         <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
         <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
         <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
@@ -59,10 +59,24 @@
 
         <!--开发环境-->
         <profile>
-            <id>dev</id>
+            <id>local</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <spring.profiles.active>local</spring.profiles.active>
+
+                <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
+                <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
+            </properties>
+        </profile>
+
+
+        <!--开发环境-->
+        <profile>
+            <id>dev</id>
+
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
 

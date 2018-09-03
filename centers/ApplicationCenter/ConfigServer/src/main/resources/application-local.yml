@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    #配置中心
+    config:
+      server:
+        git:
+          uri: https://github.com/lianshufeng/Fast.git
+          search-paths: centers/ApplicationCenter/ConfigServer/src/main/resources/config/**
+          force-pull: true
+#          username:
+#          password:
