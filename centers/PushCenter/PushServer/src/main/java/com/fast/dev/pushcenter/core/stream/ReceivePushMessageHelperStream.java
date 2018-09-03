@@ -28,7 +28,7 @@ public class ReceivePushMessageHelperStream extends ReceivePushMessageHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(ReceivePushMessageHelperStream.class);
 
-    private final static String LogTemplate = "[PushMessageReceive] - %s";
+    private final static String LogTemplate = "[PushMessageReceive] - %s - %s - %s ";
 
     @Resource
     private SendPushMessageHelper sendPushMessageHelper;
@@ -39,7 +39,7 @@ public class ReceivePushMessageHelperStream extends ReceivePushMessageHelper {
 
     @Override
     public void receivePlatformMessage(PlatformMessage message) {
-        logger.info(String.format(LogTemplate, message));
+        logger.info(String.format(LogTemplate, message.getMessageType(), message.getNumber(), message.getContent()));
     }
 
     /**
