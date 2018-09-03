@@ -1,5 +1,6 @@
 package com.fast.dev.pushcenter.core.stream;
 
+import com.fast.dev.core.util.JsonUtil;
 import com.fast.dev.pushcenter.core.service.remote.RemoteUserCenterService;
 import com.fast.dev.pushcenter.manager.helper.ReceivePushMessageHelper;
 import com.fast.dev.pushcenter.manager.helper.SendPushMessageHelper;
@@ -28,7 +29,7 @@ public class ReceivePushMessageHelperStream extends ReceivePushMessageHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(ReceivePushMessageHelperStream.class);
 
-    private final static String LogTemplate = "[PushMessageReceive] - %s - %s - %s ";
+    private final static String LogTemplate = "[PushMessageReceive] - %s";
 
     @Resource
     private SendPushMessageHelper sendPushMessageHelper;
@@ -39,13 +40,12 @@ public class ReceivePushMessageHelperStream extends ReceivePushMessageHelper {
 
     @Override
     public void receivePlatformMessage(PlatformMessage message) {
-        logger.info(String.format(LogTemplate, message.getMessageType(), message.getNumber(), message.getContent()));
+        logger.info(String.format(LogTemplate, JsonUtil.toJson(message)));
     }
 
     /**
      * 接收到用户查询用户手机号或邮箱并转发
      *
-     * @param userMessage
      */
     @StreamListener(value = PushCenterInputStream.name, condition = "headers['PushMessageType']=='UserMessage'")
     public void receiveUserMessage(@Payload UserMessage userMessage) {
@@ -61,7 +61,7 @@ public class ReceivePushMessageHelperStream extends ReceivePushMessageHelper {
         if (numbers.size() > 0) {
             PlatformMessage platformMessage = new PlatformMessage();
             BeanUtils.copyProperties(userMessage, platformMessage);
-            platformMessage.setNumber(numbers.toArray(new String[numbers.size()]));
+            platformMessage.setNumber(numbers.toArray(new String[0]));
             this.sendPushMessageHelper.pushPlatformMessage(platformMessage);
         }
 
@@ -70,9 +70,6 @@ public class ReceivePushMessageHelperStream extends ReceivePushMessageHelper {
     /**
      * 取出号码
      *
-     * @param baseUserModel
-     * @param messageType
-     * @return
      */
     private static void addToNumbers(BaseUserModel baseUserModel, MessageType messageType, Set<String> numbers) {
         String number = null;
