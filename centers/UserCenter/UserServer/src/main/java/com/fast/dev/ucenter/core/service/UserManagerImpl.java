@@ -7,6 +7,7 @@ import com.fast.dev.ucenter.core.domain.UserToken;
 import com.fast.dev.ucenter.core.helper.UserPushMessageHelper;
 import com.fast.dev.ucenter.core.model.BaseUserModel;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
+import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.util.BaseTokenUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,23 @@ public class UserManagerImpl extends BaseUserService implements UserManagerServi
 
     @Override
     public BaseUserModel queryUserId(String uid) {
-        BaseUser baseUser =  this.baseUserDao.findTop1ById(uid);
+        BaseUser baseUser = this.baseUserDao.findTop1ById(uid);
+        if (baseUser == null) {
+            return null;
+        }
         BaseUserModel baseUserModel = new BaseUserModel();
-        BeanUtils.copyProperties(baseUser,baseUserModel);
+        BeanUtils.copyProperties(baseUser, baseUserModel);
+        return baseUserModel;
+    }
+
+    @Override
+    public BaseUserModel queryByLoginName(UserLoginType loginType, String loginName) {
+        BaseUser baseUser = this.baseUserDao.queryByLoginName(loginType, loginName);
+        if (baseUser == null) {
+            return null;
+        }
+        BaseUserModel baseUserModel = new BaseUserModel();
+        BeanUtils.copyProperties(baseUser, baseUserModel);
         return baseUserModel;
     }
 

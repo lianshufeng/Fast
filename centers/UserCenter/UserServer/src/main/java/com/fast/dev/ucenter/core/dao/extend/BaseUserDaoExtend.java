@@ -28,4 +28,15 @@ public interface BaseUserDaoExtend {
      */
     public BaseUser findAndSaveBaseUser(String phone);
 
+
+    /**
+     * 查询用户详情
+     *
+     * @param loginType
+     * @param loginName
+     * @return
+     */
+    public BaseUser queryByLoginName(UserLoginType loginType, String loginName);
+
+
 }

@@ -62,4 +62,12 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
 
         return this.mongoTemplate.findAndModify(query, update, options, BaseUser.class);
     }
+
+    @Override
+    public BaseUser queryByLoginName(UserLoginType loginType, String loginName) {
+        Query query = new Query().addCriteria(Criteria.where(loginType.getUserLoginTypeName()).is(loginName));
+        return this.mongoTemplate.findOne(query, BaseUser.class);
+    }
+
+
 }

@@ -2,6 +2,7 @@ package com.fast.dev.ucenter.security.service.remote;
 
 import com.fast.dev.ucenter.core.model.BaseUserModel;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
+import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,12 @@ public class RemoteUserCenterServiceError implements RemoteUserCenterService {
     @Override
     public BaseUserModel queryUserId(String uid) {
         logger.error("queryUserId uid : [" + uid + "]  error");
+        return null;
+    }
+
+    @Override
+    public BaseUserModel queryByLoginName(UserLoginType loginType, String loginName) {
+        logger.error("queryByLoginName loginName : [" + loginName + "]  error");
         return null;
     }
 

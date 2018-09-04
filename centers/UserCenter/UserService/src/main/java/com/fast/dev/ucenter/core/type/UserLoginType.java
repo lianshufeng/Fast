@@ -9,34 +9,34 @@ public enum UserLoginType {
     /**
      * 自定义用户登陆
      */
-    UserName("用户名", ValidateType.Image, ServiceTokenType.UserNameRegister, ServiceTokenType.UserNameLogin),
+    UserName("用户名", ValidateType.Image, ServiceTokenType.UserNameRegister, ServiceTokenType.UserNameLogin, "userName"),
 
     /**
      * 手机登陆
      */
-    Phone("手机", ValidateType.Sms, ServiceTokenType.PhoneRegister, ServiceTokenType.PhoneLogin),
+    Phone("手机", ValidateType.Sms, ServiceTokenType.PhoneRegister, ServiceTokenType.PhoneLogin, "phone"),
 
     /**
      * 邮箱
      */
-    Mail("邮箱", ValidateType.Mail, ServiceTokenType.MailRegister, ServiceTokenType.MailLogin),
+    Mail("邮箱", ValidateType.Mail, ServiceTokenType.MailRegister, ServiceTokenType.MailLogin, "mail"),
 
     /**
      * 身份
      */
-    IdCard("身份证", ValidateType.Image, ServiceTokenType.IdCardRegister, ServiceTokenType.IdCardLogin),
+    IdCard("身份证", ValidateType.Image, ServiceTokenType.IdCardRegister, ServiceTokenType.IdCardLogin, "idCard"),
 
 
     /**
      * 微信登陆
      */
-    WeiXin("微信", ValidateType.None, null, null),
+    WeiXin("微信", ValidateType.None, null, null, null),
 
 
     /**
      * QQ登陆
      */
-    QQ("QQ", ValidateType.None, null, null);
+    QQ("QQ", ValidateType.None, null, null, null);
 
 
     /**
@@ -60,11 +60,18 @@ public enum UserLoginType {
     private ServiceTokenType loginService;
 
 
-    UserLoginType(String remark, ValidateType validateType, ServiceTokenType registerService, ServiceTokenType loginService) {
+    /**
+     * 用户登陆名
+     */
+    private String userLoginTypeName;
+
+
+    UserLoginType(String remark, ValidateType validateType, ServiceTokenType registerService, ServiceTokenType loginService, String userLoginTypeName) {
         this.remark = remark;
         this.validateType = validateType;
         this.registerService = registerService;
         this.loginService = loginService;
+        this.userLoginTypeName = userLoginTypeName;
     }
 
     /**
@@ -92,5 +99,14 @@ public enum UserLoginType {
      */
     public ServiceTokenType getLoginService() {
         return loginService;
+    }
+
+    /**
+     * 获取用户登陆类型的字段名称
+     *
+     * @return
+     */
+    public String getUserLoginTypeName() {
+        return userLoginTypeName;
     }
 }
