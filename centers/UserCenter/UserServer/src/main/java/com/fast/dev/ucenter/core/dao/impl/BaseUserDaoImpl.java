@@ -69,5 +69,15 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
         return this.mongoTemplate.findOne(query, BaseUser.class);
     }
 
+    @Override
+    public boolean updatePassWord(String id, String salt, String passWord) {
+        //查询用户手机号码
+        Query query = new Query().addCriteria(Criteria.where("_id").is(id));
+        Update update = new Update();
+        update.set("salt",salt);
+        update.set("passWord",passWord);
+        return this.mongoTemplate.updateFirst(query,update,BaseUser.class).getModifiedCount()>0;
+    }
+
 
 }

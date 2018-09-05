@@ -9,34 +9,34 @@ public enum UserLoginType {
     /**
      * 自定义用户登陆
      */
-    UserName("用户名", ValidateType.Image, ServiceTokenType.UserNameRegister, ServiceTokenType.UserNameLogin, "userName"),
+    UserName("用户名", ValidateType.Image, ServiceTokenType.UserNameRegister, ServiceTokenType.UserNameLogin, ServiceTokenType.UserNameUpdatePassWord, "userName"),
 
     /**
      * 手机登陆
      */
-    Phone("手机", ValidateType.Sms, ServiceTokenType.PhoneRegister, ServiceTokenType.PhoneLogin, "phone"),
+    Phone("手机", ValidateType.Sms, ServiceTokenType.PhoneRegister, ServiceTokenType.PhoneLogin, ServiceTokenType.PhoneUpdatePassWord, "phone"),
 
     /**
      * 邮箱
      */
-    Mail("邮箱", ValidateType.Mail, ServiceTokenType.MailRegister, ServiceTokenType.MailLogin, "mail"),
+    Mail("邮箱", ValidateType.Mail, ServiceTokenType.MailRegister, ServiceTokenType.MailLogin, ServiceTokenType.MailUpdatePassWord, "mail"),
 
     /**
      * 身份
      */
-    IdCard("身份证", ValidateType.Image, ServiceTokenType.IdCardRegister, ServiceTokenType.IdCardLogin, "idCard"),
+    IdCard("身份证", ValidateType.Image, ServiceTokenType.IdCardRegister, ServiceTokenType.IdCardLogin, null, "idCard"),
 
 
     /**
      * 微信登陆
      */
-    WeiXin("微信", ValidateType.None, null, null, null),
+    WeiXin("微信", ValidateType.None, null, null, null, null),
 
 
     /**
      * QQ登陆
      */
-    QQ("QQ", ValidateType.None, null, null, null);
+    QQ("QQ", ValidateType.None, null, null, null, null);
 
 
     /**
@@ -61,17 +61,24 @@ public enum UserLoginType {
 
 
     /**
+     * 修改密码业务
+     */
+    private ServiceTokenType updatePassWordService;
+
+
+    /**
      * 用户登陆名
      */
     private String userLoginTypeName;
 
 
-    UserLoginType(String remark, ValidateType validateType, ServiceTokenType registerService, ServiceTokenType loginService, String userLoginTypeName) {
+    UserLoginType(String remark, ValidateType validateType, ServiceTokenType registerService, ServiceTokenType loginService, ServiceTokenType updatePassWordService, String userLoginTypeName) {
         this.remark = remark;
         this.validateType = validateType;
         this.registerService = registerService;
         this.loginService = loginService;
         this.userLoginTypeName = userLoginTypeName;
+        this.updatePassWordService = updatePassWordService;
     }
 
     /**
@@ -108,5 +115,9 @@ public enum UserLoginType {
      */
     public String getUserLoginTypeName() {
         return userLoginTypeName;
+    }
+
+    public ServiceTokenType getUpdatePassWordService() {
+        return updatePassWordService;
     }
 }

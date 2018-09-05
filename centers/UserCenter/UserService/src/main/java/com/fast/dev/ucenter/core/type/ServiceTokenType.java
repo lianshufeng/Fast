@@ -22,6 +22,12 @@ public enum ServiceTokenType {
     PhoneLogin("手机登陆", "Phone", ServiceType.Login),
 
     /**
+     * 手机修改密码
+     */
+    PhoneUpdatePassWord("手机修改密码", "Phone", ServiceType.UpdatePassWord),
+
+
+    /**
      * 用户名登陆
      */
     UserNameLogin("用户名登陆", "UserName", ServiceType.Login),
@@ -30,6 +36,11 @@ public enum ServiceTokenType {
      * 用户名注册
      */
     UserNameRegister("用户名注册", "UserName", ServiceType.Register),
+
+    /**
+     * 用户修改密码
+     */
+    UserNameUpdatePassWord("用户修改密码", "UserName", ServiceType.UpdatePassWord),
 
 
     /**
@@ -41,6 +52,12 @@ public enum ServiceTokenType {
      * 邮箱注册
      */
     MailRegister("邮箱注册", "Mail", ServiceType.Register),
+
+    /**
+     * 邮箱修改密码
+     */
+    MailUpdatePassWord("邮箱修改密码", "Mail", ServiceType.UpdatePassWord),
+
 
     /**
      * 身份证登陆

@@ -266,4 +266,65 @@ public class UserServiceImpl extends BaseUserService implements UserService {
         //创建用户令牌（入库并返回令牌对象）
         return createUserToken(env, baseUser, expireTime);
     }
+
+    @Override
+    public UpdatePassWordToken getUpdatePassWordToken(UserLoginType userLoginType, String loginName, TokenEnvironment env) {
+
+        //不支持的类型
+        if (userLoginType.getRegisterService() == null) {
+            return new UpdatePassWordToken(TokenState.NotSupportType);
+        }
+
+        //用户是否存在
+        if (!existsUser(userLoginType, loginName)) {
+            return new UpdatePassWordToken(TokenState.UserNotExist);
+        }
+
+        //生成机器校验码
+        RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
+        String code = createRobotValidate(env, robotValidate, ServiceType.UpdatePassWord, loginName);
+
+
+        //创建业务令牌
+        ServiceToken serviceToken = createServiceToken(env, userLoginType.getUpdatePassWordService(), loginName, code);
+        if (serviceToken == null) {
+            return new UpdatePassWordToken(TokenState.CreateError);
+        }
+
+        UpdatePassWordToken updatePassWordToken = new UpdatePassWordToken(TokenState.Success);
+        updatePassWordToken.setRobotValidate(robotValidate);
+        updatePassWordToken.setToken(serviceToken.getToken());
+
+        return updatePassWordToken;
+    }
+
+    @Override
+    public TokenState updatePassWord(String token, String code, String passWord, String newPassWord, TokenEnvironment env) {
+
+        //校验业务令牌的验证码
+        ServiceToken serviceToken = this.userTokenDao.query(token);
+        TokenState tokenState = validateToken(serviceToken, code);
+        if (tokenState != null) {
+            return tokenState;
+        }
+
+        //业务令牌类型匹配判断
+        if (serviceToken.getServiceTokenType().getServiceType() != ServiceType.UpdatePassWord) {
+            return TokenState.TokenNotMatch;
+        }
+
+
+        //  修改密码
+        tokenState = super.updateUserPassWord(serviceToken, passWord, newPassWord);
+
+
+        //删除这个业务令牌
+        if (tokenState == TokenState.Success) {
+            this.userTokenDao.remove(serviceToken.getToken());
+        }
+
+        return tokenState;
+    }
+
+
 }

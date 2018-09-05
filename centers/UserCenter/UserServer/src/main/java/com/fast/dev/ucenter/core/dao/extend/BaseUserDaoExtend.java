@@ -39,4 +39,13 @@ public interface BaseUserDaoExtend {
     public BaseUser queryByLoginName(UserLoginType loginType, String loginName);
 
 
+    /**
+     * 设置用户密码
+     *
+     * @param passWord
+     * @return
+     */
+    public boolean updatePassWord(String id, String salt, String passWord);
+
+
 }
