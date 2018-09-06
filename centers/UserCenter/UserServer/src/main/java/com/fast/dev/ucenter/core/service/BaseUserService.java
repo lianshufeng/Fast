@@ -271,7 +271,7 @@ public class BaseUserService {
                     put("code", code);
                 }});
                 //设置模版id
-                message.setTemplateId(validateData.getTemplate().get(serviceType));
+                message.setTemplateId(ValidateDataHelper.getTemplate(validateData, serviceType));
                 message.setNumber(new String[]{loginName});
                 //通过短信模版类型映射消息类型
                 message.setMessageType(MessageType.valueOf(robotValidate.getType().name()));

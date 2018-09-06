@@ -1,16 +1,17 @@
 package com.fast.dev.ucenter.core.helper;
 
-import com.fast.dev.core.util.JsonUtil;
 import com.fast.dev.ucenter.core.conf.ValidateDataConf;
 import com.fast.dev.ucenter.core.model.ValidateData;
+import com.fast.dev.ucenter.core.type.ServiceType;
 import com.fast.dev.ucenter.core.type.ValidateCodeScope;
-import com.fast.dev.ucenter.core.type.ValidateType;
 import com.fast.dev.ucenter.core.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 作者：练书锋
@@ -100,6 +101,19 @@ public class ValidateDataHelper {
     }
 
 
+    /**
+     * 获取配置模版
+     *
+     * @param validateData
+     * @param serviceType
+     * @return
+     */
+    public static String getTemplate(ValidateData validateData, ServiceType serviceType) {
+        if (validateData == null || serviceType == null) {
+            return null;
+        }
+        return validateData.getTemplate() == null ? null : validateData.getTemplate().get(serviceType);
+    }
 
 
 }
