@@ -50,7 +50,7 @@ ucenter:
         extraCharset: ""
     app:
       demo1:
-        debug: true
+        debug: false
         serviceTokenTimeOut: 300000
         maxCanAccessCount: 5
         rule:
