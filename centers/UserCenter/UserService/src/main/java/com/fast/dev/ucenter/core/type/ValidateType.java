@@ -30,5 +30,10 @@ public enum ValidateType {
      */
     Image,
 
+    /**
+     * 强化校验
+     */
+    Strong
+
 
 }

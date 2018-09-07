@@ -7,10 +7,7 @@ import com.fast.dev.pushcenter.manager.type.MessageType;
 import com.fast.dev.ucenter.core.conf.ValidateDataConf;
 import com.fast.dev.ucenter.core.dao.BaseUserDao;
 import com.fast.dev.ucenter.core.dao.UserTokenDao;
-import com.fast.dev.ucenter.core.domain.BaseToken;
-import com.fast.dev.ucenter.core.domain.BaseUser;
-import com.fast.dev.ucenter.core.domain.ServiceToken;
-import com.fast.dev.ucenter.core.domain.UserToken;
+import com.fast.dev.ucenter.core.domain.*;
 import com.fast.dev.ucenter.core.helper.ImageValidateHelper;
 import com.fast.dev.ucenter.core.helper.UserPushMessageHelper;
 import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
@@ -232,7 +229,7 @@ public class BaseUserService {
      *
      * @return 返回 验证值
      */
-    protected String createRobotValidate(TokenEnvironment tokenEnvironment, RobotValidate robotValidate, ServiceType serviceType, String loginName) {
+    protected String createRobotValidate(TokenEnvironment tokenEnvironment, RobotValidate robotValidate, ServiceTokenType serviceTokenType, String loginName) {
 
         //取出当前适合的配置信息
         ValidateDataConf validateDataConf = validateDataHelper.get(tokenEnvironment.getApp());
@@ -245,8 +242,21 @@ public class BaseUserService {
         //生成对应的验证码
         String code = ValidateDataHelper.getValidateRandomValue(validateData);
 
+        //调试模式
+        if (validateDataConf.isDebug()) {
+            robotValidate.setType(ValidateType.Debug);
+            robotValidate.setData(code);
+            return code;
+        }
+
+
+        //是否需要加强验证
+        if (validateData.isStrongValidate()) {
+            robotValidate.setType(ValidateType.Strong);
+            robotValidate.setData("data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidateHelper.create(code)));
+        }
         //手机验证码
-        if (robotValidate.getType() == ValidateType.Sms) {
+        else if (robotValidate.getType() == ValidateType.Sms) {
             robotValidate.setData(null);
         }
         //邮箱
@@ -258,28 +268,77 @@ public class BaseUserService {
             robotValidate.setData("data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidateHelper.create(code)));
         }
 
-
-        //调试
-        if (validateDataConf.isDebug()) {
-            robotValidate.setType(ValidateType.Debug);
-            robotValidate.setData(code);
-        } else {
-            //doto 发送邮件或短信
-            if (robotValidate.getType() == ValidateType.Sms || robotValidate.getType() == ValidateType.Mail) {
-                PlatformMessage message = new PlatformMessage();
-                message.setContent(new HashMap<String, Object>() {{
-                    put("code", code);
-                }});
-                //设置模版id
-                message.setTemplateId(ValidateDataHelper.getTemplate(validateData, serviceType));
-                message.setNumber(new String[]{loginName});
-                //通过短信模版类型映射消息类型
-                message.setMessageType(MessageType.valueOf(robotValidate.getType().name()));
-                this.sendPushMessageHelper.pushPlatformMessage(message);
-            }
+        //doto 发送邮件或短信
+        if (robotValidate.getType() == ValidateType.Sms || robotValidate.getType() == ValidateType.Mail) {
+            String templateId = ValidateDataHelper.getTemplate(validateData, serviceTokenType.getServiceType());
+            MessageType messageType = MessageType.valueOf(robotValidate.getType().name());
+            pushToUserValidateCode(messageType, templateId, loginName, code);
         }
 
         return code;
+    }
+
+
+    /**
+     * 推送到用户验证码
+     */
+    protected void pushToUserValidateCode(MessageType type, String templateId, String number, String code) {
+        PlatformMessage message = new PlatformMessage();
+        message.setContent(new HashMap<String, Object>() {{
+            put("code", code);
+        }});
+        //设置模版id
+        message.setTemplateId(templateId);
+        message.setNumber(new String[]{number});
+        //通过短信模版类型映射消息类型
+        message.setMessageType(type);
+        this.sendPushMessageHelper.pushPlatformMessage(message);
+    }
+
+
+    /**
+     * 创建业务令牌
+     *
+     * @return
+     */
+    protected ServiceToken createServiceToken(TokenEnvironment tokenEnvironment, ServiceTokenType serviceTokenType, String loginName, String code, RobotValidate robotValidate) {
+        //取出对应的配置
+        ValidateDataConf validateDataConf = this.validateDataHelper.get(tokenEnvironment.getApp());
+        //判断是否强化类型的令牌
+        if (robotValidate.getType() == ValidateType.Strong) {
+            StrongServiceToken strongServiceToken = new StrongServiceToken();
+            setServiceToken(tokenEnvironment, serviceTokenType, loginName, strongServiceToken, code);
+            if (this.userTokenDao.createStrongServiceToken(strongServiceToken, validateDataConf.getServiceTokenTimeOut())) {
+                return strongServiceToken;
+            }
+        } else {
+            ServiceToken serviceToken = new ServiceToken();
+            setServiceToken(tokenEnvironment, serviceTokenType, loginName, serviceToken, code);
+            if (this.userTokenDao.createServiceToken(serviceToken, validateDataConf.getServiceTokenTimeOut())) {
+                return serviceToken;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * 业务令牌
+     *
+     * @param tokenEnvironment
+     * @param serviceTokenType
+     * @param loginName
+     * @param serviceToken
+     */
+    private void setServiceToken(TokenEnvironment tokenEnvironment, ServiceTokenType serviceTokenType, String loginName, ServiceToken serviceToken, String code) {
+        this.dbHelper.saveTime(serviceToken);
+        serviceToken.setToken(TokenUtil.create());
+        serviceToken.setId(RandomUtil.uuid());
+        serviceToken.setServiceTokenType(serviceTokenType);
+        serviceToken.setAccessCount(0);
+        serviceToken.setLoginName(loginName);
+        serviceToken.setCreateTokenEnvironment(tokenEnvironment);
+        serviceToken.setValidateCode(code);
     }
 
 

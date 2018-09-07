@@ -44,4 +44,10 @@ public class ValidateData {
     private Map<ServiceType, String> template;
 
 
+    /**
+     * 是否需要加强验证
+     */
+    private boolean strongValidate = false;
+
+
 }

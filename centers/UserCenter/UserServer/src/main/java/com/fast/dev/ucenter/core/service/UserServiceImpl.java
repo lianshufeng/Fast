@@ -54,11 +54,11 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         // 机器校验
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(tokenEnvironment, robotValidate, ServiceType.Login, loginName);
+        String code = createRobotValidate(tokenEnvironment, robotValidate, userLoginType.getLoginService(), loginName);
 
 
         //  创建业务令牌
-        ServiceToken serviceToken = createServiceToken(tokenEnvironment, userLoginType.getLoginService(), loginName, code);
+        ServiceToken serviceToken = createServiceToken(tokenEnvironment, userLoginType.getLoginService(), loginName, code, robotValidate);
         if (serviceToken == null) {
             return new UserLoginToken(TokenState.CreateError);
         }
@@ -121,11 +121,11 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         //生成机器校验码
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(loginEnvironment, robotValidate, ServiceType.Register, loginName);
+        String code = createRobotValidate(loginEnvironment, robotValidate, userLoginType.getRegisterService(), loginName);
 
 
         //创建业务令牌
-        ServiceToken serviceToken = createServiceToken(loginEnvironment, userLoginType.getRegisterService(), loginName, code);
+        ServiceToken serviceToken = createServiceToken(loginEnvironment, userLoginType.getRegisterService(), loginName, code, robotValidate);
         if (serviceToken == null) {
             return new UserRegisterToken(TokenState.CreateError);
         }
@@ -190,31 +190,6 @@ public class UserServiceImpl extends BaseUserService implements UserService {
     }
 
 
-    /**
-     * 创建业务令牌
-     *
-     * @return
-     */
-    private ServiceToken createServiceToken(TokenEnvironment loginEnvironment, ServiceTokenType serviceTokenType, String loginName, String code) {
-        //取出对应的配置
-        ValidateDataConf validateDataConf = this.validateDataHelper.get(loginEnvironment.getApp());
-
-        ServiceToken serviceToken = new ServiceToken();
-        this.dbHelper.saveTime(serviceToken);
-        serviceToken.setId(RandomUtil.uuid());
-        serviceToken.setToken(TokenUtil.create());
-        serviceToken.setServiceTokenType(serviceTokenType);
-        serviceToken.setValidateCode(code);
-        serviceToken.setAccessCount(0);
-        serviceToken.setLoginName(loginName);
-        serviceToken.setCreateTokenEnvironment(loginEnvironment);
-        if (this.userTokenDao.createServiceToken(serviceToken, validateDataConf.getServiceTokenTimeOut())) {
-            return serviceToken;
-        }
-        return null;
-    }
-
-
     @Override
     public boolean ping(String uToken) {
         UserToken userToken = userTokenDao.queryOnly(uToken);
@@ -227,11 +202,11 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         // 机器校验
         RobotValidate robotValidate = new RobotValidate(ValidateType.Sms);
-        String code = createRobotValidate(tokenEnvironment, robotValidate, ServiceType.Fast, phone);
+        String code = createRobotValidate(tokenEnvironment, robotValidate, ServiceTokenType.FastLogin, phone);
 
 
         //  创建业务令牌
-        ServiceToken serviceToken = createServiceToken(tokenEnvironment, ServiceTokenType.FastLogin, phone, code);
+        ServiceToken serviceToken = createServiceToken(tokenEnvironment, ServiceTokenType.FastLogin, phone, code, robotValidate);
         if (serviceToken == null) {
             return new UserFastToken(TokenState.CreateError);
         }
@@ -282,11 +257,11 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         //生成机器校验码
         RobotValidate robotValidate = new RobotValidate(userLoginType.getValidateType());
-        String code = createRobotValidate(env, robotValidate, ServiceType.UpdatePassWord, loginName);
+        String code = createRobotValidate(env, robotValidate, userLoginType.getUpdatePassWordService(), loginName);
 
 
         //创建业务令牌
-        ServiceToken serviceToken = createServiceToken(env, userLoginType.getUpdatePassWordService(), loginName, code);
+        ServiceToken serviceToken = createServiceToken(env, userLoginType.getUpdatePassWordService(), loginName, code, robotValidate);
         if (serviceToken == null) {
             return new UpdatePassWordToken(TokenState.CreateError);
         }

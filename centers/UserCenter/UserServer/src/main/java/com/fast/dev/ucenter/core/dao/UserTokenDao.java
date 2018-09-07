@@ -2,6 +2,7 @@ package com.fast.dev.ucenter.core.dao;
 
 import com.fast.dev.ucenter.core.domain.BaseToken;
 import com.fast.dev.ucenter.core.domain.ServiceToken;
+import com.fast.dev.ucenter.core.domain.StrongServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
 
 /**
@@ -23,7 +24,14 @@ public interface UserTokenDao {
     /**
      * 创建注册令牌
      */
-    public boolean createServiceToken(ServiceToken serviceToken, long timeOut);
+    public boolean createServiceToken(ServiceToken serviceToken, long expireTime);
+
+
+    /**
+     * 创建增强令牌
+     */
+    public boolean createStrongServiceToken(StrongServiceToken strongServiceToken, long expireTime);
+
 
 
     /**

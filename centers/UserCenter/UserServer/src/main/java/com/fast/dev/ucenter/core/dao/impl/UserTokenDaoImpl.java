@@ -4,6 +4,7 @@ import com.fast.dev.data.mongo.helper.DBHelper;
 import com.fast.dev.ucenter.core.dao.UserTokenDao;
 import com.fast.dev.ucenter.core.domain.BaseToken;
 import com.fast.dev.ucenter.core.domain.ServiceToken;
+import com.fast.dev.ucenter.core.domain.StrongServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -53,6 +54,12 @@ public class UserTokenDaoImpl implements UserTokenDao {
     @Override
     public boolean createServiceToken(ServiceToken serviceToken, long expireTime) {
         createToken(serviceToken.getToken(), serviceToken, expireTime);
+        return true;
+    }
+
+    @Override
+    public boolean createStrongServiceToken(StrongServiceToken strongServiceToken, long expireTime) {
+        createToken(strongServiceToken.getToken(), strongServiceToken, expireTime);
         return true;
     }
 
