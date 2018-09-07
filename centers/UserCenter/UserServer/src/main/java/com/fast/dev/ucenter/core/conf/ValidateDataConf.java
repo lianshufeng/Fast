@@ -47,9 +47,9 @@ public class ValidateDataConf implements Serializable {
      * 验证码生成规则
      */
     private Map<ValidateType, ValidateData> rule = new HashMap<ValidateType, ValidateData>() {{
-        put(ValidateType.Sms, new ValidateData(ValidateCodeScope.Number, 4, null, null));
-        put(ValidateType.Image, new ValidateData(ValidateCodeScope.Charset, 4, null, null));
-        put(ValidateType.Mail, new ValidateData(ValidateCodeScope.Charset, 4, null, null));
+        put(ValidateType.Sms, new ValidateData(ValidateCodeScope.Number, 4, null, null, false));
+        put(ValidateType.Image, new ValidateData(ValidateCodeScope.Charset, 4, null, null, false));
+        put(ValidateType.Mail, new ValidateData(ValidateCodeScope.Charset, 4, null, null, false));
     }};
 
 
