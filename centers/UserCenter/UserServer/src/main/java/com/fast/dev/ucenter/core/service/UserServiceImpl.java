@@ -75,7 +75,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
     public UserTokenModel login(TokenEnvironment env, String token, String validateCode, String passWord, long expireTime) {
         //取出业务令牌并验证码校验
         ServiceToken serviceToken = this.userTokenDao.query(token);
-        TokenState tokenState = validateToken(serviceToken, validateCode);
+        TokenState tokenState = validateToken(serviceToken, validateCode,true);
         if (tokenState != null) {
             return new UserTokenModel(tokenState);
         }
@@ -140,7 +140,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
     public UserRegisterModel register(TokenEnvironment env, String token, String validateCode, String passWord) {
         //校验业务令牌的验证码
         ServiceToken serviceToken = this.userTokenDao.query(token);
-        TokenState tokenState = validateToken(serviceToken, validateCode);
+        TokenState tokenState = validateToken(serviceToken, validateCode,true);
         if (tokenState != null) {
             return new UserRegisterModel(tokenState);
         }
@@ -167,27 +167,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
     }
 
 
-    /**
-     * 校验令牌
-     *
-     * @param serviceToken
-     * @param validateCode
-     * @return
-     */
-    private TokenState validateToken(ServiceToken serviceToken, String validateCode) {
-        if (serviceToken == null) {
-            return TokenState.TokenNotExist;
-        }
-        //通过应用名取出对应的的配置
-        ValidateDataConf validateDataConf = this.validateDataHelper.get(serviceToken.getCreateTokenEnvironment().getApp());
-        if (serviceToken.getAccessCount() > validateDataConf.getMaxCanAccessCount()) {
-            return TokenState.TokenMaxLimit;
-        }
-        if (!serviceToken.getValidateCode().equals(validateCode)) {
-            return TokenState.ValidateCodeError;
-        }
-        return null;
-    }
+
 
 
     @Override
@@ -222,7 +202,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
     public UserTokenModel fast(TokenEnvironment env, String token, String validateCode, long expireTime) {
         //查询令牌并判断校验码是否有效
         ServiceToken serviceToken = this.userTokenDao.query(token);
-        TokenState tokenState = validateToken(serviceToken, validateCode);
+        TokenState tokenState = validateToken(serviceToken, validateCode,true);
         if (tokenState != null) {
             return new UserTokenModel(tokenState);
         }
@@ -278,7 +258,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         //校验业务令牌的验证码
         ServiceToken serviceToken = this.userTokenDao.query(token);
-        TokenState tokenState = validateToken(serviceToken, code);
+        TokenState tokenState = validateToken(serviceToken, code,true);
         if (tokenState != null) {
             return tokenState;
         }
@@ -300,6 +280,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
         return tokenState;
     }
+
 
 
 }

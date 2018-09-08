@@ -11,10 +11,7 @@ import com.fast.dev.ucenter.core.domain.*;
 import com.fast.dev.ucenter.core.helper.ImageValidateHelper;
 import com.fast.dev.ucenter.core.helper.UserPushMessageHelper;
 import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
-import com.fast.dev.ucenter.core.model.RobotValidate;
-import com.fast.dev.ucenter.core.model.TokenEnvironment;
-import com.fast.dev.ucenter.core.model.UserTokenModel;
-import com.fast.dev.ucenter.core.model.ValidateData;
+import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.*;
 import com.fast.dev.ucenter.core.util.BaseTokenUtil;
 import com.fast.dev.ucenter.core.util.PassWordUtil;
@@ -56,6 +53,14 @@ public class BaseUserService {
 
     @Autowired
     private SendPushMessageHelper sendPushMessageHelper;
+
+
+    @Autowired
+    private UserService userService;
+
+
+    //是否已做过强化校验
+    private ThreadLocal<Boolean> hasStrongValidate = new ThreadLocal<>();
 
 
     /**
@@ -246,12 +251,9 @@ public class BaseUserService {
         if (validateDataConf.isDebug()) {
             robotValidate.setType(ValidateType.Debug);
             robotValidate.setData(code);
-            return code;
         }
-
-
         //是否需要加强验证
-        if (validateData.isStrongValidate()) {
+        else if (validateData.isStrongValidate() && this.hasStrongValidate.get() == null) {
             robotValidate.setType(ValidateType.Strong);
             robotValidate.setData("data:image/png;base64," + Base64.getEncoder().encodeToString(this.imageValidateHelper.create(code)));
         }
@@ -274,6 +276,10 @@ public class BaseUserService {
             MessageType messageType = MessageType.valueOf(robotValidate.getType().name());
             pushToUserValidateCode(messageType, templateId, loginName, code);
         }
+
+
+        //取消当前线程标记的强化校验
+        this.hasStrongValidate.remove();
 
         return code;
     }
@@ -341,5 +347,83 @@ public class BaseUserService {
         serviceToken.setValidateCode(code);
     }
 
+
+    /**
+     * 校验令牌
+     *
+     * @param serviceToken
+     * @param validateCode
+     * @return
+     */
+    protected TokenState validateToken(ServiceToken serviceToken, String validateCode, boolean isValidateServiceToken) {
+        if (serviceToken == null) {
+            return TokenState.TokenNotExist;
+        }
+        //通过应用名取出对应的的配置
+        ValidateDataConf validateDataConf = this.validateDataHelper.get(serviceToken.getCreateTokenEnvironment().getApp());
+        if (serviceToken.getAccessCount() > validateDataConf.getMaxCanAccessCount()) {
+            return TokenState.TokenMaxLimit;
+        }
+        if (!serviceToken.getValidateCode().equalsIgnoreCase(validateCode)) {
+            return TokenState.ValidateCodeError;
+        }
+        //校验是否必须为业务令牌而非子类
+        if (isValidateServiceToken && serviceToken.getClass() != ServiceToken.class) {
+            return TokenState.TokenNotMatch;
+        }
+        return null;
+    }
+
+
+    /**
+     * 加强令牌校验
+     *
+     * @param token
+     * @param code
+     * @return
+     */
+    public BasicServiceToken strongToken(String token, String code) {
+        ServiceToken serviceToken = this.userTokenDao.query(token);
+        //令牌验证错误
+        TokenState tokenState = validateToken(serviceToken, code, false);
+        if (tokenState != null) {
+            return new StrongServiceTokenModel(tokenState);
+        }
+
+        //判断业务令牌是否合法
+        if (!(serviceToken instanceof StrongServiceToken)) {
+            return new StrongServiceTokenModel(TokenState.TokenNotMatch);
+        }
+
+        //确认当前线程已强化校验过
+        this.hasStrongValidate.set(true);
+
+        //创建时的环境而并非现在接收到的环境
+        TokenEnvironment tokenEnvironment = serviceToken.getCreateTokenEnvironment();
+        //业务令牌类型
+        ServiceTokenType serviceTokenType = serviceToken.getServiceTokenType();
+        //登录名
+        String loginName = serviceToken.getLoginName();
+        BasicServiceToken basicServiceToken = null;
+
+        //调回原有接口
+        if (serviceTokenType == ServiceTokenType.FastLogin) {
+            basicServiceToken = this.userService.getFastToken(serviceToken.getLoginName(), tokenEnvironment);
+        } else if (serviceTokenType.getServiceType() == ServiceType.Login) {
+            basicServiceToken = this.userService.getUserLoginToken(UserLoginType.valueOf(serviceTokenType.getLoginType()), loginName, tokenEnvironment);
+        } else if (serviceTokenType.getServiceType() == ServiceType.Register) {
+            basicServiceToken = this.userService.getUserRegisterToken(UserLoginType.valueOf(serviceTokenType.getLoginType()), loginName, tokenEnvironment);
+        } else if (serviceTokenType.getServiceType() == ServiceType.UpdatePassWord) {
+            basicServiceToken = this.userService.getUpdatePassWordToken(UserLoginType.valueOf(serviceTokenType.getLoginType()), loginName, tokenEnvironment);
+        }
+
+
+        //删除该令牌
+        if (serviceTokenType != null) {
+            this.userTokenDao.remove(token);
+        }
+
+        return basicServiceToken;
+    }
 
 }

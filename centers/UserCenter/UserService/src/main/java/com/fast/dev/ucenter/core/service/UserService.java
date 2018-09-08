@@ -1,5 +1,7 @@
 package com.fast.dev.ucenter.core.service;
 
+import com.fast.dev.ucenter.core.model.BasicServiceToken;
+import com.fast.dev.ucenter.core.model.StrongServiceTokenModel;
 import com.fast.dev.ucenter.core.service.extend.UserInfo;
 import com.fast.dev.ucenter.core.service.extend.UserLogin;
 import com.fast.dev.ucenter.core.service.extend.UserPassword;
@@ -18,6 +20,16 @@ public interface UserService extends UserLogin, UserInfo, UserPassword, UserRegi
      * @return
      */
     public boolean ping(String uToken);
+
+
+    /**
+     * 加强校验令牌
+     *
+     * @param token
+     * @param code
+     * @return
+     */
+    public BasicServiceToken strongToken(String token, String code);
 
 
 }

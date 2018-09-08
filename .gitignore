@@ -4,3 +4,7 @@
 
 # Compiler generated files
 target/
+
+
+# jrebel
+rebel.xml
