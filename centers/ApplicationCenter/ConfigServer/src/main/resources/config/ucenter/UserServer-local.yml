@@ -61,6 +61,24 @@ ucenter:
           Sms:
             length: 4
             scope: Number
+            strongValidate: true
+            template:
+              Fast: "UserFastLogin"
+              Login: "UserLogin"
+              Register: "UserRegister"
+              UpdatePassWord: "UserUpdatePassWord"
+          Mail:
+            template:
+              Fast: "UserFastLogin"
+              Login: "UserLogin"
+              Register: "UserRegister"
+              UpdatePassWord: "UserUpdatePassWord"
+      demo2:
+        debug: false
+        rule:
+          Sms:
+            length: 4
+            scope: Number
             strongValidate: false
             template:
               Fast: "UserFastLogin"
