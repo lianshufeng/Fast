@@ -61,7 +61,7 @@ ucenter:
           Sms:
             length: 4
             scope: Number
-            strongValidate: true
+            strongValidate: false
             template:
               Fast: "UserFastLogin"
               Login: "UserLogin"
