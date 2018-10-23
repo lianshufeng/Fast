@@ -22,7 +22,7 @@
 
         <!--spring cloud 版本-->
         <spring-mvc.version>5.1.1.RELEASE</spring-mvc.version>
-        <spring-boot.version>2.0.6.RELEASE</spring-boot.version>
+        <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
 
         <!--项目版本-->
@@ -83,9 +83,9 @@
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
 
-                <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-                <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
+                <ApplicationCenter.url>http://192.168.8.15:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ConfigCenter.url>http://192.168.8.15:${ConfigCenter.port}</ConfigCenter.url>
+                <Kafka.brokers>192.168.8.12:9092</Kafka.brokers>
             </properties>
         </profile>
 

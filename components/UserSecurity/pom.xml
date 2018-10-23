@@ -13,9 +13,6 @@
     <groupId>com.fast.dev.components</groupId>
     <artifactId>UserSecurity</artifactId>
 
-    <properties>
-        <Spring.Security.Version>5.0.7.RELEASE</Spring.Security.Version>
-    </properties>
 
 
     <dependencies>
@@ -29,20 +26,20 @@
 
 
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-security</artifactId>-->
-            <!--<version>${spring-boot.version}</version>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-security</artifactId>-->
+        <!--<version>${spring-boot.version}</version>-->
         <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>${Spring.Security.Version}</version>
+            <version>${spring-mvc.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${Spring.Security.Version}</version>
+            <version>${spring-mvc.version}</version>
         </dependency>
 
         <dependency>
@@ -53,8 +50,8 @@
 
 
         <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
 

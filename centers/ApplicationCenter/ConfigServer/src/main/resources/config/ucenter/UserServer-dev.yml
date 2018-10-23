@@ -2,8 +2,8 @@
 eureka:
   instance:
     prefer-ip-address: true #注册使用ip
-    instance-id: 127.0.0.1:8100 #实例id
-    ip-address: 127.0.0.1 #可访问的ip地址
+    instance-id: 192.168.8.15:8100 #实例id
+    ip-address: 192.168.8.15 #可访问的ip地址
 
 
 
@@ -16,10 +16,12 @@ spring:
     encoding: UTF-8
   data:
     mongodb:
-      database: udev
-      host: 127.0.0.1:27017
+      database: ucenter
+      host: 192.168.8.12:27017
+      username: ucenter
+      password: ucenter_ayhm_2018
   redis:
-    host: 127.0.0.1
+    host: 192.168.8.12
     port: 6379
     database: 1
 
