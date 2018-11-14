@@ -4,6 +4,7 @@ import com.fast.dev.ucenter.core.domain.UserToken;
 import com.fast.dev.ucenter.core.model.UserMessage;
 import com.fast.dev.ucenter.core.stream.UserCenterOuputStream;
 import com.fast.dev.ucenter.core.type.UserMessageType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
@@ -15,13 +16,11 @@ import javax.annotation.Resource;
  * 用户状态变更推送
  */
 @Component
-@EnableBinding(value = {UserCenterOuputStream.class})
 public class UserPushMessageHelper {
 
 
-    @Resource
-    @Output(UserCenterOuputStream.name)
-    MessageChannel output;
+    @Autowired
+    private UserCenterOuputStreamHelper userCenterOuputStreamHelper;
 
     /**
      * 推送消息
@@ -29,7 +28,7 @@ public class UserPushMessageHelper {
      * @return
      */
     private boolean push(UserMessage userMessage) {
-        return UserCenterOuputStream.publish(output, userMessage);
+        return userCenterOuputStreamHelper.publish(userMessage);
     }
 
 

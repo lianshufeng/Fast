@@ -1,18 +1,23 @@
 package com.fast.dev.core.util.result;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+
 /**
  * 调用结果
  */
+
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvokerResult<T> implements Serializable {
+
 
     //状态
     private InvokerState state;

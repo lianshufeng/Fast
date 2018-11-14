@@ -6,7 +6,7 @@ server:
 eureka:
   environment: ${spring.profiles.active}
   server:
-    enable-self-preservation: true #允许自我保护
+    enable-self-preservation: false #允许自我保护
     eviction-interval-timer-in-ms: 30000 #清理周期
   client:
     fetch-registry: false

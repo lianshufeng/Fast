@@ -22,7 +22,7 @@
 
         <!--spring cloud 版本-->
         <spring-mvc.version>5.1.1.RELEASE</spring-mvc.version>
-        <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
+        <spring-boot.version>2.0.6.RELEASE</spring-boot.version>
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
 
         <!--项目版本-->
@@ -48,6 +48,9 @@
 
         <!-- 网关端口-->
         <GetWayCenter.port>80</GetWayCenter.port>
+
+        <!--文件中心-->
+        <FileCenter.port>8400</FileCenter.port>
 
         <!-- 默认配置文件-->
         <spring.profiles.active>local</spring.profiles.active>
