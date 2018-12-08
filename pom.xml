@@ -44,6 +44,8 @@
         <!--用户安全-->
         <module>components/UserSecurity</module>
 
+        <!--文件中心-->
+        <module>centers/FileCenter/FileServer</module>
 
         <!--应用中心-->
         <module>centers/ApplicationCenter/ApplicationServer</module>
@@ -67,7 +69,6 @@
 
         <!-- 例子-->
         <module>demo/ApplicationDemo</module>
-
 
 
     </modules>

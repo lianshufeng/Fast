@@ -22,8 +22,8 @@
 
         <!--spring cloud 版本-->
         <spring-mvc.version>5.1.1.RELEASE</spring-mvc.version>
-        <spring-boot.version>2.0.6.RELEASE</spring-boot.version>
-        <spring-cloud.version>Finchley.SR1</spring-cloud.version>
+        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
+        <spring-cloud.version>Greenwich.M3</spring-cloud.version>
 
         <!--项目版本-->
         <Project.version>1.0.0-SNAPSHOT</Project.version>
@@ -281,7 +281,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.2</version>
+            <version>1.18.4</version>
         </dependency>
 
 

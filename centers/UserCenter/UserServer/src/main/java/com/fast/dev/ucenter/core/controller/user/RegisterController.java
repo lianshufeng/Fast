@@ -42,7 +42,7 @@ public class RegisterController extends SuperController {
      * @return
      */
     @RequestMapping("register")
-    public Object getRegisterToken(String token, String code, String passWord, TokenEnvironment env) {
+    public Object register(String token, String code, String passWord, TokenEnvironment env) {
         Assert.hasText(token, "令牌不能为空");
         Assert.hasText(code, "校验码不能为空");
         Assert.hasText(passWord, "密码不能为空");

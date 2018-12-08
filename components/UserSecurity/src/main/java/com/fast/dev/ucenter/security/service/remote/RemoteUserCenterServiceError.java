@@ -1,6 +1,8 @@
 package com.fast.dev.ucenter.security.service.remote;
 
 import com.fast.dev.ucenter.core.model.BaseUserModel;
+import com.fast.dev.ucenter.core.model.TokenEnvironment;
+import com.fast.dev.ucenter.core.model.UserRegisterModel;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.slf4j.Logger;
@@ -37,5 +39,13 @@ public class RemoteUserCenterServiceError implements RemoteUserCenterService {
         return null;
     }
 
+    @Override
+    public UserRegisterModel addUser(UserLoginType loginType, String loginName, String passWord) {
+        return null;
+    }
 
+    @Override
+    public UserTokenModel login(UserLoginType loginType, String loginName, String password, Long expireTime, TokenEnvironment env) {
+        return null;
+    }
 }

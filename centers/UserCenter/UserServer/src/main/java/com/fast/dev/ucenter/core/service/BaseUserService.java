@@ -11,10 +11,11 @@ import com.fast.dev.ucenter.core.domain.*;
 import com.fast.dev.ucenter.core.helper.ImageValidateHelper;
 import com.fast.dev.ucenter.core.helper.UserPushMessageHelper;
 import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
+import com.fast.dev.ucenter.core.helper.password.PassWordHelper;
+import com.fast.dev.ucenter.core.helper.password.type.PassWordEncodeType;
 import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.*;
 import com.fast.dev.ucenter.core.util.BaseTokenUtil;
-import com.fast.dev.ucenter.core.util.PassWordUtil;
 import com.fast.dev.ucenter.core.util.RandomUtil;
 import com.fast.dev.ucenter.core.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,9 @@ public class BaseUserService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PassWordHelper passWordHelper;
 
 
     //是否已做过强化校验
@@ -155,7 +159,7 @@ public class BaseUserService {
 
         //如果不是邮件或者短信修改密码则需要验证原密码
         if (serviceToken.getServiceTokenType() != ServiceTokenType.MailUpdatePassWord && serviceToken.getServiceTokenType() != ServiceTokenType.PhoneUpdatePassWord) {
-            if (!PassWordUtil.validate(baseUser.getSalt(), oldPassWord, baseUser.getPassWord())) {
+            if (!passWordHelper.validate(baseUser.getSalt(), oldPassWord, baseUser.getPassWord(),baseUser.getPassWordEncodeType())) {
                 return TokenState.PassWordError;
             }
         }
@@ -172,10 +176,10 @@ public class BaseUserService {
      *
      * @param baseUser
      */
-    private static void updateBaseUserPassWord(BaseUser baseUser, String passWord) {
+    public void updateBaseUserPassWord(BaseUser baseUser, String passWord) {
         // 设置密码
         baseUser.setSalt(RandomUtil.uuid(6));
-        baseUser.setPassWord(PassWordUtil.enCode(baseUser.getSalt(), passWord));
+        baseUser.setPassWord(passWordHelper.enCode(baseUser.getSalt(), passWord, PassWordEncodeType.Default));
     }
 
 

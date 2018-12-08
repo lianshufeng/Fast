@@ -1,6 +1,7 @@
 package com.fast.dev.ucenter.core.domain;
 
 import com.fast.dev.data.mongo.domain.SuperEntity;
+import com.fast.dev.ucenter.core.helper.password.type.PassWordEncodeType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -59,4 +60,8 @@ public class BaseUser extends SuperEntity {
     @Indexed
     private String passWord;
 
+    /**
+     * 密码加密类型
+     */
+    private PassWordEncodeType passWordEncodeType;
 }

@@ -1,18 +1,15 @@
 package com.fast.dev.ucenter.core.service;
 
 import com.fast.dev.data.mongo.helper.DBHelper;
-import com.fast.dev.ucenter.core.conf.ValidateDataConf;
 import com.fast.dev.ucenter.core.dao.BaseUserDao;
 import com.fast.dev.ucenter.core.dao.UserTokenDao;
 import com.fast.dev.ucenter.core.domain.BaseUser;
 import com.fast.dev.ucenter.core.domain.ServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
 import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
+import com.fast.dev.ucenter.core.helper.password.PassWordHelper;
 import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.*;
-import com.fast.dev.ucenter.core.util.PassWordUtil;
-import com.fast.dev.ucenter.core.util.RandomUtil;
-import com.fast.dev.ucenter.core.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +34,9 @@ public class UserServiceImpl extends BaseUserService implements UserService {
 
     @Autowired
     private ValidateDataHelper validateDataHelper;
+
+    @Autowired
+    private PassWordHelper passWordHelper;
 
 
     @Override
@@ -93,7 +93,7 @@ public class UserServiceImpl extends BaseUserService implements UserService {
         }
 
         //密码校验
-        if (!PassWordUtil.validate(baseUser.getSalt(), passWord, baseUser.getPassWord())) {
+        if (!passWordHelper.validate(baseUser.getSalt(), passWord, baseUser.getPassWord(),baseUser.getPassWordEncodeType())) {
             return new UserTokenModel(TokenState.PassWordError);
         }
 

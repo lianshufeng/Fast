@@ -76,6 +76,7 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
         Update update = new Update();
         update.set("salt",salt);
         update.set("passWord",passWord);
+        update.unset("passWordEncodeType");
         return this.mongoTemplate.updateFirst(query,update,BaseUser.class).getModifiedCount()>0;
     }
 

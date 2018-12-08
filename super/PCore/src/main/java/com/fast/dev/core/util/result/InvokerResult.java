@@ -27,6 +27,17 @@ public class InvokerResult<T> implements Serializable {
 
 
     /**
+     * 设置对象不能为空，如果为空状态则为error
+     *
+     * @param content
+     * @return
+     */
+    public static InvokerResult notNull(Object content) {
+        return new InvokerResult(content == null ? InvokerState.Error : InvokerState.Success, content);
+    }
+
+
+    /**
      * 实例化并设置当前状态为Success
      *
      * @return
