@@ -26,6 +26,9 @@ public class UserManagerImpl extends BaseUserService implements UserManagerServi
     private UserService userService;
 
     @Autowired
+    private BaseUserService baseUserService;
+
+    @Autowired
     private PassWordHelper passWordHelper;
 
     @Override
@@ -84,8 +87,22 @@ public class UserManagerImpl extends BaseUserService implements UserManagerServi
     @Override
     public UserTokenModel login(UserLoginType loginType, String loginName, String passWord, Long expireTime, TokenEnvironment env) {
         UserLoginToken userLoginToken = userService.getUserLoginToken(loginType, loginName, env);
+        if (!userLoginToken.getTokenState().equals(TokenState.Success)){
+            return new UserTokenModel(userLoginToken.getTokenState());
+        }
         String token = userLoginToken.getToken();
         String code = userLoginToken.getRobotValidate().getData();
         return userService.login(env, token, code, passWord, expireTime);
     }
+
+    @Override
+    public UserTokenModel createToken(String uid, Long expireTime, TokenEnvironment env) {
+        BaseUser baseUser =  this.baseUserDao.findTop1ById(uid);
+        //用户不存在
+        if (baseUser ==null){
+            return  new UserTokenModel(TokenState.UserNotExist);
+        }
+        return this.baseUserService.createUserToken(env,baseUser,expireTime);
+    }
+
 }

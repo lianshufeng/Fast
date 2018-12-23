@@ -1,6 +1,7 @@
 package com.fast.dev.ucenter.core.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
  * 用户令牌
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserToken extends BaseToken {

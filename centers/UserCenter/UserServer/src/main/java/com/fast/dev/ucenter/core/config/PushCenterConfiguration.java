@@ -17,9 +17,9 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan({"com.fast.dev.pushcenter.manager"})
 public class PushCenterConfiguration {
 
-    @Bean
-    public SendPushMessageHelper sendPushMessageHelper() {
-        return new SendPushMessageHelper();
-    }
+//    @Bean("userSendPushMessageHelper")
+//    public SendPushMessageHelper sendPushMessageHelper() {
+//        return new SendPushMessageHelper();
+//    }
 
 }

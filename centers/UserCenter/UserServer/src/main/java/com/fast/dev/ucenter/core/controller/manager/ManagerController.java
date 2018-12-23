@@ -46,21 +46,23 @@ public class ManagerController {
 
     /**
      * 添加用户
+     *
      * @param loginType
      * @param loginName
      * @param passWord
      * @return
      */
     @RequestMapping("addUser")
-    public Object addUser(UserLoginType loginType,String loginName,String passWord) {
+    public Object addUser(UserLoginType loginType, String loginName, String passWord) {
         Assert.notNull(loginType, "类型不能为空");
         Assert.hasText(loginName, "登陆账号不能为空");
         Assert.hasText(passWord, "密码不能为空");
-        return this.userManager.addUser(loginType,loginName,passWord);
+        return this.userManager.addUser(loginType, loginName, passWord);
     }
 
     /**
      * 登录用户
+     *
      * @param loginType
      * @param loginName
      * @param passWord
@@ -74,5 +76,18 @@ public class ManagerController {
         Assert.hasText(loginName, "用户名不能为空");
         Assert.hasText(passWord, "密码不能为空");
         return this.userManager.login(loginType, loginName, passWord, expireTime, env);
+    }
+
+
+    /**
+     * 创建用户令牌
+     *
+     * @param uid
+     * @return
+     */
+    @RequestMapping("createToken")
+    public Object createToken(String uid, @RequestParam(defaultValue = "604800000") Long expireTime, TokenEnvironment env) {
+        Assert.hasText(uid, "用户id不能为空");
+        return this.userManager.createToken(uid, expireTime, env);
     }
 }

@@ -20,6 +20,7 @@ import com.fast.dev.ucenter.core.util.RandomUtil;
 import com.fast.dev.ucenter.core.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.Base64;
 import java.util.HashMap;
 

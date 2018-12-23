@@ -5,6 +5,7 @@ import com.fast.dev.ucenter.security.cache.UserTokenCache;
 import com.fast.dev.ucenter.security.model.UserAuth;
 import com.fast.dev.ucenter.security.model.UserAuthenticationToken;
 import com.fast.dev.ucenter.security.service.UserCenterService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,7 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户安全助手
@@ -46,15 +49,23 @@ public class SecurityAuthenticationHelper {
         if (uToken == null) {
             return;
         }
+
+        boolean readCache = true;
         //缓存或远程查询
         UserAuth userAuthenticationModel = this.userTokenCache.get(uToken);
         if (userAuthenticationModel == null) {
             userAuthenticationModel = remoteUserCenterService.query(uToken);
+            readCache = false;
         }
         //设置当前用户的角色
         setUserAuthentication(httpServletRequest, userAuthenticationModel);
         //缓存数据
-        if (userAuthenticationModel != null) {
+        if (readCache == false && userAuthenticationModel != null) {
+            if (userAuthenticationModel.getRoles()!=null){
+                Set<String> roles = new HashSet();
+                roles.addAll(userAuthenticationModel.getRoles());
+                userAuthenticationModel.setRoles(roles);
+            }
             this.userTokenCache.put(uToken, userAuthenticationModel);
         }
     }

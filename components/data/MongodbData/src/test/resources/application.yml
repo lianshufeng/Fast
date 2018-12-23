@@ -3,7 +3,7 @@ spring:
     data:
         mongodb:
             database: utest
-#            authentication-database: admin
-            host: 127.0.0.1:27017
-#            username: admin
-#            password: 687mongo2018
+            authentication-database: admin
+            host: 192.168.150.128:27017
+            username: admin
+            password: 687mongo2018

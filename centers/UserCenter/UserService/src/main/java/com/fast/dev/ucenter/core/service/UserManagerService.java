@@ -81,4 +81,15 @@ public interface UserManagerService {
      */
     @RequestMapping(value = "/ucenter/manager/login", method = RequestMethod.POST)
     public UserTokenModel login(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("passWord") String password, @RequestParam(defaultValue = "604800000",value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
+
+
+    /**
+     * 通过用户id创建用户的令牌
+     * @param uid
+     * @return
+     */
+    @RequestMapping(value = "/ucenter/manager/createToken", method = RequestMethod.POST)
+    public UserTokenModel createToken(@RequestParam("uid") String uid,@RequestParam(defaultValue = "604800000",value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
+
+
 }

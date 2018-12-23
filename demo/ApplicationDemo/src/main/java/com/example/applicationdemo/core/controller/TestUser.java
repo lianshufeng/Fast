@@ -6,6 +6,7 @@ import com.fast.dev.ucenter.security.helper.UserHelper;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,14 @@ public class TestUser {
 
     @RequestMapping("test")
     public Object test() {
+        System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
+        return InvokerResult.success("login");
+    }
+
+
+    @RequestMapping("excpiton")
+    public Object excpiton(String info) {
+        Assert.hasText(info,"不能为空");
         System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
         return InvokerResult.success("login");
     }

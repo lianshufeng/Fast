@@ -19,9 +19,9 @@ spring:
     stream:
       bindings:
         UserCenterInputStream:
-          group: "UserCenterStream"
+          group: "applicationdemo"
         UserCenterOuputStream:
-          group: "UserCenterStream"
+          group: "applicationdemo"
           destination: "UserCenterInputStream"
       #kafka
       kafka:

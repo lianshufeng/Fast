@@ -17,10 +17,12 @@ import java.util.Map;
 public class InvokerExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
+        e.printStackTrace();
         ModelAndView mv = new ModelAndView();
         mv.addObject("state", InvokerState.Exception);
         mv.setView(new MappingJackson2JsonView());
         Map<String, Object> exception = new HashMap<>();
+        exception.put("type", e.getClass().getSimpleName());
         exception.put("class", e.getClass().getName());
         exception.put("message", e.getMessage());
         mv.addObject("exception", exception);

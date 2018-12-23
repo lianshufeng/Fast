@@ -48,4 +48,10 @@ public class RemoteUserCenterServiceError implements RemoteUserCenterService {
     public UserTokenModel login(UserLoginType loginType, String loginName, String password, Long expireTime, TokenEnvironment env) {
         return null;
     }
+
+
+    @Override
+    public UserTokenModel createToken(String uid, Long expireTime, TokenEnvironment env) {
+        return null;
+    }
 }

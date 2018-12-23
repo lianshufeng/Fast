@@ -2,12 +2,14 @@ package com.fast.dev.ucenter.core.model;
 
 import com.fast.dev.ucenter.core.type.TokenState;
 
+
 import java.io.Serializable;
 
 /**
  * 作者：练书锋
  * 时间：2018/8/21
  */
+
 public class UserTokenModel implements Serializable {
 
     /**

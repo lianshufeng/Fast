@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserCenterStreamConfig {
 
-    @Bean
-    public UserCenterOuputStreamHelper userCenterOuputStreamHelper() {
-        return new UserCenterOuputStreamHelper();
-    }
+//    @Bean
+//    public UserCenterOuputStreamHelper userCenterOuputStreamHelper() {
+//        return new UserCenterOuputStreamHelper();
+//    }
 
 
 }

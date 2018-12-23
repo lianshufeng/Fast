@@ -21,9 +21,12 @@
         <java.version>1.8</java.version>
 
         <!--spring cloud 版本-->
-        <spring-mvc.version>5.1.1.RELEASE</spring-mvc.version>
+        <spring-mvc.version>5.1.3.RELEASE</spring-mvc.version>
+        <spring-security.version>5.1.1.RELEASE</spring-security.version>
         <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
         <spring-cloud.version>Greenwich.M3</spring-cloud.version>
+
+
 
         <!--项目版本-->
         <Project.version>1.0.0-SNAPSHOT</Project.version>
@@ -78,6 +81,20 @@
             </properties>
         </profile>
 
+        <!--开发环境-->
+        <profile>
+            <id>dev_external</id>
+
+            <properties>
+                <spring.profiles.active>dev_external</spring.profiles.active>
+
+                 <ApplicationCenter.url>http://192.168.0.178:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ConfigCenter.url>http://192.168.0.178:${ConfigCenter.port}</ConfigCenter.url>
+                <Kafka.brokers>192.168.0.178:9092</Kafka.brokers>
+            </properties>
+        </profile>
+
+
 
         <!--开发环境-->
         <profile>
@@ -86,7 +103,7 @@
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
 
-                <ApplicationCenter.url>http://192.168.8.15:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                 <ApplicationCenter.url>http://192.168.8.15:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
                 <ConfigCenter.url>http://192.168.8.15:${ConfigCenter.port}</ConfigCenter.url>
                 <Kafka.brokers>192.168.8.12:9092</Kafka.brokers>
             </properties>
