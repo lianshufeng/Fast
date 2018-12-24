@@ -4,8 +4,8 @@ spring:
     config:
       server:
         git:
-          uri: http://192.168.8.9:3000/lianshufeng/BaseFast.git
+          uri: https://github.com/lianshufeng/Fast.git
           search-paths: centers/ApplicationCenter/ConfigServer/src/main/resources/config/**
           force-pull: true
-          username: aiyihema
-          password: aiyihema
+#          username:
+#          password:
