@@ -58,3 +58,10 @@ feign:
     enabled: true
 
 
+#Debug模式
+debug: true
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
