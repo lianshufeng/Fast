@@ -83,21 +83,6 @@
 
         <!--开发环境-->
         <profile>
-            <id>dev_external</id>
-
-            <properties>
-                <spring.profiles.active>dev_external</spring.profiles.active>
-
-                 <ApplicationCenter.url>http://192.168.0.178:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-                <ConfigCenter.url>http://192.168.0.178:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>192.168.0.178:9092</Kafka.brokers>
-            </properties>
-        </profile>
-
-
-
-        <!--开发环境-->
-        <profile>
             <id>dev</id>
 
             <properties>
