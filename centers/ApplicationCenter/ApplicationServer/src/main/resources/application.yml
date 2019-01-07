@@ -21,5 +21,9 @@ eureka:
 #    ip-address: 127.0.0.1 #可访问的ip地址
 
 
+#调试或者输出日志
+logging:
+  file: logs/${project.artifactId}.log
+#debug: true
 
 

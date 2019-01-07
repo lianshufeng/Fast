@@ -2,6 +2,7 @@ package com.fast.dev.ucenter.core.controller.manager;
 
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.service.UserManagerService;
+import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -80,6 +81,26 @@ public class ManagerController {
 
 
     /**
+     * 新增用户同步接口， 存在返回失败
+     *
+     * @param loginType
+     * @param loginName
+     * @param salt
+     * @param passWord
+     * @return
+     */
+    @RequestMapping("insertBaseUser")
+    public Object insertBaseUser(UserLoginType loginType, String loginName, String salt, String passWord, PassWordEncodeType encodeType) {
+        Assert.notNull(loginType, "loginType 不能为空");
+        Assert.hasText(loginName, "loginName 不能为空");
+        Assert.hasText(salt, "salt 不能为空");
+        Assert.hasText(passWord, "passWord 不能为空");
+        Assert.notNull(encodeType, "encodeType 编码类型不能为空");
+        return this.userManager.insertBaseUser(loginType, loginName, salt, passWord, encodeType);
+    }
+
+
+    /**
      * 创建用户令牌
      *
      * @param uid
@@ -90,4 +111,48 @@ public class ManagerController {
         Assert.hasText(uid, "用户id不能为空");
         return this.userManager.createToken(uid, expireTime, env);
     }
+
+
+    /**
+     * 修改用户登陆方式
+     *
+     * @param uid
+     * @return
+     */
+    @RequestMapping("updateLoginName")
+    public Object updateLoginName(String uid, UserLoginType loginType, String loginName) {
+        Assert.hasText(uid, "用户id不能为空");
+        Assert.notNull(loginType, "登陆类型不能为空");
+        Assert.notNull(loginName, "登陆名不能为空");
+        return this.userManager.updateLoginValue(uid, loginType, loginName);
+    }
+
+
+    /**
+     * 设置用户的密码
+     *
+     * @param uid
+     * @return
+     */
+    @RequestMapping("setUserPassWord")
+    public Object setUserPassWord(String uid, String passWord) {
+        Assert.hasText(uid, "用户id不能为空");
+        Assert.hasText(passWord, "用户密码不能为空");
+        return this.userManager.setUserPassWord(uid, passWord);
+    }
+
+
+    /**
+     * 清空用户令牌
+     *
+     * @param uid
+     * @return
+     */
+    @RequestMapping("cleanUserToken")
+    public Object cleanUserToken(String uid, String[] ignoreUToken) {
+        Assert.hasText(uid, "用户id不能为空");
+        return this.userManager.cleanUserToken(uid, ignoreUToken);
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package com.fast.dev.ucenter.core.helper.password;
 
-import com.fast.dev.ucenter.core.helper.password.type.PassWordEncodeType;
+import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

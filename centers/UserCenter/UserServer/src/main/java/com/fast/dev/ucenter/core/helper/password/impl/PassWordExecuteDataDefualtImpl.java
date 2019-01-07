@@ -1,7 +1,7 @@
 package com.fast.dev.ucenter.core.helper.password.impl;
 
 import com.fast.dev.ucenter.core.helper.password.PassWordExecute;
-import com.fast.dev.ucenter.core.helper.password.type.PassWordEncodeType;
+import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;

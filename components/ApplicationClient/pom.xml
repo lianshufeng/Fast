@@ -14,6 +14,9 @@
     <artifactId>ApplicationClient</artifactId>
     <name>ApplicationClient</name>
 
+    <properties>
+        <ribbon.version>1.4.6.RELEASE</ribbon.version>
+    </properties>
 
     <dependencies>
 
@@ -33,6 +36,13 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!--ribbon-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
+            <version>${ribbon.version}</version>
         </dependency>
 
 
@@ -90,6 +100,21 @@
             <artifactId>spring-cloud-stream</artifactId>
         </dependency>
 
+
+
+
+
+        <!--接口链路追踪-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <version>${zipkin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <version>${zipkin.version}</version>
+        </dependency>
 
     </dependencies>
 

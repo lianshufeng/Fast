@@ -2,6 +2,7 @@ package com.fast.dev.ucenter.core.model;
 
 import com.fast.dev.ucenter.core.type.TokenState;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
  * 时间：2018/8/30
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegisterModel {

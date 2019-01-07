@@ -27,20 +27,20 @@
         <spring-cloud.version>Greenwich.M3</spring-cloud.version>
 
 
-
         <!--项目版本-->
         <Project.version>1.0.0-SNAPSHOT</Project.version>
         <Project.groupId>com.fast.dev</Project.groupId>
+
+
+        <!-- 网关端口-->
+        <GetWayCenter.port>80</GetWayCenter.port>
+
 
         <!-- 应用中心 -->
         <ApplicationCenter.port>8761</ApplicationCenter.port>
 
         <!-- 配置中心 -->
         <ConfigCenter.port>8000</ConfigCenter.port>
-
-        <!-- 断路内聚服务-->
-        <MonitorServer.port>8200</MonitorServer.port>
-        <zipkin.version>2.8.4</zipkin.version>
 
         <!--用户中心-->
         <UserCenter.port>8100</UserCenter.port>
@@ -49,17 +49,24 @@
         <!--推送中心-->
         <PushCenter.port>8300</PushCenter.port>
 
-        <!-- 网关端口-->
-        <GetWayCenter.port>80</GetWayCenter.port>
 
         <!--文件中心-->
         <FileCenter.port>8400</FileCenter.port>
+
 
         <!-- 默认配置文件-->
         <spring.profiles.active>local</spring.profiles.active>
         <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
         <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
         <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
+        <Zipkin.baseUrl>127.0.0.1:9411</Zipkin.baseUrl>
+
+
+        <!-- 依赖服务版本号-->
+        <ehcache.version>2.10.6</ehcache.version>
+
+        <!--链路追踪-->
+        <zipkin.version>2.0.2.RELEASE</zipkin.version>
 
     </properties>
 
@@ -78,8 +85,10 @@
                 <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
                 <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
                 <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
+                <Zipkin.baseUrl>http://127.0.0.1:9411</Zipkin.baseUrl>
             </properties>
         </profile>
+
 
         <!--开发环境-->
         <profile>
@@ -88,9 +97,10 @@
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
 
-                 <ApplicationCenter.url>http://192.168.8.15:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ApplicationCenter.url>http://192.168.8.15:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
                 <ConfigCenter.url>http://192.168.8.15:${ConfigCenter.port}</ConfigCenter.url>
                 <Kafka.brokers>192.168.8.12:9092</Kafka.brokers>
+                <Zipkin.baseUrl>http://192.168.8.12:9411</Zipkin.baseUrl>
             </properties>
         </profile>
 
@@ -100,9 +110,10 @@
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
 
-                <ApplicationCenter.url>http://192.168.31.124:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-                <ConfigCenter.url>http://192.168.31.124:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>192.168.31.124:9092</Kafka.brokers>
+                <ApplicationCenter.url>http://192.168.8.12:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ConfigCenter.url>http://192.168.8.12:${ConfigCenter.port}</ConfigCenter.url>
+                <Kafka.brokers>192.168.8.12:9092</Kafka.brokers>
+                <Zipkin.baseUrl>http://192.168.8.12:9411</Zipkin.baseUrl>
             </properties>
         </profile>
 
@@ -112,9 +123,10 @@
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
 
-                <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-                <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
+                <ApplicationCenter.url>http://172.16.134.186:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
+                <ConfigCenter.url>http://172.16.134.186:${ConfigCenter.port}</ConfigCenter.url>
+                <Kafka.brokers>172.16.119.142:9092</Kafka.brokers>
+                <Zipkin.baseUrl>http://172.16.134.183:9411</Zipkin.baseUrl>
             </properties>
         </profile>
     </profiles>
@@ -224,11 +236,11 @@
             <artifactId>spring-messaging</artifactId>
             <version>${spring-mvc.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-expression</artifactId>
-            <version>${spring-mvc.version}</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-expression</artifactId>-->
+        <!--<version>${spring-mvc.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>

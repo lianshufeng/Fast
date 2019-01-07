@@ -3,7 +3,7 @@
 docker pull lianshufeng/kafka
 docker pull lianshufeng/mongodb
 docker pull redis
-
+docker pull openzipkin/zipkin
 
 VmHost=192.168.145.129
 
@@ -52,8 +52,14 @@ mongo --host MongoSets/$VmHost:27017,$VmHost:27018,$VmHost:27019,$VmHost:27020 a
 
 
 
-
 ######redis
 sudo firewall-cmd --add-port=6379/tcp --permanent
 firewall-cmd --reload 
 docker run --name redis --restart always -p 6379:6379 -v /opt/redis:/data -d redis redis-server
+
+
+
+######zipkin
+sudo firewall-cmd --add-port=9411/tcp --permanent
+firewall-cmd --reload
+docker run -d -p 9411:9411 openzipkin/zipkin

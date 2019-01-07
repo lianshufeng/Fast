@@ -1,7 +1,7 @@
 package com.fast.dev.ucenter.core.domain;
 
 import com.fast.dev.data.mongo.domain.SuperEntity;
-import com.fast.dev.ucenter.core.helper.password.type.PassWordEncodeType;
+import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

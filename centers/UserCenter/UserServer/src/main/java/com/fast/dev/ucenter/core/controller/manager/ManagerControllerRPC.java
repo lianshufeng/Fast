@@ -2,6 +2,7 @@ package com.fast.dev.ucenter.core.controller.manager;
 
 import com.fast.dev.core.util.result.InvokerResult;
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
+import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +45,28 @@ public class ManagerControllerRPC extends ManagerController {
 
     @Override
     public Object createToken(String uid, @RequestParam(defaultValue = "604800000") Long expireTime, TokenEnvironment env) {
-        return InvokerResult.notNull(super.createToken(uid,expireTime,env));
+        return InvokerResult.notNull(super.createToken(uid, expireTime, env));
+    }
+
+    @Override
+    public Object insertBaseUser(UserLoginType loginType, String loginName, String salt, String passWord, PassWordEncodeType encodeType) {
+        return InvokerResult.notNull(super.insertBaseUser(loginType, loginName, salt, passWord, encodeType));
+    }
+
+    @Override
+    public Object updateLoginName(String uid, UserLoginType loginType, String loginName) {
+        return InvokerResult.notNull(super.updateLoginName(uid, loginType, loginName));
+    }
+
+
+    @Override
+    public Object setUserPassWord(String uid, String passWord) {
+        return InvokerResult.notNull(super.setUserPassWord(uid, passWord));
+    }
+
+
+    @Override
+    public Object cleanUserToken(String uid, String[] ignoreUToken) {
+        return InvokerResult.notNull(super.cleanUserToken(uid, ignoreUToken));
     }
 }

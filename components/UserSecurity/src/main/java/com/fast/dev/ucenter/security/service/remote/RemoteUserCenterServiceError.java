@@ -4,6 +4,8 @@ import com.fast.dev.ucenter.core.model.BaseUserModel;
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.model.UserRegisterModel;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
+import com.fast.dev.ucenter.core.type.PassWordEncodeType;
+import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,5 +55,25 @@ public class RemoteUserCenterServiceError implements RemoteUserCenterService {
     @Override
     public UserTokenModel createToken(String uid, Long expireTime, TokenEnvironment env) {
         return null;
+    }
+
+    @Override
+    public UserRegisterModel insertBaseUser(UserLoginType loginType, String loginName, String salt, String passWord, PassWordEncodeType encodeType) {
+        return null;
+    }
+
+    @Override
+    public BaseUserModel updateLoginValue(String uid, UserLoginType loginType, String loginName) {
+        return null;
+    }
+
+    @Override
+    public TokenState setUserPassWord(String uid, String passWord) {
+        return null;
+    }
+
+    @Override
+    public long cleanUserToken(String uid, String[] ignoreUToken) {
+        return 0;
     }
 }

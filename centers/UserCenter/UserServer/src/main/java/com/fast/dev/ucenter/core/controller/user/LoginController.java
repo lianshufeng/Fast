@@ -46,9 +46,12 @@ public class LoginController extends SuperController {
 
 
     @RequestMapping("logout")
-    public Object logout(String _uToken) {
+    public Object logout(String _uToken, Boolean all) {
         Assert.hasText(_uToken, "用户令牌不能为空");
-        return InvokerResult.success(this.userService.logout(_uToken));
+        if (all == null) {
+            all = false;
+        }
+        return InvokerResult.success(this.userService.logout(_uToken, all));
     }
 
 

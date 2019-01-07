@@ -4,6 +4,8 @@ import com.fast.dev.ucenter.core.model.BaseUserModel;
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.model.UserRegisterModel;
 import com.fast.dev.ucenter.core.model.UserTokenModel;
+import com.fast.dev.ucenter.core.type.PassWordEncodeType;
+import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -80,16 +82,62 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/login", method = RequestMethod.POST)
-    public UserTokenModel login(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("passWord") String password, @RequestParam(defaultValue = "604800000",value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
+    public UserTokenModel login(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("passWord") String password, @RequestParam(defaultValue = "604800000", value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
 
 
     /**
      * 通过用户id创建用户的令牌
+     *
      * @param uid
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/createToken", method = RequestMethod.POST)
-    public UserTokenModel createToken(@RequestParam("uid") String uid,@RequestParam(defaultValue = "604800000",value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
+    public UserTokenModel createToken(@RequestParam("uid") String uid, @RequestParam(defaultValue = "604800000", value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
 
+
+    /**
+     * 新增用户登陆接口
+     *
+     * @param loginType
+     * @param loginName
+     * @param salt
+     * @param passWord
+     * @return
+     */
+    @RequestMapping(value = "/ucenter/manager/insertBaseUser", method = RequestMethod.POST)
+    public UserRegisterModel insertBaseUser(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("salt") String salt, @RequestParam("passWord") String passWord, @RequestParam("encodeType") PassWordEncodeType encodeType);
+
+
+    /**
+     * 修改用户的登陆值，并放回该用户
+     *
+     * @param uid
+     * @param loginType
+     * @param loginName
+     * @return
+     */
+    @RequestMapping(value = "/ucenter/manager/updateLoginName", method = RequestMethod.POST)
+    public BaseUserModel updateLoginValue(@RequestParam("uid") String uid, @RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName);
+
+
+    /**
+     * 更新用户的密码
+     *
+     * @param uid
+     * @param passWord
+     * @return
+     */
+    @RequestMapping(value = "/ucenter/manager/setUserPassWord", method = RequestMethod.POST)
+    public TokenState setUserPassWord(@RequestParam("uid") String uid, @RequestParam("passWord") String passWord);
+
+
+    /**
+     * 清空指定用户id的所有token
+     *
+     * @param uid
+     * @return
+     */
+    @RequestMapping(value = "/ucenter/manager/cleanUserToken", method = RequestMethod.POST)
+    long cleanUserToken(@RequestParam("uid") String uid, @RequestParam("ignoreUToken") String[] ignoreUToken);
 
 }

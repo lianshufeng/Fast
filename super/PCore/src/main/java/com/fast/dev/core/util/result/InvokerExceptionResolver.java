@@ -1,5 +1,6 @@
 package com.fast.dev.core.util.result;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -14,10 +15,12 @@ import java.util.Map;
  * 时间：2018/8/22
  * 处理统一用的系统异常
  */
+@Slf4j
 public class InvokerExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
         e.printStackTrace();
+        log.error("exception : {}",e);
         ModelAndView mv = new ModelAndView();
         mv.addObject("state", InvokerState.Exception);
         mv.setView(new MappingJackson2JsonView());

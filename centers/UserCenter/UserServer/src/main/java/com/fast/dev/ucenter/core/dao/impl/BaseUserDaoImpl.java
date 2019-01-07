@@ -77,7 +77,28 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
         update.set("salt",salt);
         update.set("passWord",passWord);
         update.unset("passWordEncodeType");
+        this.dbHelper.updateTime(update);
         return this.mongoTemplate.updateFirst(query,update,BaseUser.class).getModifiedCount()>0;
+    }
+
+    @Override
+    public boolean existsByLoginName(UserLoginType loginType, String loginName) {
+        Query query = new Query().addCriteria(Criteria.where(loginType.getUserLoginTypeName()).is(loginName));
+        return this.mongoTemplate.exists(query, BaseUser.class);
+    }
+
+    @Override
+    public BaseUser updateLoginValue(String uid, UserLoginType loginType, String loginName) {
+        Query query = new Query().addCriteria(Criteria.where("_id").is(uid));
+        Update update = new Update();
+
+        update.set(loginType.getUserLoginTypeName(),loginName);
+
+        FindAndModifyOptions options = new FindAndModifyOptions();
+        options.upsert(false);
+        options.returnNew(true);
+
+        return this.mongoTemplate.findAndModify(query,update,options,BaseUser.class);
     }
 
 

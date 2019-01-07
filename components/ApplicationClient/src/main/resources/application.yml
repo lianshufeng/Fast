@@ -13,7 +13,7 @@ eureka:
     lease-renewal-interval-in-seconds: 30 # 续约更新时间间隔
     lease-expiration-duration-in-seconds: 90 # 续约到期时间
 
-#设置可访问的ip
+#设置可访问的ip，一般谁会到具体的环境里
 #eureka:
 #  instance:
 #    prefer-ip-address: true #注册使用ip
@@ -31,6 +31,15 @@ spring:
           brokers: ${Kafka.brokers}
     bus:
       enabled: true
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+    sleuth:
+      sampler:
+      percentage: 1.0
 
 
 
@@ -51,3 +60,16 @@ spring:
 
 
 
+#调试或者输出日志
+logging:
+  file: logs/${project.artifactId}.log
+#  level:
+#    org:
+#      springframework:
+#        cloud:
+#          sleuth: DEBUG
+#        web:
+#          servlet:
+#            DispatcherServlet: DEBUG
+
+#debug: true

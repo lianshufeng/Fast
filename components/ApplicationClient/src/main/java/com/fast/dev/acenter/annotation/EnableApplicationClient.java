@@ -1,5 +1,6 @@
 package com.fast.dev.acenter.annotation;
 
+import com.fast.dev.acenter.core.config.RestTemplateConfig;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Import;
 
@@ -22,6 +23,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @Documented
+
+//载入RestTemplate 配置
+@Import(RestTemplateConfig.class)
 public @interface EnableApplicationClient {
 
 }

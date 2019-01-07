@@ -1,6 +1,8 @@
 # IDE specific files
 /.idea/
 *.iml
+*.log
+*.gz
 
 # Compiler generated files
 target/

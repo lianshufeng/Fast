@@ -5,6 +5,9 @@ import com.fast.dev.ucenter.core.domain.ServiceToken;
 import com.fast.dev.ucenter.core.domain.StrongServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * 作者：练书锋
  * 时间：2018/8/22
@@ -33,7 +36,6 @@ public interface UserTokenDao {
     public boolean createStrongServiceToken(StrongServiceToken strongServiceToken, long expireTime);
 
 
-
     /**
      * 查询令牌
      *
@@ -42,6 +44,15 @@ public interface UserTokenDao {
      * @return
      */
     public <T extends BaseToken> T query(String token);
+
+
+    /**
+     * 查询用户id的令牌
+     *
+     * @param uid
+     * @return
+     */
+    public Set<BaseToken> findByUid(String uid);
 
 
     /**

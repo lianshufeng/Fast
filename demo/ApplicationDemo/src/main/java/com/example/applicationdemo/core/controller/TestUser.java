@@ -7,8 +7,14 @@ import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.Assert;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * 作者：练书锋
@@ -21,9 +27,13 @@ public class TestUser {
     @Autowired
     private RemoteUserCenterService remoteUserCenterService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
 
     @Autowired
     private UserHelper userHelper;
+
 
     @RequestMapping("ping")
 //    @PreAuthorize("hasRole('AUTH_USER')")
@@ -37,14 +47,22 @@ public class TestUser {
 
     @RequestMapping("test")
     public Object test() {
-        System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
-        return InvokerResult.success("login");
+        MultiValueMap<String, Object> m = new LinkedMultiValueMap<>();
+        m.put("loginType", new ArrayList<Object>(){
+            {
+                add("Phone");
+            }
+        });
+        m.put("loginName",new ArrayList<Object>(){{
+            add("15123241353");
+        }});
+        return restTemplate.postForEntity("http://USERSERVER/ucenter/user/getRegisterToken", m, Object.class).getBody();
     }
 
 
     @RequestMapping("excpiton")
     public Object excpiton(String info) {
-        Assert.hasText(info,"不能为空");
+        Assert.hasText(info, "不能为空");
         System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
         return InvokerResult.success("login");
     }

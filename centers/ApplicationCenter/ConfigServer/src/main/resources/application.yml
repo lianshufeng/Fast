@@ -32,3 +32,9 @@ management:
     web:
       exposure:
         include: bus-refresh
+
+
+#调试或者输出日志
+logging:
+  file: logs/${project.artifactId}.log
+#debug: true

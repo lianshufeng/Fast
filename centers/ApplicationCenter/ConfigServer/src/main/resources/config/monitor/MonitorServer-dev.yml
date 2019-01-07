@@ -1,6 +1,0 @@
-turbine:
-  appConfig: userserver,applicationclient
-  aggregator:
-    clusterConfig: default
-  clusterNameExpression: new String("default")
-

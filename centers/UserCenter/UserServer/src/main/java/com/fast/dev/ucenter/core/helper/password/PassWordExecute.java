@@ -1,6 +1,6 @@
 package com.fast.dev.ucenter.core.helper.password;
 
-import com.fast.dev.ucenter.core.helper.password.type.PassWordEncodeType;
+import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 
 public abstract class PassWordExecute {
 

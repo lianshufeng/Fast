@@ -33,9 +33,7 @@
         <!--应用中心-->
         <module>components/ApplicationClient</module>
         <module>components/Remotelock</module>
-        <module>components/Devtools</module>
-        <!--监控中心-->
-        <module>components/MonitorClient</module>
+
         <!--db支持的模块-->
         <module>components/data/BaseData</module>
         <module>components/data/MongodbData</module>
@@ -43,6 +41,8 @@
         <module>components/data/JpaData</module>
         <!--用户安全-->
         <module>components/UserSecurity</module>
+        <!--缓存模块-->
+        <module>components/Component-cache-method</module>
 
         <!--文件中心-->
         <module>centers/FileCenter/FileServer</module>
@@ -60,12 +60,6 @@
         <!--推送中心-->
         <module>centers/PushCenter/PushServer</module>
         <module>centers/PushCenter/PushService</module>
-
-
-        <!-- 监控中心-->
-        <module>centers/MonitorCenter/MonitorServer</module>
-        <module>centers/MonitorCenter/Turbine</module>
-        <module>centers/MonitorCenter/Zipkin</module>
 
         <!-- 例子-->
         <module>demo/ApplicationDemo</module>

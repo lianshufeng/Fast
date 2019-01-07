@@ -22,8 +22,8 @@ spring:
     mongodb:
       database: ucenter
       host: 192.168.31.124:27017
-#      username: ucenter
-#      password: ucenter7758
+#      username:
+#      password:
   redis:
     host: 192.168.31.124
     port: 6379

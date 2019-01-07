@@ -36,7 +36,7 @@ public interface UserLogin {
      *
      * @param token
      */
-    public boolean logout(String token);
+    public boolean logout(String token,boolean all);
 
 
     /**

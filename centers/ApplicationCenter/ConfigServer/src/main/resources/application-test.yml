@@ -7,5 +7,5 @@ spring:
           uri: https://github.com/lianshufeng/Fast.git
           search-paths: centers/ApplicationCenter/ConfigServer/src/main/resources/config/**
           force-pull: true
-          username:
-          password:
+#          username:
+#          password:

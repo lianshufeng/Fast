@@ -54,7 +54,6 @@
         </dependency>
 
 
-
         <!-- 依赖推送中心 -->
         <dependency>
             <groupId>com.fast.dev.pushcenter</groupId>

@@ -12,22 +12,24 @@ import com.fast.dev.ucenter.core.helper.ImageValidateHelper;
 import com.fast.dev.ucenter.core.helper.UserPushMessageHelper;
 import com.fast.dev.ucenter.core.helper.ValidateDataHelper;
 import com.fast.dev.ucenter.core.helper.password.PassWordHelper;
-import com.fast.dev.ucenter.core.helper.password.type.PassWordEncodeType;
 import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.*;
 import com.fast.dev.ucenter.core.util.BaseTokenUtil;
 import com.fast.dev.ucenter.core.util.RandomUtil;
 import com.fast.dev.ucenter.core.util.TokenUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
+import java.lang.reflect.Array;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 通用用户的业务
  */
-public class BaseUserService {
+public abstract class BaseUserService {
 
     @Autowired
     private UserTokenDao userTokenDao;
@@ -75,12 +77,48 @@ public class BaseUserService {
      * @return
      */
     public boolean logout(String token) {
+        return logout(token, false);
+    }
+
+    /**
+     * 用户注销
+     *
+     * @param token
+     * @return
+     */
+    public boolean logout(String token, boolean all) {
         BaseToken baseToken = this.userTokenDao.queryOnly(token);
+        if (baseToken == null) {
+            return false;
+        }
+        //待删除列表
+        Set<BaseToken> baseTokenSet = new HashSet<>();
+        baseTokenSet.add(baseToken);
+        if (all) {
+            Set<BaseToken> baseTokens = this.userTokenDao.findByUid(baseToken.getId());
+            if (baseTokenSet != null) {
+                baseTokenSet.clear();
+                baseTokenSet.addAll(baseTokens);
+            }
+        }
+        //删除
+        for (BaseToken bt : baseTokenSet) {
+            removeUserToken(bt);
+        }
+        return baseTokenSet.size() > 0;
+    }
+
+    /**
+     * 删除指定的用户令牌
+     *
+     * @param baseToken
+     */
+    private boolean removeUserToken(BaseToken baseToken) {
         if (baseToken == null || !(baseToken instanceof UserToken)) {
             return false;
         }
         UserToken userToken = (UserToken) baseToken;
-        boolean flag = this.userTokenDao.remove(token);
+        boolean flag = this.userTokenDao.remove(userToken.getToken());
         if (flag) {
             //删除令牌后消息总线通
             this.userPushMessageHelper.pushLogoutMsg(userToken);
@@ -160,7 +198,7 @@ public class BaseUserService {
 
         //如果不是邮件或者短信修改密码则需要验证原密码
         if (serviceToken.getServiceTokenType() != ServiceTokenType.MailUpdatePassWord && serviceToken.getServiceTokenType() != ServiceTokenType.PhoneUpdatePassWord) {
-            if (!passWordHelper.validate(baseUser.getSalt(), oldPassWord, baseUser.getPassWord(),baseUser.getPassWordEncodeType())) {
+            if (!passWordHelper.validate(baseUser.getSalt(), oldPassWord, baseUser.getPassWord(), baseUser.getPassWordEncodeType())) {
                 return TokenState.PassWordError;
             }
         }
@@ -430,5 +468,42 @@ public class BaseUserService {
 
         return basicServiceToken;
     }
+
+
+    /**
+     * 设置基础用户类型所对应的值
+     *
+     * @param baseUser
+     * @param userLoginType
+     * @param loginName
+     */
+    protected void setBaseUserLoginName(BaseUser baseUser, UserLoginType userLoginType, String loginName) {
+        if (userLoginType == UserLoginType.Phone) {
+            baseUser.setPhone(loginName);
+        } else if (userLoginType == UserLoginType.UserName) {
+            baseUser.setUserName(loginName);
+        }
+    }
+
+
+    /**
+     * 清空用户的用户令牌
+     *
+     * @param uid
+     * @return
+     */
+    public long cleanUserToken(String uid,String [] ignoreUToken) {
+        Set<BaseToken> baseTokens = this.userTokenDao.findByUid(uid);
+        if (baseTokens == null || baseTokens.size() == 0) {
+            return 0;
+        }
+        for (BaseToken baseToken : baseTokens) {
+            if (ignoreUToken!=null && !ArrayUtils.contains(ignoreUToken,baseToken.getToken())){
+                removeUserToken(baseToken);
+            }
+        }
+        return baseTokens.size();
+    }
+
 
 }

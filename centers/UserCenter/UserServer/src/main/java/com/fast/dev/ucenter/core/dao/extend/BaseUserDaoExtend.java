@@ -48,4 +48,22 @@ public interface BaseUserDaoExtend {
     public boolean updatePassWord(String id, String salt, String passWord);
 
 
+    /**
+     * 通过登陆方式查询该用户是否已存在
+     * @param loginType
+     * @param loginName
+     * @return
+     */
+    boolean existsByLoginName(UserLoginType loginType, String loginName);
+
+
+    /**
+     * 修改用户的登陆方式
+     * @param uid
+     * @param loginType
+     * @param loginName
+     * @return
+     */
+    BaseUser updateLoginValue(String uid , UserLoginType loginType, String loginName);
+
 }
