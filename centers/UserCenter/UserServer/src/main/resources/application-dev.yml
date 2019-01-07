@@ -18,8 +18,8 @@ spring:
     mongodb:
       database: ucenter
       host: 192.168.8.12:27017
-#      username:
-#      password:
+      username: ucenter
+      password: ucenter_ayhm_2018
   redis:
     host: 192.168.8.12
     port: 6379

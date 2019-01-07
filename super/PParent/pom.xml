@@ -60,6 +60,8 @@
         <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
         <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
         <Zipkin.baseUrl>127.0.0.1:9411</Zipkin.baseUrl>
+        <Zipkin.sampler.probability>1.0</Zipkin.sampler.probability>
+
 
 
         <!-- 依赖服务版本号-->
@@ -86,6 +88,7 @@
                 <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
                 <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
                 <Zipkin.baseUrl>http://127.0.0.1:9411</Zipkin.baseUrl>
+                <Zipkin.sampler.probability>1.0</Zipkin.sampler.probability>
             </properties>
         </profile>
 
@@ -101,6 +104,7 @@
                 <ConfigCenter.url>http://192.168.8.15:${ConfigCenter.port}</ConfigCenter.url>
                 <Kafka.brokers>192.168.8.12:9092</Kafka.brokers>
                 <Zipkin.baseUrl>http://192.168.8.12:9411</Zipkin.baseUrl>
+                <Zipkin.sampler.probability>0.1</Zipkin.sampler.probability>
             </properties>
         </profile>
 
@@ -114,6 +118,7 @@
                 <ConfigCenter.url>http://192.168.8.12:${ConfigCenter.port}</ConfigCenter.url>
                 <Kafka.brokers>192.168.8.12:9092</Kafka.brokers>
                 <Zipkin.baseUrl>http://192.168.8.12:9411</Zipkin.baseUrl>
+                <Zipkin.sampler.probability>0.1</Zipkin.sampler.probability>
             </properties>
         </profile>
 
@@ -127,6 +132,7 @@
                 <ConfigCenter.url>http://172.16.134.186:${ConfigCenter.port}</ConfigCenter.url>
                 <Kafka.brokers>172.16.119.142:9092</Kafka.brokers>
                 <Zipkin.baseUrl>http://172.16.134.183:9411</Zipkin.baseUrl>
+                <Zipkin.sampler.probability>0.1</Zipkin.sampler.probability>
             </properties>
         </profile>
     </profiles>

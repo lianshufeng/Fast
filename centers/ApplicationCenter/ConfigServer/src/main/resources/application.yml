@@ -25,6 +25,15 @@ spring:
           brokers: ${Kafka.brokers}
     bus:
       enabled: true
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
 
 #允许端点
 management:

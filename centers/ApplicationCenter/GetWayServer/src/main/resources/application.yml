@@ -60,9 +60,10 @@ spring:
     enabled: true
     sender:
       type: web
-    sleuth:
-      sampler:
-      percentage: 1.0
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
+
 
 
 
