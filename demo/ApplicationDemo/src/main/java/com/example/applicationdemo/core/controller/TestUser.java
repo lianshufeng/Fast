@@ -1,15 +1,19 @@
 package com.example.applicationdemo.core.controller;
 
+import com.example.applicationdemo.core.model.UserModel;
 import com.fast.dev.core.util.JsonUtil;
 import com.fast.dev.core.util.result.InvokerResult;
 import com.fast.dev.ucenter.security.helper.UserHelper;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +24,7 @@ import java.util.Map;
  * 作者：练书锋
  * 时间：2018/8/24
  */
+@Slf4j
 @RestController
 public class TestUser {
 
@@ -76,5 +81,30 @@ public class TestUser {
         return InvokerResult.success("logout");
     }
 
+
+    /**
+     * 直接传json对象，但需要设置head，优点是，不需要考虑表单name的顺序，数据签名或加密容易，缺点是需要客户端稍作配置
+     *
+     * head  { Content-Type : application/json}
+     * @param userModel
+     * @return
+     */
+    @RequestMapping("json")
+    public Object json(@RequestBody UserModel userModel){
+        log.info("json : {}",JsonUtil.toJson(userModel));
+        return userModel;
+    }
+
+
+    /**
+     *  mvc 支持model 接收参数
+     * @param userModel
+     * @return
+     */
+    @RequestMapping("model")
+    public Object model(UserModel userModel){
+        log.info("model : {}",JsonUtil.toJson(userModel));
+        return userModel;
+    }
 
 }
