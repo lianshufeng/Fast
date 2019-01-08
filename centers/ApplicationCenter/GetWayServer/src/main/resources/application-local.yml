@@ -1,3 +1,8 @@
+eureka:
+  instance:
+    prefer-ip-address: true #注册使用ip
+    instance-id: 127.0.0.1:${GetWayCenter.port} #实例id
+    ip-address: 127.0.0.1 #可访问的ip地址
 
 
 #开启断路器
@@ -12,24 +17,3 @@ spring:
     loadbalancer:
       retry:
         enabled: true
-
-  #断路器的超时时间,断路器的超时时间需要大于ribbon的超时时间，不然不会触发重试。
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 10000
-
-#ribbon请求连接的超时时间
-ribbon:
-  ConnectTimeout: 250
-  #请求处理的超时时间
-  ReadTimeout: 1000
-  #对所有操作请求都进行重试
-  OkToRetryOnAllOperations: true
-  #对当前实例的重试次数
-  MaxAutoRetries: 1
-  #对下个实例的重试次数
-  MaxAutoRetriesNextServer: 1
