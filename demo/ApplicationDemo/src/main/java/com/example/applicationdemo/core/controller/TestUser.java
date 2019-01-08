@@ -7,6 +7,8 @@ import com.fast.dev.ucenter.security.helper.UserHelper;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
@@ -25,6 +27,9 @@ import java.util.Map;
  * 时间：2018/8/24
  */
 @Slf4j
+// 支持动态刷新配置
+@RefreshScope
+
 @RestController
 public class TestUser {
 
@@ -38,6 +43,17 @@ public class TestUser {
 
     @Autowired
     private UserHelper userHelper;
+
+//    @Value("${config.test2}")
+    @Value("${server.port}")
+    private String config;
+
+
+    @RequestMapping("config")
+    public Object config() {
+        return InvokerResult.success(config);
+    }
+
 
 
     @RequestMapping("ping")
