@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ public class SecurityAuthenticationHelper {
         //先清空缓存
         release();
         String uToken = getToken(httpServletRequest);
-        if (uToken == null) {
+        if (StringUtils.isEmpty(uToken)) {
             return;
         }
 

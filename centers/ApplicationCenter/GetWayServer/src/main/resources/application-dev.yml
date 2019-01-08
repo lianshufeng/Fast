@@ -1,4 +1,4 @@
-ureka:
+eureka:
   instance:
     prefer-ip-address: true #注册使用ip
     instance-id: 192.168.8.15:${GetWayCenter.port} #实例id
