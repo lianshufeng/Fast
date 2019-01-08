@@ -59,7 +59,7 @@
         <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
         <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
         <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
-        <Zipkin.baseUrl>127.0.0.1:9411</Zipkin.baseUrl>
+        <Zipkin.baseUrl>http://127.0.0.1:9411</Zipkin.baseUrl>
         <Zipkin.sampler.probability>1.0</Zipkin.sampler.probability>
 
 
