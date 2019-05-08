@@ -75,9 +75,9 @@ management:
 #调试或者输出日志
 logging:
   file: logs/${project.artifactId}.log
-  level:
-    org:
-      springframework:
-        web:
-          servlet:
-            DispatcherServlet: DEBUG
+#  level:
+#    org:
+#      springframework:
+#        web:
+#          servlet:
+#            DispatcherServlet: DEBUG

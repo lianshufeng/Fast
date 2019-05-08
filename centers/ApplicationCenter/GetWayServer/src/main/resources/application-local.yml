@@ -4,16 +4,16 @@ eureka:
     instance-id: 127.0.0.1:${GetWayCenter.port} #实例id
     ip-address: 127.0.0.1 #可访问的ip地址
 
-
-#开启断路器
-#feign.hystrix.enabled=true
-
-
-#retry
-#该参数用来开启重试机制=true
-#断路器的超时时间,断路器的超时时间需要大于ribbon的超时时间，不然不会触发重试。
-spring:
-  cloud:
-    loadbalancer:
-      retry:
-        enabled: true
+#路由规则
+zuul:
+  ribbon.eager-load.enabled: true
+  retryable: true #是否开启重试，默认全部都重试
+  add-host-header: true
+  ignoredServices: "applicationserver,configserver,getwayserver,pushserver" #默认不转发所有
+  ignoredPatterns: "/**/manager/**,/**/endpoints/**" #禁止转发管理接口
+  routes:
+    #  用户中心
+    ucenter:
+      stripPrefix: false #是否去掉代理的path前缀
+      path: "/ucenter/**"
+      serviceId: UserServer

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-//@Component
+@Component
 public class LogUrlInterceptor implements UrlInterceptor {
 
     //记录起始时间

@@ -1,6 +1,0 @@
-#设置可访问的ip
-eureka:
-  instance:
-    prefer-ip-address: true #注册使用ip
-    instance-id: 172.16.134.186:8300 #实例id
-    ip-address: 172.16.134.186 #可访问的ip地址

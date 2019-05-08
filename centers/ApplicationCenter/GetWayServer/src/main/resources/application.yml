@@ -51,9 +51,9 @@ spring:
           brokers: ${Kafka.brokers}
     bus:
       enabled: true
-    #路由表
-    config:
-      name: ${project.artifactId},${project.artifactId}-routes
+#    #路由表
+#    config:
+#      name: ${project.artifactId}-routes
   #配置zipkin链路追踪客户端
   zipkin:
     base-url: ${Zipkin.baseUrl}

@@ -43,12 +43,12 @@ spring:
 
 
 #允许端点
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"
-#        exclude: "env,beans"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
 
 
 

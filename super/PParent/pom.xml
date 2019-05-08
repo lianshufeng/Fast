@@ -21,10 +21,10 @@
         <java.version>1.8</java.version>
 
         <!--spring cloud 版本-->
-        <spring-mvc.version>5.1.3.RELEASE</spring-mvc.version>
-        <spring-security.version>5.1.1.RELEASE</spring-security.version>
-        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
-        <spring-cloud.version>Greenwich.M3</spring-cloud.version>
+        <spring-mvc.version>5.1.6.RELEASE</spring-mvc.version>
+        <spring-security.version>5.1.5.RELEASE</spring-security.version>
+        <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
+        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
 
 
         <!--项目版本-->
@@ -52,16 +52,6 @@
 
         <!--文件中心-->
         <FileCenter.port>8400</FileCenter.port>
-
-
-        <!-- 默认配置文件-->
-        <spring.profiles.active>local</spring.profiles.active>
-        <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-        <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
-        <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
-        <Zipkin.baseUrl>http://127.0.0.1:9411</Zipkin.baseUrl>
-        <Zipkin.sampler.probability>1.0</Zipkin.sampler.probability>
-
 
 
         <!-- 依赖服务版本号-->
