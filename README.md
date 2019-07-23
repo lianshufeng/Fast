@@ -73,3 +73,7 @@ Spring cloud and boot Framework
         - spring data jpa sql
         - spring data jpa mongo
         - spring data jpa es
+        
+        
+- 注意：
+    - idea 中启动，需要使用环境 DevelopmentRunTime
