@@ -1,6 +1,5 @@
 package boot;
 
-import com.fast.dev.component.remotelock.RemoteLock;
 import com.fast.dev.core.boot.ApplicationBootSuper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -17,6 +16,13 @@ public class ApplicationBoot extends ApplicationBootSuper {
     public static void main(String[] args) {
         ApplicationContext ac = SpringApplication.run(ApplicationBoot.class, args);
 
+
+        try {
+            ac.getBean(Demo_Queue.class).run();
+//            ac.getBean(Demo_Get.class).run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

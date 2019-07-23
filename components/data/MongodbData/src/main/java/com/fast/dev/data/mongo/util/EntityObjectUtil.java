@@ -1,14 +1,15 @@
 package com.fast.dev.data.mongo.util;
 
 
-import com.fast.dev.core.util.JsonUtil;
 import com.fast.dev.data.mongo.domain.SuperEntity;
-import lombok.Data;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 实体工具类
@@ -105,7 +106,7 @@ public class EntityObjectUtil {
     public static void entity2Update(Object entity, Update update, Set<String> ignore) {
         entity2Update(entity, entity.getClass(), update, ignore);
     }
-    
+
     /**
      * 实体判断是否为null，非null并设置到update中的修改
      *
@@ -148,7 +149,7 @@ public class EntityObjectUtil {
 //        System.out.println(JsonUtil.toJson(update));
 //    }
 //
-//    @Data
+//    @DataRule
 //    public static class TestClass extends SuperEntity {
 //        private String test1;
 //        private String test2;

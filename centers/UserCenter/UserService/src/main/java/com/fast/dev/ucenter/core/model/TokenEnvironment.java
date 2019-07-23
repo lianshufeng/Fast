@@ -18,15 +18,9 @@ public class TokenEnvironment implements Serializable {
 
 
     /**
-     * 登陆ip
+     * 客户端信息
      */
-    private String remoteIp;
-
-
-    /**
-     * 用户的ip
-     */
-    private String clientIp;
+    private ClientInfo clientInfo;
 
 
     /**

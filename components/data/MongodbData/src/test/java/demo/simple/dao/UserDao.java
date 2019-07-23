@@ -65,4 +65,6 @@ public interface UserDao extends MongoDao<User>, UserDaoExtend {
     Page<User> findByUserName(String name, Pageable pageable);
 
 
+
+
 }

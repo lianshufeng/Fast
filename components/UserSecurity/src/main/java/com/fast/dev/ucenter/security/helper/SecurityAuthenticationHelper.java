@@ -5,7 +5,6 @@ import com.fast.dev.ucenter.security.cache.UserTokenCache;
 import com.fast.dev.ucenter.security.model.UserAuth;
 import com.fast.dev.ucenter.security.model.UserAuthenticationToken;
 import com.fast.dev.ucenter.security.service.UserCenterService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,18 +50,18 @@ public class SecurityAuthenticationHelper {
             return;
         }
 
-        boolean readCache = true;
+        boolean needUpdateCache = false;
         //缓存或远程查询
         UserAuth userAuthenticationModel = this.userTokenCache.get(uToken);
         if (userAuthenticationModel == null) {
             userAuthenticationModel = remoteUserCenterService.query(uToken);
-            readCache = false;
+            needUpdateCache = true;
         }
         //设置当前用户的角色
         setUserAuthentication(httpServletRequest, userAuthenticationModel);
         //缓存数据
-        if (readCache == false && userAuthenticationModel != null) {
-            if (userAuthenticationModel.getRoles()!=null){
+        if (needUpdateCache == true && userAuthenticationModel != null) {
+            if (userAuthenticationModel.getRoles() != null) {
                 Set<String> roles = new HashSet();
                 roles.addAll(userAuthenticationModel.getRoles());
                 userAuthenticationModel.setRoles(roles);

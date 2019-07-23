@@ -7,8 +7,8 @@ import com.fast.dev.ucenter.security.helper.SecurityAuthenticationHelper;
 import com.fast.dev.ucenter.security.helper.UserHelper;
 import com.fast.dev.ucenter.security.interceptors.UserTokenInterceptor;
 import com.fast.dev.ucenter.security.service.UserCenterService;
-import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterServiceError;
-import com.fast.dev.ucenter.security.stream.UserStream;
+import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
+import com.fast.dev.ucenter.security.service.remote.impl.RemoteUserCenterServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -24,7 +24,6 @@ public class UserSecurityBeansConfig {
     public UserTokenInterceptor userTokenInterceptor() {
         return new UserTokenInterceptor();
     }
-
 
     @Bean
     public SecurityAuthenticationHelper securityAuthenticationHelper() {
@@ -42,16 +41,14 @@ public class UserSecurityBeansConfig {
     }
 
     @Bean
-    public UserCenterService remoteUserCenterService() {
+    public UserCenterService userCenterService() {
         return new UserCenterService();
     }
-
 
     @Bean
     public UserSecurityConf userSecurityConf() {
         return new UserSecurityConf();
     }
-
 
     @Bean
     public UserHelper userHelper() {
@@ -60,8 +57,8 @@ public class UserSecurityBeansConfig {
 
 
     @Bean
-    public RemoteUserCenterServiceError remoteUserCenterServiceError() {
-        return new RemoteUserCenterServiceError();
+    public RemoteUserCenterService remoteUserCenterService() {
+        return new RemoteUserCenterServiceImpl();
     }
 
 

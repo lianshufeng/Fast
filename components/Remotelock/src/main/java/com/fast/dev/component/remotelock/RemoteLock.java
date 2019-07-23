@@ -1,7 +1,5 @@
 package com.fast.dev.component.remotelock;
 
-import com.fast.dev.component.remotelock.conf.LockOption;
-
 /**
  * 远程锁
  *
@@ -11,26 +9,22 @@ import com.fast.dev.component.remotelock.conf.LockOption;
  */
 public abstract class RemoteLock {
 
-    private LockOption option;
 
     /**
-     * @return the option
-     */
-    public LockOption getOption() {
-        return option;
-    }
-
-    public RemoteLock(LockOption option) {
-        super();
-        this.option = option;
-    }
-
-    /**
-     * 资源锁, 所有线程依次执行
+     * 添加到队列中，并执行
      *
      * @param name
      */
-    public abstract SyncToken lock(String name) throws Exception;
+    public abstract SyncToken queue(String name) throws Exception;
 
+
+    /**
+     * 获取令牌，有且仅一个会成功，成功必须释放否则其他无法再获取，失败返回null
+     *
+     * @param name
+     * @return
+     * @throws Exception
+     */
+    public abstract SyncToken get(String name) throws Exception;
 
 }

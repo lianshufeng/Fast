@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  springboot:
+    image: lianshufeng/springboot
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/opt/jars:/opt/jar"
+    working_dir: /opt/jar
+    container_name: app
+    restart: always
+    environment:
+      - JAVA_HOME="/opt/jdk"
+      - PATH="$PATH:$JAVA_HOME"
+      - ENTRYPOINT=nohup java -Xmx1000m -Xms600m -Duser.timezone=GMT+8 -Dspring.profiles.active=dev -jar app.jar

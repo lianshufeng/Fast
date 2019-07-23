@@ -124,7 +124,7 @@ public class ManagerController {
         Assert.hasText(uid, "用户id不能为空");
         Assert.notNull(loginType, "登陆类型不能为空");
         Assert.notNull(loginName, "登陆名不能为空");
-        return this.userManager.updateLoginValue(uid, loginType, loginName);
+        return this.userManager.updateLoginName(uid, loginType, loginName);
     }
 
 

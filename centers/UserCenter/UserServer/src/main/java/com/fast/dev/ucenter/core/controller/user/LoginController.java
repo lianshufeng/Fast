@@ -1,6 +1,8 @@
 package com.fast.dev.ucenter.core.controller.user;
 
+import com.fast.dev.core.util.net.IPUtil;
 import com.fast.dev.core.util.result.InvokerResult;
+import com.fast.dev.ucenter.core.model.ClientInfo;
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.service.UserService;
 import com.fast.dev.ucenter.core.type.UserLoginType;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class LoginController extends SuperController {
@@ -24,10 +28,11 @@ public class LoginController extends SuperController {
      * @return
      */
     @RequestMapping("login")
-    public Object login(String token, String code, String passWord, @RequestParam(defaultValue = "604800000") Long expireTime, TokenEnvironment env) {
+    public Object login(HttpServletRequest request, String token, String code, String passWord, @RequestParam(defaultValue = "604800000") Long expireTime, TokenEnvironment env) {
         Assert.hasText(token, "令牌不能为空");
         Assert.hasText(code, "校验码不能为空");
         Assert.hasText(passWord, "密码不能为空");
+        env.setClientInfo(new ClientInfo(IPUtil.getRemoteIp(request), request.getHeader("User-Agent")));
         return InvokerResult.success(this.userService.login(env, token, code, passWord, expireTime));
     }
 

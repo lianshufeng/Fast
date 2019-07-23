@@ -20,7 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Order
 @EnableWebSecurity
-@EnableFeignClients("com.fast.dev.ucenter.security.service.remote")
+//@EnableFeignClients("com.fast.dev.ucenter.security.service.remote")
 @Import({MVCConfiguration.class, UserSecurityBeansConfig.class, MethodSecurityConfig.class})
 public class UCenterSecurity extends WebSecurityConfigurerAdapter {
 

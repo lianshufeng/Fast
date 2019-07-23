@@ -8,11 +8,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @Configuration
 //jpa必须
-@EnableMongoRepositories("com.fast.dev.ucenter.core.dao")
+@EnableMongoRepositories("com.fast.dev.ucenter.core.dao.mongo")
 // 事务及配置BigDecimal
 @Import(MongoConfiguration.class)
-//扫描工具包
-@ComponentScan("com.fast.dev.data.mongo")
 public class UCenterMongoConfiguration {
 
 

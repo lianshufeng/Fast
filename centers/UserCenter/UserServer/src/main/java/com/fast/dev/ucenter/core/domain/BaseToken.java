@@ -5,6 +5,7 @@ import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
  * 作者：练书锋
@@ -18,25 +19,28 @@ public class BaseToken extends SuperEntity {
     /**
      * 令牌
      */
+    @Indexed
     private String token;
 
 
     /**
      * 访问次数
      */
-    private int accessCount;
+    @Indexed
+    private long accessCount;
 
 
     /**
      * 到期时间
      */
+    @Indexed
     private long expireTime;
 
 
     /**
      * 创建令牌时候的环境
      */
-    private TokenEnvironment createTokenEnvironment;
+    private TokenEnvironment environment;
 
 
 }

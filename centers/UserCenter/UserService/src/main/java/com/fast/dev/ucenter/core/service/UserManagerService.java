@@ -25,7 +25,7 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/queryUserToken", method = RequestMethod.POST)
-    public UserTokenModel queryByUserToken(@RequestParam("token") String token);
+    UserTokenModel queryByUserToken(@RequestParam("token") String token);
 
 
     /**
@@ -35,7 +35,7 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/logout", method = RequestMethod.POST)
-    public boolean logout(@RequestParam("token") String token);
+    boolean logout(@RequestParam("token") String token);
 
 
     /**
@@ -45,7 +45,7 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/queryUserId", method = RequestMethod.POST)
-    public BaseUserModel queryUserId(@RequestParam("uid") String uid);
+    BaseUserModel queryUserId(@RequestParam("uid") String uid);
 
 
     /**
@@ -57,7 +57,7 @@ public interface UserManagerService {
      */
 
     @RequestMapping(value = "/ucenter/manager/queryByLoginName", method = RequestMethod.POST)
-    public BaseUserModel queryByLoginName(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName);
+    BaseUserModel queryByLoginName(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName);
 
 
     /**
@@ -69,20 +69,20 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/addUser", method = RequestMethod.POST)
-    public UserRegisterModel addUser(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("passWord") String passWord);
+    UserRegisterModel addUser(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("passWord") String passWord);
 
     /**
      * 登录用户
      *
      * @param loginType
      * @param loginName
-     * @param password
+     * @param passWord
      * @param expireTime
      * @param env
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/login", method = RequestMethod.POST)
-    public UserTokenModel login(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("passWord") String password, @RequestParam(defaultValue = "604800000", value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
+    UserTokenModel login(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("passWord") String passWord, @RequestParam(defaultValue = "604800000", value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
 
 
     /**
@@ -92,7 +92,7 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/createToken", method = RequestMethod.POST)
-    public UserTokenModel createToken(@RequestParam("uid") String uid, @RequestParam(defaultValue = "604800000", value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
+    UserTokenModel createToken(@RequestParam("uid") String uid, @RequestParam(defaultValue = "604800000", value = "expireTime") Long expireTime, @RequestParam("env") TokenEnvironment env);
 
 
     /**
@@ -105,7 +105,7 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/insertBaseUser", method = RequestMethod.POST)
-    public UserRegisterModel insertBaseUser(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("salt") String salt, @RequestParam("passWord") String passWord, @RequestParam("encodeType") PassWordEncodeType encodeType);
+    UserRegisterModel insertBaseUser(@RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName, @RequestParam("salt") String salt, @RequestParam("passWord") String passWord, @RequestParam("encodeType") PassWordEncodeType encodeType);
 
 
     /**
@@ -117,7 +117,7 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/updateLoginName", method = RequestMethod.POST)
-    public BaseUserModel updateLoginValue(@RequestParam("uid") String uid, @RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName);
+    BaseUserModel updateLoginName(@RequestParam("uid") String uid, @RequestParam("loginType") UserLoginType loginType, @RequestParam("loginName") String loginName);
 
 
     /**
@@ -128,7 +128,7 @@ public interface UserManagerService {
      * @return
      */
     @RequestMapping(value = "/ucenter/manager/setUserPassWord", method = RequestMethod.POST)
-    public TokenState setUserPassWord(@RequestParam("uid") String uid, @RequestParam("passWord") String passWord);
+    TokenState setUserPassWord(@RequestParam("uid") String uid, @RequestParam("passWord") String passWord);
 
 
     /**

@@ -1,5 +1,6 @@
 package demo.simple.service;
 
+import com.fast.dev.data.base.data.DataHelper;
 import com.mongodb.client.result.UpdateResult;
 import demo.simple.dao.UserDao;
 import demo.simple.domain.User;
@@ -139,6 +140,21 @@ public class UserService {
             }
         }
         return ids;
+    }
+
+
+    @Autowired
+    private DataHelper dataHelper;
+
+
+
+    @Transactional
+    public Object dataUpdate(String uid, String userName) {
+        //数据更新
+        this.userDao.dataUpdate(uid, userName);
+        //同步数据
+        return this.dataHelper.update(User.class, uid);
+
     }
 
 

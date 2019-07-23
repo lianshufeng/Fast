@@ -21,4 +21,7 @@ public class UserSecurityConf {
     // 在拦截的URL中排除不拦截的URL
     private String[] excludeSecurityMethodUrl = new String[]{"/" + MVCConfiguration.StaticResources + "/**", "/error"};
 
+    //  用户中心的应用名称
+    private String ucenterAppName = "USERSERVER";
+
 }

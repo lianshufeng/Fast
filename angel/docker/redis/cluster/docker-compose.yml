@@ -1,0 +1,93 @@
+version: '3.3'
+
+services:
+       
+  redis1:
+    image: redis
+    restart: always
+    container_name: redis1
+    volumes:
+      - ${store}/redis1:/data
+      - ./conf:/usr/local/etc/redis
+      - ./cluster.sh:/opt/cluster.sh
+      - ./.env:/opt/.env
+    command: redis-server /usr/local/etc/redis/redis-6379.conf
+    network_mode: "host"
+    ports:
+      - 6379:6379
+      - 16379:16379
+
+  redis2:
+    image: redis
+    restart: always
+    container_name: redis2
+    volumes:
+      - ${store}/redis2:/data
+      - ./conf:/usr/local/etc/redis
+    command: redis-server /usr/local/etc/redis/redis-6380.conf
+    network_mode: "host"
+    ports:
+      - 6380:6380
+      - 16380:16380
+
+      
+  redis3:
+    image: redis
+    restart: always
+    container_name: redis3
+    volumes:
+      - ${store}/redis3:/data
+      - ./conf:/usr/local/etc/redis
+    command: redis-server /usr/local/etc/redis/redis-6381.conf
+    network_mode: "host"
+    ports:
+      - 6381:6381
+      - 16381:16381
+
+      
+      
+  redis4:
+    image: redis
+    restart: always
+    container_name: redis4
+    volumes:
+      - ${store}/redis4:/data
+      - ./conf:/usr/local/etc/redis
+    command: redis-server /usr/local/etc/redis/redis-6382.conf
+    network_mode: "host"
+    ports:
+      - 6382:6382
+      - 16382:16382
+
+
+  redis5:
+    image: redis
+    restart: always
+    container_name: redis5
+    volumes:
+      - ${store}/redis5:/data
+      - ./conf:/usr/local/etc/redis
+    command: redis-server /usr/local/etc/redis/redis-6383.conf
+    network_mode: "host"
+    ports:
+      - 6383:6383
+      - 16383:16383
+
+
+
+  redis6:
+    image: redis
+    restart: always
+    hostname: redis6
+    container_name: redis6
+    volumes:
+      - ${store}/redis6:/data
+      - ./conf:/usr/local/etc/redis
+    command: redis-server /usr/local/etc/redis/redis-6384.conf
+    network_mode: "host"
+    ports:
+      - 6384:6384
+      - 16384:16384
+
+
+

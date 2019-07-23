@@ -1,7 +1,7 @@
 package com.fast.dev.component.remotelock.impl;
 
 import com.fast.dev.component.remotelock.SyncToken;
-
+import lombok.NoArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.zookeeper.KeeperException;
@@ -9,11 +9,12 @@ import org.apache.zookeeper.KeeperException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+@NoArgsConstructor
 public abstract class GeneralLockToken implements SyncToken {
 
     static Log log = LogFactory.getLog(GeneralLockToken.class);
     // 默认的前缀
-    final static String defaultNodePreName = "lock_";
+    final static String defaultNodePreName = "_lock_";
     // 远程锁
     protected RemoteLockZooKeeper remoteLock;
     // 锁定的名称
@@ -25,14 +26,27 @@ public abstract class GeneralLockToken implements SyncToken {
     // 可否执行
     protected boolean canRun = true;
 
-    public GeneralLockToken(RemoteLockZooKeeper remoteLock, String name) throws KeeperException, InterruptedException {
-        super();
+
+    /**
+     * 支持无参数构造
+     *
+     * @param remoteLock
+     * @param name
+     * @throws KeeperException
+     * @throws InterruptedException
+     */
+    protected void init(RemoteLockZooKeeper remoteLock, String name) throws Exception {
         this.remoteLock = remoteLock;
         this.name = name;
         // 创建用户节点
         createUserNode();
         // 锁定
         lock();
+    }
+
+    public GeneralLockToken(RemoteLockZooKeeper remoteLock, String name) throws Exception {
+        super();
+        init(remoteLock, name);
     }
 
     /**
@@ -56,7 +70,7 @@ public abstract class GeneralLockToken implements SyncToken {
      * @throws KeeperException
      * @throws Exception
      */
-    public abstract void lock() throws KeeperException, InterruptedException;
+    public abstract void lock() throws Exception;
 
     /**
      * 用户节点路径
@@ -64,14 +78,14 @@ public abstract class GeneralLockToken implements SyncToken {
      * @return
      */
     protected String userNodePath() {
-        return this.remoteLock.serviceNodePath() + "/" + this.name;
+        return this.remoteLock.serviceNodePath();
     }
 
     /**
      * @return
      */
     protected String nodeUserPrePath() {
-        return userNodePath() + "/" + defaultNodePreName;
+        return userNodePath() + "/" + this.name + defaultNodePreName;
     }
 
     /**
@@ -97,7 +111,8 @@ public abstract class GeneralLockToken implements SyncToken {
      * @throws InterruptedException
      */
     protected void threadWait() throws InterruptedException {
-        downLatch.await(this.remoteLock.option.getMaxThreadWaitTime(), TimeUnit.MILLISECONDS);
+//        downLatch.await(this.remoteLock.getOption().getMaxThreadWaitTime(), TimeUnit.MILLISECONDS);
+        downLatch.await();
     }
 
 }

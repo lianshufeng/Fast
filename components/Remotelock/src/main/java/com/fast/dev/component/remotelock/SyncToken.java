@@ -12,6 +12,6 @@ public interface SyncToken {
     /**
      * 解锁
      */
-    public void release() throws Exception;
+    void release() throws Exception;
 
 }

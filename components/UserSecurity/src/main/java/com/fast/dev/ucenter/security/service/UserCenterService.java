@@ -5,9 +5,12 @@ import com.fast.dev.ucenter.security.model.UserAuth;
 import com.fast.dev.ucenter.security.model.UserIdentity;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
 import com.fast.dev.ucenter.security.util.TimeUtil;
+import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
@@ -15,11 +18,16 @@ import java.util.Collection;
 /**
  * 远程用户中心的接口
  */
+@Log
 public class UserCenterService {
 
 
     @Autowired
     private RemoteUserCenterService remoteUserCenterService;
+
+
+    @Autowired
+    private RestTemplate restTemplate;
 
 
     @Autowired
@@ -32,8 +40,13 @@ public class UserCenterService {
     private void init() {
         Collection<UserAuthentication> collection = this.applicationContext.getBeansOfType(UserAuthentication.class).values();
         if (collection != null && collection.size() > 0) {
-            userAuthentication = collection.toArray(new UserAuthentication[0])[0];
+            this.userAuthentication = collection.toArray(new UserAuthentication[0])[0];
         }
+
+        if (this.userAuthentication == null) {
+            throw new RuntimeException("用户权限模块，未发现实现的 UserAuthentication 接口 ");
+        }
+
     }
 
 
@@ -44,8 +57,12 @@ public class UserCenterService {
      * @return
      */
     public UserAuth query(String token) {
-        UserTokenModel userTokenModel = this.remoteUserCenterService.queryByUserToken(token);
-        if (userTokenModel == null || this.userAuthentication == null) {
+        if (StringUtils.isEmpty(token) || "null".equalsIgnoreCase(token)) {
+            log.info("[Token_Null] : " + token);
+            return null;
+        }
+        UserTokenModel userTokenModel = queryByUserToken(token);
+        if (userTokenModel == null) {
             return null;
         }
         //成功返回角色列表
@@ -62,5 +79,17 @@ public class UserCenterService {
         userAuth.setCreateTime(TimeUtil.getTime());
         return userAuth;
     }
+
+
+    /**
+     * 通过用户令牌查询用户信息
+     *
+     * @param token
+     * @return
+     */
+    private UserTokenModel queryByUserToken(String token) {
+        return this.remoteUserCenterService.queryByUserToken(token);
+    }
+
 
 }

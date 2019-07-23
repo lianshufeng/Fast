@@ -4,8 +4,7 @@ import com.fast.dev.core.util.JsonUtil;
 import com.fast.dev.ucenter.core.model.UserMessage;
 import com.fast.dev.ucenter.core.stream.UserCenterInputStream;
 import com.fast.dev.ucenter.security.cache.UserTokenCache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -15,10 +14,9 @@ import javax.annotation.Resource;
 /**
  * 用于接收消息
  */
+@Log
 @EnableBinding(value = {UserCenterInputStream.class})
 public class UserStream {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserStream.class);
 
     @Resource
     private UserTokenCache userTokenCache;
@@ -27,7 +25,7 @@ public class UserStream {
 
     @StreamListener(value = UserCenterInputStream.name)
     public void receive(@Payload UserMessage userMessage) {
-        logger.info(String.format(LogTemplate, JsonUtil.toJson(userMessage)));
+        log.info(String.format(LogTemplate, JsonUtil.toJson(userMessage)));
         //类型为注销
         switch (userMessage.getType()) {
             case Register:

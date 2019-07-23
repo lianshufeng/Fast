@@ -32,17 +32,20 @@
         <!-- 模块-->
         <!--应用中心-->
         <module>components/ApplicationClient</module>
-        <module>components/Remotelock</module>
 
         <!--db支持的模块-->
         <module>components/data/BaseData</module>
         <module>components/data/MongodbData</module>
         <module>components/data/RedisData</module>
         <module>components/data/JpaData</module>
+        <module>components/data/ElasticSearchData</module>
         <!--用户安全-->
         <module>components/UserSecurity</module>
         <!--缓存模块-->
         <module>components/Component-cache-method</module>
+
+        <!--api文档生成器-->
+        <!--        <module>components/Swagger2</module>-->
 
         <!--文件中心-->
         <module>centers/FileCenter/FileServer</module>
@@ -57,12 +60,14 @@
         <module>centers/UserCenter/UserService</module>
         <module>centers/UserCenter/UserServer</module>
 
+        <!--任务保证执行服务-->
+        <module>centers/PromiseCenter/PromiseTask</module>
+        <module>centers/PromiseCenter/PromiseService</module>
+
         <!--推送中心-->
         <module>centers/PushCenter/PushServer</module>
         <module>centers/PushCenter/PushService</module>
 
-        <!-- 例子-->
-        <module>demo/ApplicationDemo</module>
 
 
     </modules>

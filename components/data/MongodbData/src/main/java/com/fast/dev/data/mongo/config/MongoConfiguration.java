@@ -4,6 +4,7 @@ import com.fast.dev.data.mongo.config.converts.BigDecimalToDecimal128Converter;
 import com.fast.dev.data.mongo.config.converts.Decimal128ToBigDecimalConverter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @Configuration
 @EnableMongoAuditing
+@ComponentScan("com.fast.dev.data.mongo")
 public class MongoConfiguration {
 
     /**

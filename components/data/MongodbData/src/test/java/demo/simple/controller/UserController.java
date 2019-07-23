@@ -1,6 +1,9 @@
 package demo.simple.controller;
 
 
+import com.fast.dev.data.base.data.DataHelper;
+import demo.simple.dao.UserDao;
+import demo.simple.domain.User;
 import demo.simple.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDao userDao;
 
 
     @RequestMapping("time")
@@ -72,7 +78,7 @@ public class UserController {
 
     @RequestMapping("update")
     public Object update(String name, int r, int o) {
-        return this.userService.update(name,r,o);
+        return this.userService.update(name, r, o);
     }
 
 
@@ -81,6 +87,11 @@ public class UserController {
         return this.userService.transactional(n);
     }
 
+
+    @RequestMapping("dataUpdate")
+    public Object dataUpdate(String id, String name) {
+        return this.userService.dataUpdate(id, name);
+    }
 
 
 }

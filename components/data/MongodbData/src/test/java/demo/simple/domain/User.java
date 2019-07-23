@@ -1,6 +1,8 @@
 package demo.simple.domain;
 
 
+import com.fast.dev.data.base.data.annotations.DataRule;
+import com.fast.dev.data.base.data.annotations.DataUpdate;
 import com.fast.dev.data.mongo.domain.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User extends SuperEntity {
 
     //用户名
+    @DataUpdate({@DataRule(targetEntity = UserInfo.class, targetField = "name", targetQuery = "{'uid': ':id' }")})
     private String userName;
 
     //随机数

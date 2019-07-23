@@ -1,0 +1,4 @@
+#需要处理的环境
+spring:
+  profiles:
+    active: dev

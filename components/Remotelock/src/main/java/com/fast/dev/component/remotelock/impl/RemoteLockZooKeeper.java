@@ -3,18 +3,21 @@ package com.fast.dev.component.remotelock.impl;
 import com.fast.dev.component.remotelock.RemoteLock;
 import com.fast.dev.component.remotelock.SyncToken;
 import com.fast.dev.component.remotelock.conf.LockOption;
-import com.fast.dev.component.remotelock.exception.ServerErrorException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
+import lombok.Getter;
+import lombok.extern.java.Log;
+import org.apache.zookeeper.*;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * 远程资源锁的实现
@@ -23,30 +26,43 @@ import java.util.concurrent.ConcurrentHashMap;
  * @联系 251708339@qq.com
  * @时间 2018年1月17日
  */
-public class RemoteLockZooKeeper extends RemoteLock {
-    static Log log = LogFactory.getLog(RemoteLockZooKeeper.class);
 
-    private Map<Thread, SyncLockToken> threadCounterMap = new ConcurrentHashMap<Thread, SyncLockToken>();
+@Log
+@Component
+public class RemoteLockZooKeeper extends RemoteLock {
+
+    @Getter
+    @Autowired
+    private LockOption option;
+
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    private Map<Thread, SyncToken> threadCounterMap = new ConcurrentHashMap<>();
+
+    //连接
+    private CountDownLatch connectionZKDownLatch = new CountDownLatch(1);
+
 
     public final static String DefaultTempLockRoot = "_remote_lock_";
     // 默认配置
-    public LockOption option;
+
     // 当前客户端
     public ZooKeeper zk;
     // 资源锁
     private ResourcesLockToken resourcesLockToken = new ResourcesLockToken(this);
 
+
     /**
      * 构造方法
      *
-     * @param option
      * @throws IOException
      * @throws InterruptedException
      * @throws KeeperException
      */
-    public RemoteLockZooKeeper(LockOption option) throws IOException, KeeperException, InterruptedException {
-        super(option);
-        this.option = option;
+    @PostConstruct
+    private void initRemoteLockZooKeeper() throws IOException, KeeperException, InterruptedException {
         // 创建客户端
         createClient();
         // 创建根节点
@@ -56,19 +72,32 @@ public class RemoteLockZooKeeper extends RemoteLock {
     }
 
     @Override
-    public SyncToken lock(String name) throws KeeperException, InterruptedException {
-        SyncLockToken actionToken = new SyncLockToken(this, name);
-        // 不可执行
-        if (!actionToken.canRun) {
-            throw new RuntimeException(new ServerErrorException());
-        }
-        return actionToken;
+    public SyncToken queue(String name) throws Exception {
+        return returnSyncToken(new QueueLockToken(this, name));
     }
 
 
+    @Override
+    public SyncToken get(String name) throws Exception {
+        return returnSyncToken(new GetLockToken(this, name));
+    }
+
+    /**
+     * 判断返回是否为空的对象
+     *
+     * @param lockToken
+     * @return
+     */
+    private static SyncToken returnSyncToken(GeneralLockToken lockToken) {
+        if (!lockToken.canRun) {
+            return null;
+        }
+        return lockToken;
+    }
 
 
-    public void close() throws Exception {
+    @PreDestroy
+    private void close() throws Exception {
         if (this.zk != null) {
             this.zk.close();
         }
@@ -80,7 +109,24 @@ public class RemoteLockZooKeeper extends RemoteLock {
      * @throws IOException
      */
     private void createClient() throws IOException {
-        zk = new ZooKeeper(this.option.getHostConnectString(), this.option.getSessionTimeout(), new WatcherImpl(this));
+        zk = new ZooKeeper(this.option.getHostConnectString(), this.option.getSessionTimeout(), new Watcher() {
+            @Override
+            public void process(WatchedEvent event) {
+                Event.KeeperState keeperState = event.getState();
+                if (Event.KeeperState.SyncConnected == keeperState) {
+                    connectionZKDownLatch.countDown();
+                } else {
+                    throw new RuntimeException("remote lock create error");
+                }
+            }
+        });
+        //阻塞并等待连接
+        try {
+            connectionZKDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -94,7 +140,7 @@ public class RemoteLockZooKeeper extends RemoteLock {
         Stat stat = zk.exists(nodePath, false);
         if (stat == null) {
             this.zk.create(nodePath, null, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-            log.debug("create node :" + nodePath);
+            log.info("create node :" + nodePath);
         }
     }
 
@@ -104,7 +150,7 @@ public class RemoteLockZooKeeper extends RemoteLock {
      * @return
      */
     public String serviceNodePath() {
-        return rootNodePath() + "/" + this.option.getServiceName();
+        return rootNodePath() + "/" + this.option.getNameSpace();
     }
 
     /**
@@ -116,30 +162,5 @@ public class RemoteLockZooKeeper extends RemoteLock {
         return "/" + RemoteLockZooKeeper.DefaultTempLockRoot;
     }
 
-    /**
-     * 设置线程阻塞
-
-     * @param
-     */
-    protected void putThreadCounter(SyncLockToken safeLockToken) {
-        this.threadCounterMap.put(Thread.currentThread(), safeLockToken);
-    }
-
-    /**
-     * 移出计数器
-     */
-    protected void finishThreadCounter() {
-        this.threadCounterMap.remove(Thread.currentThread());
-    }
-
-    /**
-     * 通知所有阻塞的线程不可执行
-     */
-    protected void noticeAllThreadError() {
-        for (SyncLockToken lockToken : this.threadCounterMap.values()) {
-            lockToken.canRun = false;
-            lockToken.downLatch.countDown();
-        }
-    }
 
 }

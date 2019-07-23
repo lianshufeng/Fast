@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+
+
+
+swagger:
+  packageName: "com.fast.dev.demo.core.controller"
+  title: "SpringBootDemo"
+  description: "api文档生成器"
+  version: "1.0"
