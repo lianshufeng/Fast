@@ -68,20 +68,12 @@
         <module>centers/PromiseCenter/PromiseTask</module>
         <module>centers/PromiseCenter/PromiseService</module>
 
-        <!--机器人防御 -->
-        <module>centers/RobotCenter/RobotServer</module>
-        <module>centers/RobotCenter/RobotService</module>
 
         <!--推送中心-->
         <module>centers/PushCenter/PushServer</module>
         <module>centers/PushCenter/PushService</module>
 
         <module>components/RobotFirewall</module>
-
-
-<!--        <module>application/doubleteacher/doubteacher</module>-->
-<!--        <module>application/doubleteacher/doubleteacherdb</module>-->
-<!--        <module>application/CommentCenter/CommentService</module>-->
 
 
 
