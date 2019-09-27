@@ -40,6 +40,26 @@ public class MavenHelper {
             ZipUtil.unZipFile(inputStream, ApplicationHomeUtil.getHomeFile());
             inputStream.close();
         }
+
+        //如果是linux 需要赋权
+        if (isLinux()) {
+            try {
+                Runtime.getRuntime().exec("chmod 777 -R " + mavenPath.getAbsolutePath()).waitFor();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    /**
+     * 是否linux系统
+     *
+     * @return
+     */
+    private static boolean isLinux() {
+        return System.getProperty("os.name").toLowerCase().indexOf("linux") >= 0;
     }
 
 

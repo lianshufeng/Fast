@@ -1,6 +1,7 @@
 package com.fast.dev.ucenter.security.model;
 
 import com.fast.dev.ucenter.core.model.UserTokenModel;
+import lombok.*;
 
 import java.util.Map;
 import java.util.Set;
@@ -8,14 +9,10 @@ import java.util.Set;
 /**
  * 用户权限
  */
+
 public class UserAuth extends UserTokenModel {
 
-
-    /**
-     * 角色列表
-     */
-    private Set<String> roles;
-
+    private Set<String> auths;
 
     /**
      * 详情
@@ -29,12 +26,12 @@ public class UserAuth extends UserTokenModel {
     private long createTime;
 
 
-    public Set<String> getRoles() {
-        return roles;
+    public Set<String> getAuths() {
+        return auths;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public void setAuths(Set<String> auths) {
+        this.auths = auths;
     }
 
     public Map<String, Object> getDetails() {

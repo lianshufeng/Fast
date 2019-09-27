@@ -22,7 +22,7 @@ spring:
     stream:
       bindings:
         UserCenterInputStream:
-          group: "UserCenterStream"
+          group: null
         UserCenterOuputStream:
           group: "UserCenterStream"
           destination: "UserCenterInputStream"
@@ -32,3 +32,8 @@ spring:
           brokers: ${Kafka.brokers}
     bus:
       enabled: true
+
+
+logging:
+  level:
+    com.fast.dev.ucenter.security: DEBUG

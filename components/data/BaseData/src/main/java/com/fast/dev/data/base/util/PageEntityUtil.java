@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 作者：练书锋
@@ -23,11 +23,9 @@ public class PageEntityUtil {
      * @return
      */
     public static <S, T> Page<T> toPageModel(Page<S> pages, DataClean<S, T> dataClean) {
-        List<T> result = new ArrayList<>();
-        pages.getContent().forEach((n) -> {
-                    result.add(dataClean.execute(n));
-                }
-        );
+        List<T> result = pages.stream().map((it) -> {
+            return dataClean.execute(it);
+        }).collect(Collectors.toList());
         //转换模型
         return new PageImpl<T>(result, PageRequest.of(pages.getNumber(), pages.getSize(), pages.getSort()), pages.getTotalElements());
     }
@@ -46,7 +44,7 @@ public class PageEntityUtil {
          * @param data
          * @return
          */
-        public T execute(S data);
+        T execute(S data);
     }
 
 

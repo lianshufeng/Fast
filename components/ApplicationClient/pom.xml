@@ -14,9 +14,6 @@
     <artifactId>ApplicationClient</artifactId>
     <name>ApplicationClient</name>
 
-    <properties>
-        <ribbon.version>1.4.6.RELEASE</ribbon.version>
-    </properties>
 
     <dependencies>
 
@@ -30,12 +27,22 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>${netflix.version}</version>
         </dependency>
+
+        <!--hystrix-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <version>${netflix.version}</version>
+        </dependency>
+
 
         <!-- feign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${netflix.version}</version>
         </dependency>
 
         <!--ribbon-->
@@ -71,33 +78,27 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-bus</artifactId>
+            <version>${spring-boot-stream.version}</version>
         </dependency>
 
-        <!--RabbitMQ-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-bus-amqp</artifactId>-->
-        <!--</dependency>-->
         <!-- kafka-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-kafka</artifactId>
+            <version>${spring-boot-stream.version}</version>
         </dependency>
 
         <!-- stream -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-stream-rabbit</artifactId>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+            <version>${spring-boot-stream.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream</artifactId>
+            <version>${spring-boot-stream.version}</version>
         </dependency>
 
 

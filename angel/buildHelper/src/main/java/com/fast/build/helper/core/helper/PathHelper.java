@@ -1,23 +1,31 @@
 package com.fast.build.helper.core.helper;
 
-import com.fast.build.helper.core.conf.DefaultGitConf;
+import com.fast.build.helper.core.conf.BuildGitConf;
+import com.fast.build.helper.core.conf.BuildTaskConf;
 import com.fast.build.helper.core.util.ApplicationHomeUtil;
 import com.fast.build.helper.core.util.PomXmlUtil;
 import com.fast.build.helper.core.util.TextUtil;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.groovy.json.internal.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class PathHelper {
     @Autowired
-    private DefaultGitConf defaultGitConf;
+    private BuildGitConf gitConf;
+
+    @Autowired
+    private BuildTaskConf buildTaskConf;
+
+    @Autowired
+    private void initBuildPath() {
+        File buildFile = getBuildPath();
+        if (!buildFile.exists()) {
+            buildFile.mkdirs();
+        }
+    }
 
     /**
      * 获取git的工作空间
@@ -25,7 +33,7 @@ public class PathHelper {
      * @return
      */
     public File getGitWorkProjectFile(String appName) {
-        return new File(ApplicationHomeUtil.getResource(this.defaultGitConf.getProjectPath()).getAbsolutePath() + "/" + appName);
+        return new File(ApplicationHomeUtil.getResource(this.buildTaskConf.getProjectPath()).getAbsolutePath() + "/" + appName);
     }
 
 
@@ -47,7 +55,7 @@ public class PathHelper {
      * @return
      */
     public File getTempCoreProjectApplicationsFile(File coreProjectFile) {
-        return new File(coreProjectFile.getAbsolutePath() + "/" + this.defaultGitConf.getApplicationPath() + "/");
+        return new File(coreProjectFile.getAbsolutePath() + "/" + this.buildTaskConf.getApplicationPath() + "/");
     }
 
 
@@ -57,7 +65,26 @@ public class PathHelper {
      * @return
      */
     public File getBuildPath() {
-        return ApplicationHomeUtil.getResource(this.defaultGitConf.getBuildPath());
+        return ApplicationHomeUtil.getResource("resources/" + this.buildTaskConf.getBuildPath());
+    }
+
+    /**
+     * 获取资源路径
+     *
+     * @return
+     */
+    public File getResourcePath(String fileName) {
+        return ApplicationHomeUtil.getResource("resources/" + fileName);
+    }
+
+
+    /**
+     * 取备份目录
+     *
+     * @return
+     */
+    public File getBackupPath(String path) {
+        return ApplicationHomeUtil.getResource("resources/" + this.buildTaskConf.getBackupPath() + "/" + path);
     }
 
 
@@ -96,7 +123,7 @@ public class PathHelper {
      * @return
      */
     private String joinAppcationSavePath(String val) {
-        return this.defaultGitConf.getApplicationPath() + "/" + val;
+        return this.buildTaskConf.getApplicationPath() + "/" + val;
     }
 
 

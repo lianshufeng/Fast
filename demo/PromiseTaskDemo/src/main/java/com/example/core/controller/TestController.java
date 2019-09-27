@@ -1,6 +1,6 @@
 package com.example.core.controller;
 
-import com.fast.dev.promise.model.HttpModel;
+import com.fast.dev.core.util.net.apache.HttpModel;
 import com.fast.dev.promise.model.RequestParmModel;
 import com.fast.dev.promise.service.RemoteTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class TestController {
 
 
     @RequestMapping("put")
-    public Object put(){
+    public Object put() {
         RequestParmModel requestParmModel = new RequestParmModel();
 
         HttpModel httpModel = new HttpModel();
@@ -28,32 +28,28 @@ public class TestController {
     }
 
 
-
-
-
     @RequestMapping("query")
-    public Object query(String id){
+    public Object query(String id) {
         return remoteTaskService.query(id);
     }
 
 
     @RequestMapping("heartbeat")
-    public Object heartbeat(String id){
+    public Object heartbeat(String id) {
         return remoteTaskService.heartbeat(id);
     }
 
 
     @RequestMapping("remove")
-    public Object remove(String id){
+    public Object remove(String id) {
         return remoteTaskService.remove(id);
     }
 
 
     @RequestMapping("doit")
-    public Object doit(String id){
+    public Object doit(String id) {
         return remoteTaskService.doit(id);
     }
-
 
 
 }

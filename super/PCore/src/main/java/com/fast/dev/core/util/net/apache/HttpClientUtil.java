@@ -1,7 +1,9 @@
 package com.fast.dev.core.util.net.apache;
 
 import com.fast.dev.core.util.JsonUtil;
-import lombok.extern.java.Log;
+import lombok.Cleanup;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,12 +19,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-@Log
+@Slf4j
 public class HttpClientUtil {
 
 
@@ -35,10 +34,9 @@ public class HttpClientUtil {
      */
     public static ResponseModel request(HttpModel httpModel) throws IOException {
         Map<String, Set<Object>> headers = new HashMap<>();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        int code = request(httpModel, byteArrayOutputStream, headers);
+        @Cleanup ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Integer code = request(httpModel, byteArrayOutputStream, headers);
         byte[] content = byteArrayOutputStream.toByteArray();
-        byteArrayOutputStream.close();
         Object body = getBody(headers, content);
         return ResponseModel.builder().headers(headers).body(body).code(code).build();
     }
@@ -64,14 +62,19 @@ public class HttpClientUtil {
      * @param outputStream
      * @return
      */
-    public static int request(HttpModel httpModel, OutputStream outputStream, Map<String, Set<Object>> headers) throws IOException {
+    @SneakyThrows
+    public static Integer request(HttpModel httpModel, OutputStream outputStream, Map<String, Set<Object>> headers) throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpRequestBase requestBase = null;
+        String[] urls = httpModel.getUrl().split("://");
+
+        String url = urls[0] + "://" + UrlEncodeUtil.encode(urls[1]);
+
         //请求类型的判断
         if (httpModel.getMethod() == MethodType.Get || httpModel.getMethod() == null) {
-            requestBase = new HttpGet(httpModel.getUrl());
+            requestBase = new HttpGet(url);
         } else if (httpModel.getMethod() == MethodType.Post || httpModel.getMethod() == MethodType.Json) {
-            HttpPost httpPost = new HttpPost(httpModel.getUrl());
+            HttpPost httpPost = new HttpPost(url);
             httpPost.setEntity(buildHttpEntity(httpModel));
             requestBase = httpPost;
         }
@@ -99,26 +102,10 @@ public class HttpClientUtil {
         }
 
         //转发数据流
-        InputStream inputStream = null;
-
-        try {
-            inputStream = response.getEntity().getContent();
-            int size = StreamUtils.copy(inputStream, outputStream);
-            log.info("requestUrl : " + httpModel.getUrl() + " , responseSize : " + size);
-            return response.getStatusLine().getStatusCode();
-        } catch (Exception e) {
-//            e.printStackTrace();
-            log.info("error : " + e.getMessage());
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        }
-
-        return -1;
+        @Cleanup InputStream inputStream = response.getEntity().getContent();
+        int size = StreamUtils.copy(inputStream, outputStream);
+        log.debug("requestUrl : " + httpModel.getUrl() + " , responseSize : " + size);
+        return response.getStatusLine().getStatusCode();
     }
 
 
@@ -190,6 +177,45 @@ public class HttpClientUtil {
             body = httpModel.getBody() == null ? "{}" : JsonUtil.toJson(httpModel.getBody());
         }
         return new StringEntity(body, ContentType.create(mimeType, httpModel.getCharset()));
+    }
+
+
+    /**
+     * 创建post信息
+     *
+     * @param m
+     * @return
+     */
+    public static String buildPostInfo(Map<String, Object> m) {
+        final StringBuilder sb = new StringBuilder();
+        m.entrySet().forEach((it) -> {
+            Object val = it.getValue();
+            List<String> values;
+            if (val instanceof Collection) {
+                values = new ArrayList<String>((Collection<String>) val);
+            } else if (val.getClass().isArray()) {
+                values = Arrays.asList((String[]) val);
+            } else {
+                values = new ArrayList<String>() {{
+                    add(String.valueOf(it.getValue()));
+                }};
+            }
+            appendFormInfo(sb, it.getKey(), values);
+        });
+        return sb.toString();
+    }
+
+    /**
+     * 构建表单信息
+     *
+     * @param sb
+     * @param key
+     * @param values
+     */
+    private static void appendFormInfo(StringBuilder sb, String key, List<String> values) {
+        for (String value : values) {
+            sb.append(key + "=" + value + "&");
+        }
     }
 
 

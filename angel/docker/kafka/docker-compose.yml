@@ -68,7 +68,7 @@ networks:
 
 
 
-# yum install -y doc2unix wget curl unzip ; source .env ; mkdir -p  ${store}
+# yum install -y dos2unix wget curl unzip ; dos2unix .env ; source .env ; mkdir -p  ${store}
 
 
 # docker-compose up -d

@@ -31,7 +31,7 @@ public abstract class DataHelperImpl implements DataHelper {
      * @param entityClasses
      * @return
      */
-    private Map<Field, DataRule[]> getAnnotations(Class<? extends AbstractPersistable> entityClasses) {
+    protected Map<Field, DataRule[]> getAnnotations(Class<? extends AbstractPersistable> entityClasses) {
         Map<Field, DataRule[]> ret = new HashMap<>();
         listAnnotations(ret, entityClasses);
         return ret;
@@ -75,27 +75,6 @@ public abstract class DataHelperImpl implements DataHelper {
     }
 
 
-//    private void buildVarMap(Class entityClasses, Object source, Map<String, Object> varMap) {
-//        for (Field field : entityClasses.getDeclaredFields()) {
-//            try {
-//                field.setAccessible(true);
-//                if (!varMap.containsKey(field.getName())) {
-//                    varMap.put(field.getName(), field.get(source));
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        //遍历父类
-//        Class superClass = entityClasses.getSuperclass();
-//        if (!superClass.equals(Object.class)) {
-//            buildVarMap(superClass, source, varMap);
-//        }
-//
-//    }
-
-
     /**
      * 更新数据源
      *
@@ -109,34 +88,34 @@ public abstract class DataHelperImpl implements DataHelper {
     @Override
     public UpdateDataDetails[] update(Class<? extends AbstractPersistable> entityClasses, Object id) {
         List<UpdateDataDetails> updateDataDetails = new ArrayList<>();
-        {
 
-            //获取原数据
-            Object source = getSource(entityClasses, id);
+        //获取原数据
+        Object source = getSource(entityClasses, id);
 
-            //表达式变量
-            Map<String, Object> varMap = BeanUtil.bean2Map(source);
+        //表达式变量
+        Map<String, Object> varMap = BeanUtil.bean2Map(source);
 
-            //可能需要同步的数据
-            for (Map.Entry<Field, DataRule[]> entry : getAnnotations(entityClasses).entrySet()) {
-                try {
-                    //实体对应的数据
-                    Object fieldObject = entry.getKey().get(source);
-                    //更新数据规则
-                    for (DataRule dataRule : entry.getValue()) {
-                        //获取需要更新的id列表
-                        String[] targetEntityIds = getTargerDataRuleIds(dataRule, varMap);
-                        //更新数据
-                        updateData(fieldObject, targetEntityIds, dataRule);
+        //可能需要同步的数据
+        for (Map.Entry<Field, DataRule[]> entry : getAnnotations(entityClasses).entrySet()) {
+            try {
+                //实体对应的数据
+                Object fieldObject = entry.getKey().get(source);
+                //更新数据规则
+                for (DataRule dataRule : entry.getValue()) {
+                    //获取需要更新的id列表
+                    String[] targetEntityIds = getTargerDataRuleIds(dataRule, varMap);
+                    //更新数据
+                    updateData(fieldObject, targetEntityIds, dataRule);
 
-                        updateDataDetails.add(UpdateDataDetails.builder().ids(targetEntityIds).entity(dataRule.targetEntity()).build());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
+                    //将结果更新到集合里
+                    updateDataDetails.add(UpdateDataDetails.builder().ids(targetEntityIds).entity(dataRule.targetEntity()).build());
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
+
         return updateDataDetails.toArray(new UpdateDataDetails[updateDataDetails.size()]);
     }
 

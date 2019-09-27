@@ -1,28 +1,23 @@
 package com.fast.dev.core.mvc;
 
 import com.fast.dev.core.interceptors.UrlInterceptor;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import java.nio.charset.Charset;
 import java.util.*;
 
 /**
  * 视图解析器
  */
+@Log
 @Configuration
 @EnableWebMvc
 @EnableScheduling
@@ -41,6 +36,7 @@ public class MVCConfiguration implements WebMvcConfigurer {
 
     /**
      * 跨域
+     *
      * @param registry
      */
     @Override
@@ -49,39 +45,18 @@ public class MVCConfiguration implements WebMvcConfigurer {
     }
 
 
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        // http 处理字符串
-//        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
-//        stringConverter.setDefaultCharset(Charset.forName("UTF-8"));
-//        converters.add(stringConverter);
-//
-//
-//
-////        // JSON 视图
-////        MappingJackson2HttpMessageConverter json = new MappingJackson2HttpMessageConverter();
-////        converters.add(json);
-//
-//
-//    }
-
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/"+StaticResources+"/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/"+StaticResources+"/");
+        String diskPath = ResourceUtils.FILE_URL_PREFIX + "/" + new ApplicationHome().getDir().getAbsolutePath() + "/" + StaticResources + "/";
+        while (diskPath.indexOf("//") > -1) {
+            diskPath = diskPath.replaceAll("//", "/");
+        }
+        log.info("disk : " + diskPath);
+        registry.addResourceHandler("/" + StaticResources + "/**")
+                .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/" + StaticResources + "/")
+                .addResourceLocations(diskPath)
+        ;
     }
-
-
-    /**
-     * json 视图解析器
-     *
-     * @return
-     */
-//    @Bean
-//    public View jsonView() {
-//        MappingJackson2JsonView mappingJackson2JsonView = new MappingJackson2JsonView();
-//        return mappingJackson2JsonView;
-//    }
 
 
     /**

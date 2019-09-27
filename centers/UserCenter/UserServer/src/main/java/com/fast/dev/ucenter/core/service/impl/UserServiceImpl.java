@@ -301,7 +301,7 @@ public class UserServiceImpl extends BaseUserService implements UserService, Loc
 
 
     @Override
-    @Transactional
+//    @Transactional
     public long cleanTimeOutRecord(Class<? extends SuperEntity> entityCls, long time) {
         long beforeTime = this.dbHelper.getTime() - time;
         Query query = new Query();

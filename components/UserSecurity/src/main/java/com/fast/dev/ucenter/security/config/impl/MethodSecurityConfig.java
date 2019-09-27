@@ -1,8 +1,11 @@
 package com.fast.dev.ucenter.security.config.impl;
 
 import com.fast.dev.ucenter.security.conf.UserSecurityConf;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fast.dev.ucenter.security.resauth.ResourceAuthAnnotationMetadataExtractor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.annotation.SecuredAnnotationSecurityMetadataSource;
+import org.springframework.security.access.method.MethodSecurityMetadataSource;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -33,5 +36,18 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
     }
 
 
+//    customMethodSecurityMetadataSource
+
+
+    @Override
+    protected MethodSecurityMetadataSource customMethodSecurityMetadataSource() {
+        return new SecuredAnnotationSecurityMetadataSource(resourceAuthAnnotationMetadataExtractor());
+    }
+
+    @Bean
+    ResourceAuthAnnotationMetadataExtractor resourceAuthAnnotationMetadataExtractor() {
+        return new ResourceAuthAnnotationMetadataExtractor();
+    }
 
 }
+

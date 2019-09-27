@@ -1,8 +1,7 @@
 package com.fast.build.helper.core.helper;
 
-import com.fast.build.helper.core.conf.DefaultGitConf;
+import com.fast.build.helper.core.conf.BuildGitConf;
 import com.fast.build.helper.core.model.ApplicationGitInfo;
-import com.fast.build.helper.core.util.ApplicationHomeUtil;
 import lombok.Setter;
 import lombok.extern.java.Log;
 import org.eclipse.jgit.api.*;
@@ -25,7 +24,7 @@ public class GitHelper {
      * 默认的配置
      */
     @Autowired
-    private DefaultGitConf defaultGitConf;
+    private BuildGitConf gitConf;
 
     /**
      * 应用的git信息
@@ -126,15 +125,15 @@ public class GitHelper {
 
     private CredentialsProvider credentialsProvider() {
         //设置鉴权
-        if (this.applicationGitInfo.getUserName() != null || this.defaultGitConf.getUserName() != null) {
+        if (this.applicationGitInfo.getUserName() != null || this.gitConf.getUserName() != null) {
             // 取出用户名与密码，优先取对应的应用配置，为空则取默认配置的
             String userName = this.applicationGitInfo.getUserName();
             if (userName == null) {
-                userName = this.defaultGitConf.getUserName();
+                userName = this.gitConf.getUserName();
             }
             String passWord = this.applicationGitInfo.getPassWord();
             if (passWord == null) {
-                passWord = this.defaultGitConf.getPassWord();
+                passWord = this.gitConf.getPassWord();
             }
 
             //设置git的权限

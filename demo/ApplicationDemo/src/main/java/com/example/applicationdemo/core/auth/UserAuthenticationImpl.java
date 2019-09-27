@@ -21,14 +21,15 @@ public class UserAuthenticationImpl implements UserAuthentication {
         System.out.println("uid:" + userTokenModel.getUid());
         System.out.println("token:" + userTokenModel.getuToken());
 
-        Set<String> roles = new HashSet<String>() {{
+        Set<String> auths = new HashSet<String>() {{
             add("user");
             add("test");
             add("ROLE_USER");
             add("AUTH_USER");
+            add("auth1");
         }};
         Map<String, Object> other = new HashMap<>();
         other.put("t", System.currentTimeMillis());
-        return new UserIdentity(roles, other);
+        return new UserIdentity(auths, other);
     }
 }

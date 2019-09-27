@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>备份列表</title>
+
+</head>
+
+<body>
+
+
+<div class="main-container">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>备份名</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item,obj : ${files}">
+            <th th:text="${obj.index + 1}" scope="row">1</th>
+            <th scope="row">
+                <a name="fileName" th:text="${item.getName()}" href="#">2019082906</a>
+            </th>
+            <td>
+                <button name="removeBtn">删除</button>
+            </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+</div>
+
+
+<!-- Bootstrap&jQuery -->
+<link th:href="@{/resources/css/bootstrap.min.css}" href="../resources/css/bootstrap.min.css" rel="stylesheet"/>
+<link th:href="@{/resources/css/bootstrap-theme.min.css}" href="../resources/css/bootstrap-theme.min.css"
+      rel="stylesheet"/>
+<script type="text/javascript" th:src="@{/resources/js/jquery.min.js}" src="../resources/js/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/resources/js/bootstrap.min.js}"
+        src="../resources/js/bootstrap.min.js"></script>
+
+<!-- 全局样式 -->
+<link th:href="@{/resources/css/main.css}" rel="stylesheet" href="../resources/css/main.css"/>
+
+<script type="text/javascript">
+    $(function () {
+
+        //打开页面
+        $("a[name='fileName']").click(function () {
+            var fileName = $(this).text();
+            window.open('./page/' + fileName);
+        });
+
+        //删除按钮
+        $("button[name='removeBtn']").click(function () {
+            var fileName = $(this).parent().parent().find("a[name='fileName']").text();
+            if (confirm("是否删除备份 : \n" + fileName)) {
+                $.ajax({
+                    'url': "../removeBackup/" + fileName,
+                    'dataType': 'json',
+                    'type': 'POST',
+                    success: function (data) {
+                        if (data.state == 'Success' && data.content) {
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
+        });
+
+
+    })
+
+</script>
+
+</body>
+
+
+</html>

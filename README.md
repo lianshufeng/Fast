@@ -26,6 +26,7 @@ Spring cloud and boot Framework
     - Maven Helper
     - YAML/Ansible support
     - JRebel
+    - cmd Support
  
 ## 编译与部署
 - war : 注意修改拷贝到tomcat运行(注意：本地端口与上下文)

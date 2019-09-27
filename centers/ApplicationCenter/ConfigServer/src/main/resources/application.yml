@@ -11,8 +11,8 @@ eureka:
     service-url:
       defaultZone: ${ApplicationCenter.url}
   instance:
-    lease-renewal-interval-in-seconds: 30 # 续约更新时间间隔
-    lease-expiration-duration-in-seconds: 90 # 续约到期时间
+    lease-renewal-interval-in-seconds: 5 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 30 # 续约到期时间
 
 
 #允许消息总线

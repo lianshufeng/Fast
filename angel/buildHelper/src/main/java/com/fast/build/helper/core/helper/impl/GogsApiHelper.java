@@ -1,6 +1,6 @@
 package com.fast.build.helper.core.helper.impl;
 
-import com.fast.build.helper.core.conf.DefaultGitConf;
+import com.fast.build.helper.core.conf.BuildGitConf;
 import com.fast.build.helper.core.helper.GitApiHelper;
 import com.fast.build.helper.core.model.GitInfo;
 import com.fast.build.helper.core.type.GitType;
@@ -20,7 +20,7 @@ public class GogsApiHelper extends GitApiHelper {
 
 
     @Autowired
-    private DefaultGitConf defaultGitConf;
+    private BuildGitConf defaultGitConf;
 
 
     @Override

@@ -75,7 +75,7 @@ public class TaskTableDaoImpl implements TaskTableDaoExtend {
     public TaskTable canDoTask(String taskId) {
 
         Query query = new Query();
-        query.addCriteria(Criteria.where("taskState").is(TaskState.Wait));
+        query.addCriteria(Criteria.where("taskState").is(TaskState.Wait).and("taskId").is(taskId));
         query.limit(1);
 
         Update update = new Update();

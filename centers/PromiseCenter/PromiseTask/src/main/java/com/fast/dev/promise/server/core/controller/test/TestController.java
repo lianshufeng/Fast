@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class TestController {
 
 
-    @RequestMapping("test")
+    @RequestMapping("manager/test")
     public InvokerResult<Object> test(HttpServletRequest request, HttpServletResponse response, @RequestBody @Validated RequestParmModel userModel) throws Exception {
         //转换为系统任务
         RequestParmModel systemParm = RequestParmUtil.build(userModel);

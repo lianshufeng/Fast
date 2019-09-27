@@ -1,6 +1,7 @@
 package com.fast.build.helper.core.service;
 
-import com.fast.build.helper.core.conf.DefaultGitConf;
+import com.fast.build.helper.core.conf.BuildGitConf;
+import com.fast.build.helper.core.conf.BuildTaskConf;
 import com.fast.build.helper.core.helper.GitApiHelper;
 import com.fast.build.helper.core.helper.GitHelper;
 import com.fast.build.helper.core.helper.MavenHelper;
@@ -8,10 +9,11 @@ import com.fast.build.helper.core.helper.PathHelper;
 import com.fast.build.helper.core.model.ApplicationGitInfo;
 import com.fast.build.helper.core.model.ApplicationTask;
 import com.fast.build.helper.core.model.GitInfo;
+import com.fast.build.helper.core.model.UpdateBuildTask;
 import com.fast.build.helper.core.util.ApplicationHomeUtil;
 import com.fast.build.helper.core.util.JsonUtil;
-import com.fast.build.helper.core.util.PathUtil;
 import com.fast.build.helper.core.util.PomXmlUtil;
+import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -20,7 +22,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import javax.annotation.PreDestroy;
 import java.io.File;
 import java.io.FileFilter;
 import java.text.SimpleDateFormat;
@@ -43,7 +47,6 @@ public class CoreService {
      */
     private static final File ConfigFile = ApplicationHomeUtil.getResource(DefaultConfigFileName);
 
-
     /**
      * 应用任务，持久化json
      */
@@ -51,7 +54,10 @@ public class CoreService {
 
 
     @Autowired
-    private DefaultGitConf defaultGitConf;
+    private BuildGitConf buildGitConf;
+
+    @Autowired
+    private BuildTaskConf buildTaskConf;
 
 
     @Autowired
@@ -63,19 +69,31 @@ public class CoreService {
     @Autowired
     private MavenHelper mavenHelper;
 
-    //随机的文件名
-    private String rFileName = new SimpleDateFormat("yyyymmddHHmmss").format(new Date(System.currentTimeMillis()));
+    //随机的文件名，放在当前线程中
+    private ThreadLocal<String> randomFile = new ThreadLocal<>();
+
+
+    //线程池
+    private ExecutorService threadPool = Executors.newFixedThreadPool(1);
+
+    //用于备份文件名的生成
+    private final static SimpleDateFormat BackupNameDateFormat = new SimpleDateFormat("yyyyMMddHH");
+
 
     /**
      * git的实现
      */
     private GitApiHelper gitApiHelper;
 
+    @PreDestroy
+    private void shutdown() {
+        this.threadPool.shutdownNow();
+    }
 
     @Autowired
     private void init() {
         for (GitApiHelper gitApiHelper : applicationContext.getBeansOfType(GitApiHelper.class).values()) {
-            if (gitApiHelper.gitType() == this.defaultGitConf.getType()) {
+            if (gitApiHelper.gitType() == this.buildGitConf.getType()) {
                 this.gitApiHelper = gitApiHelper;
                 break;
             }
@@ -83,32 +101,101 @@ public class CoreService {
         if (this.gitApiHelper == null) {
             throw new RuntimeException("未找到git的实现类型");
         }
+    }
 
+
+    @Autowired
+    private void configCheck() {
+        Assert.hasText(buildTaskConf.getCoreProject(), "核心项目参数不能为空");
+    }
+
+
+    private UpdateBuildTask updateBuildTask = null;
+
+
+    /**
+     * 更新任务的状态
+     *
+     * @param updateBuildTask
+     */
+    public synchronized void setUpdateBuildTask(UpdateBuildTask updateBuildTask) {
+        this.updateBuildTask = updateBuildTask;
+    }
+
+
+    /**
+     * 备份所有的jar包
+     *
+     * @return 返回备份的名称
+     */
+    @SneakyThrows
+    public String backupBuild() {
+        String name = BackupNameDateFormat.format(new Date(System.currentTimeMillis()));
+        File sourceFile = this.pathHelper.getBuildPath();
+        File targetFile = this.pathHelper.getBackupPath(name);
+        FileUtils.copyDirectory(sourceFile, targetFile, new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                if (pathname.isDirectory()) {
+                    return true;
+                }
+                return FilenameUtils.getExtension(pathname.getName()).equalsIgnoreCase("jar");
+            }
+        }, true);
+
+        return name;
+    }
+
+
+    /**
+     * 删除备份目录
+     *
+     * @param name
+     * @return
+     */
+    public boolean removeBackup(String name) {
+
+
+        return false;
     }
 
 
     /**
      * 入口
-     *
-     * @param args
      */
-    public void execute(String[] args) {
+    public synchronized UpdateBuildTask execute() {
+        if (this.updateBuildTask != null) {
+            return this.updateBuildTask;
+        }
+
+        //设置内存中的任务
+        setUpdateBuildTask(UpdateBuildTask.builder().createTime(System.currentTimeMillis()).build());
+
         log.info("任务开始");
         try {
-            main(args);
+            threadPool.execute(() -> {
+                try {
+                    main();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
-        log.info("任务结束");
+
+        return this.updateBuildTask;
     }
 
 
     /**
      * 任务入口
-     *
-     * @param args
      */
-    private void main(String[] args) throws Exception {
+    private void main() throws Exception {
+
+        //随机的线程名
+        this.randomFile.set(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis())));
+
         //更新应用配置文件
         updateApplicationInfos();
 
@@ -119,15 +206,9 @@ public class CoreService {
 
         //git本地仓库的克隆或更新
         updateAppProjectFromGit(new HashSet<String>() {{
-            add(defaultGitConf.getCoreProject());
+            add(buildTaskConf.getCoreProject());
             addAll(needbuildProjects.keySet());
         }});
-
-
-        //拷贝项目到临时目录中
-//        File corePath = copy2TempPath(needbuildProjects.keySet());
-//        //修改pom模块信息
-//        updateProjectPom(corePath);
 
 
         //返回核心项目的路径
@@ -157,6 +238,15 @@ public class CoreService {
             e.printStackTrace();
         }
 
+
+        //缓存配置
+        getBuildFilesInfo();
+
+
+        //释放内存资源
+        setUpdateBuildTask(null);
+        this.randomFile.remove();
+
     }
 
 
@@ -179,10 +269,9 @@ public class CoreService {
      * 拷贝jar包
      */
     private void copyJarsToBuildFile(File corePath) {
-        File applicationFile = this.pathHelper.getTempCoreProjectApplicationsFile(corePath);
-        if (!applicationFile.exists()) {
-            return;
-        }
+
+
+        File applicationFile = getRootTempFile();
 
         //扫描有多少模块
         Collection<File> jarFiles = FileUtils.listFiles(applicationFile, new IOFileFilter() {
@@ -210,8 +299,10 @@ public class CoreService {
 
         for (File jarFile : jarFiles) {
             try {
-                //暂时不考虑文件名重复的情况
-                File target = new File(this.pathHelper.getBuildPath().getAbsolutePath() + "/" + this.rFileName + "/" + FilenameUtils.getName(jarFile.getAbsolutePath()));
+                File projectPath = new File(applicationFile.getAbsolutePath() + "/" + this.buildTaskConf.getCoreProject());
+                //相对路径
+                String relativePath = jarFile.getAbsolutePath().substring(projectPath.getAbsolutePath().length());
+                File target = new File(this.pathHelper.getBuildPath().getAbsolutePath() + "/" + relativePath);
                 FileUtils.copyFile(jarFile, target);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -224,6 +315,37 @@ public class CoreService {
 
     }
 
+
+    /**
+     * 获取创建的文件
+     *
+     * @return
+     */
+    private Collection<File> getBuildFiles() {
+        return FileUtils.listFiles(this.pathHelper.getBuildPath(), new String[]{"jar"}, true);
+    }
+
+
+    /**
+     * @return
+     */
+    private Collection<File> _getBuildFilesInfo() {
+//        Vector<FileInfo> fileInfos = new Vector<>();
+//        for (File file : getBuildFiles()) {
+//            FileInfo fileInfo = new FileInfo();
+//            fileInfo.setFile(file);
+//            fileInfo.setName(FilenameUtils.getName(file.getAbsolutePath()));
+//            fileInfo.setLength(file.length());
+//            fileInfo.setUpdateTime(file.lastModified());
+//            fileInfos.add(fileInfo);
+//        }
+        return new ArrayList<>(getBuildFiles());
+    }
+
+
+    public Collection<File> getBuildFilesInfo() {
+        return _getBuildFilesInfo();
+    }
 
     /**
      * 编译项目
@@ -241,7 +363,7 @@ public class CoreService {
      * @return
      */
     private File getRootTempFile() {
-        return ApplicationHomeUtil.getResource(this.defaultGitConf.getTempPath() + "/" + rFileName);
+        return ApplicationHomeUtil.getResource(this.buildTaskConf.getTempPath() + "/" + this.randomFile.get());
     }
 
 
@@ -255,7 +377,7 @@ public class CoreService {
         //随机目录
         File targetFile = getRootTempFile();
         //拷贝核心项目
-        File coreFile = copyDirectoryToTemp(pathHelper.getGitWorkProjectFile(this.defaultGitConf.getCoreProject()), new File(targetFile.getAbsolutePath() + "/" + this.defaultGitConf.getCoreProject()));
+        File coreFile = copyDirectoryToTemp(pathHelper.getGitWorkProjectFile(this.buildTaskConf.getCoreProject()), new File(targetFile.getAbsolutePath() + "/" + this.buildTaskConf.getCoreProject()));
         for (String appName : appNames) {
             // git 的配置
             ApplicationGitInfo applicationGitInfo = this.applicationTask.getApplications().get(appName);
@@ -336,36 +458,6 @@ public class CoreService {
 
 
     /**
-     * 拷贝项目到临时目录里，返回核心项目
-     */
-//    private File copy2TempPath(Set<String> appNames) {
-//        //随机目录
-//        File targetFile = ApplicationHomeUtil.getResource(this.defaultGitConf.getTempPath() + "/" + rFileName);
-//
-//        //拷贝核心项目
-//        File coreFile = copyDirectoryToTemp(pathHelper.getGitWorkProjectFile(this.defaultGitConf.getCoreProject()), new File(targetFile.getAbsolutePath() + "/" + this.defaultGitConf.getCoreProject()));
-//
-//        log.info("[core] " + coreFile);
-//
-//        for (String appName : appNames) {
-//            // git 的配置
-//            ApplicationGitInfo applicationGitInfo = this.applicationTask.getApplications().get(appName);
-//            if (applicationGitInfo == null) {
-//                continue;
-//            }
-//
-//            //取出原项目的路径
-//            File gitWorkProjectFile = this.pathHelper.getGitWorkProjectFile(appName);
-//            File appTargetFile = getAppProjecTarget(coreFile, appName);
-//            log.info("[project] " + gitWorkProjectFile + " -> " + coreFile);
-//            copyDirectoryToTemp(gitWorkProjectFile, appTargetFile);
-//        }
-//
-//        return coreFile;
-//    }
-
-
-    /**
      * 拷贝项目文件到临时目录
      *
      * @return
@@ -399,7 +491,7 @@ public class CoreService {
         }
 
         //利用线程池批量更新
-        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(this.defaultGitConf.getMaxPullGitThreadCount());
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(this.buildTaskConf.getMaxPullGitThreadCount());
 
         final CountDownLatch countDownLatch = new CountDownLatch(appName.size());
         for (String name : appName) {

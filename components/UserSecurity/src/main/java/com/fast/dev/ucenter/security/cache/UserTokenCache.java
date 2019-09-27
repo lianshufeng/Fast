@@ -23,7 +23,7 @@ public class UserTokenCache {
 
     private Cache tokenCache = null;
 
-    @PostConstruct
+    @Autowired
     private void initCache() {
         tokenCache = new Cache("UserTokenCollection", userTokenConf.getMaxMemoryCount(), userTokenConf.isOverflowToDisk(),
                 false, userTokenConf.getTimeToLiveSeconds(), userTokenConf.getTimeToIdleSeconds());

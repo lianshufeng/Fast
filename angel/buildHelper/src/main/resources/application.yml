@@ -2,3 +2,13 @@
 spring:
   profiles:
     active: dev
+  thymeleaf:
+    suffix: .html
+    mode: HTML
+    prefix: classpath:/templates/
+    cache: false
+    encoding: UTF-8
+
+
+logging:
+  file: logs/${project.artifactId}.log

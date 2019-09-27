@@ -1,9 +1,11 @@
 package com.fast.dev.data.mongo.data;
 
 import com.fast.dev.core.util.JsonUtil;
+import com.fast.dev.core.util.bean.BeanUtil;
 import com.fast.dev.data.base.data.DataHelper;
 import com.fast.dev.data.base.data.annotations.DataRule;
 import com.fast.dev.data.base.data.impl.DataHelperImpl;
+import com.fast.dev.data.base.data.model.UpdateDataDetails;
 import com.fast.dev.data.base.data.type.UpdateType;
 import com.fast.dev.data.mongo.helper.DBHelper;
 import com.fast.dev.data.mongo.util.EntityObjectUtil;
@@ -12,15 +14,15 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class DataHelperMongo extends DataHelperImpl implements DataHelper {
@@ -31,6 +33,10 @@ public class DataHelperMongo extends DataHelperImpl implements DataHelper {
 
     @Autowired
     private DBHelper dbHelper;
+
+
+    //用于存入当前线程中，提高同一张表的操作效率
+    private ThreadLocal<Map<Class<? extends AbstractPersistable>, BulkOperations>> threadLocal = new ThreadLocal<>();
 
 
     /**
@@ -90,8 +96,35 @@ public class DataHelperMongo extends DataHelperImpl implements DataHelper {
         //时间戳
         this.dbHelper.updateTime(update);
 
+        //同一张表的批量操作
+        BulkOperations bulkOperations = this.threadLocal.get().get(dataRule.targetEntity());
+        if (bulkOperations == null) {
+            bulkOperations = this.mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, dataRule.targetEntity());
+            this.threadLocal.get().put(dataRule.targetEntity(), bulkOperations);
+        }
+        bulkOperations.updateMulti(query, update);
+
+
         //进行批量修改
-        this.mongoTemplate.updateMulti(query, update, dataRule.targetEntity());
+//        this.mongoTemplate.updateMulti(query, update, dataRule.targetEntity());
     }
 
+
+    @Override
+    public UpdateDataDetails[] update(Class<? extends AbstractPersistable> entityClasses, Object id) {
+        //声明并发操作到当前线程中
+        this.threadLocal.set(new HashMap<>());
+
+        //执行批量更新的操作
+        UpdateDataDetails[] dataDetails = super.update(entityClasses, id);
+
+        //执行批量更新
+        for (BulkOperations operations : this.threadLocal.get().values()) {
+            operations.execute();
+        }
+
+        //从当前线程中删除
+        threadLocal.remove();
+        return dataDetails;
+    }
 }

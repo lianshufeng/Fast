@@ -1,0 +1,33 @@
+#默认端口号
+server:
+  port: 8080
+
+
+
+#允许消息总线
+spring:
+  cloud:
+    #kafka
+    stream:
+      kafka:
+        binder:
+          brokers: 192.168.49.128:9092,192.168.49.128:9093,192.168.49.128:9094
+      bindings:
+        #用户中心
+        UserCenterInputStream:
+          group: "UserCenterStream"
+    bus:
+      enabled: true
+
+
+
+
+
+
+
+
+
+#开启断路器
+#feign.hystrix.enabled=true
+
+

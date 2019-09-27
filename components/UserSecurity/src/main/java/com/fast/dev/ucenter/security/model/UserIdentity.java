@@ -1,8 +1,6 @@
 package com.fast.dev.ucenter.security.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -11,22 +9,31 @@ import java.util.Set;
 /**
  * 用户身份
  */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserIdentity implements Serializable {
 
     /**
-     * 角色列表
+     * 权限
      */
-    private Set<String> roles;
+    @Getter
+    @Setter
+    private Set<String> auths;
 
     /**
      * 其他信息
      */
+    @Getter
+    @Setter
     private Map<String, Object> details;
 
 
-
-
+    @Deprecated
+    public Set<String> getRoles() {
+        return auths;
+    }
+    @Deprecated
+    public void setRoles(Set<String> roles) {
+        this.auths = auths;
+    }
 }

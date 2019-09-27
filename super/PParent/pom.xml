@@ -6,160 +6,20 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.fast.dev</groupId>
+
+    <parent>
+        <groupId>com.fast.dev</groupId>
+        <artifactId>PConfigure</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../super/PConfigure</relativePath>
+    </parent>
+
+
     <artifactId>PParent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
 
-    <properties>
-        <!-- 项目编码 -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <!--JDK版本-->
-        <java.version>1.8</java.version>
-
-        <!--spring cloud 版本-->
-        <spring-mvc.version>5.1.8.RELEASE</spring-mvc.version>
-        <spring-security.version>5.1.5.RELEASE</spring-security.version>
-        <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
-        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
-
-
-        <!-- 其他工具版本 -->
-        <groovy.version>2.5.7</groovy.version>
-        <lombok.version>1.18.8</lombok.version>
-        <httpclient.version>4.5.9</httpclient.version>
-        <commons-lang3.version>3.9</commons-lang3.version>
-        <junit.version>4.12</junit.version>
-        <javax.servlet.jsp-api.version>2.3.3</javax.servlet.jsp-api.version>
-        <servlets-ssi.version>5.0.16</servlets-ssi.version>
-        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-        <commons-fileupload.version>1.4</commons-fileupload.version>
-        <jstl.version>1.2</jstl.version>
-        <gson.version>2.8.5</gson.version>
-
-
-        <!-- 插件 -->
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-compiler-plugin.proc>none</maven-compiler-plugin.proc>
-        <groovy-eclipse-compiler.version>3.4.0-01</groovy-eclipse-compiler.version>
-        <groovy-eclipse-batch.version>2.5.7-01</groovy-eclipse-batch.version>
-        <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
-
-
-        <!--项目版本-->
-        <Project.version>1.0.0-SNAPSHOT</Project.version>
-        <Project.groupId>com.fast.dev</Project.groupId>
-
-
-        <!-- 网关端口-->
-        <GetWayCenter.port>80</GetWayCenter.port>
-
-
-        <!-- 应用中心 -->
-        <ApplicationCenter.port>8761</ApplicationCenter.port>
-
-        <!-- 配置中心 -->
-        <ConfigCenter.port>8000</ConfigCenter.port>
-
-        <!--用户中心-->
-        <UserCenter.port>8100</UserCenter.port>
-        <UserCenter.context.path>/ucenter</UserCenter.context.path>
-
-        <!--推送中心-->
-        <PushCenter.port>8300</PushCenter.port>
-
-
-        <!--文件中心-->
-        <FileCenter.port>8400</FileCenter.port>
-
-
-        <!--任务端口-->
-        <PromiseTask.port>8500</PromiseTask.port>
-
-
-        <!-- 依赖服务版本号-->
-        <ehcache.version>2.10.6</ehcache.version>
-
-        <!--链路追踪-->
-        <zipkin.version>2.0.2.RELEASE</zipkin.version>
-
-    </properties>
-
-
-    <profiles>
-
-        <profile>
-            <id>DevelopmentRunTime</id>
-            <properties>
-                <maven-compiler-plugin.proc>both</maven-compiler-plugin.proc>
-            </properties>
-        </profile>
-
-
-        <!--开发环境-->
-        <profile>
-            <id>local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <spring.profiles.active>local</spring.profiles.active>
-
-                <ApplicationCenter.url>http://127.0.0.1:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-                <ConfigCenter.url>http://127.0.0.1:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>127.0.0.1:9092</Kafka.brokers>
-                <Zipkin.baseUrl>http://127.0.0.1:9411</Zipkin.baseUrl>
-                <Zipkin.sampler.probability>1.0</Zipkin.sampler.probability>
-            </properties>
-        </profile>
-
-
-        <!--开发环境-->
-        <profile>
-            <id>dev</id>
-
-            <properties>
-                <spring.profiles.active>dev</spring.profiles.active>
-
-                <ApplicationCenter.url>http://192.168.8.15:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-                <ConfigCenter.url>http://192.168.8.15:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>192.168.8.12:9092</Kafka.brokers>
-                <Zipkin.baseUrl>http://192.168.8.12:9411</Zipkin.baseUrl>
-                <Zipkin.sampler.probability>0.1</Zipkin.sampler.probability>
-            </properties>
-        </profile>
-
-        <!--测试环境-->
-        <profile>
-            <id>test</id>
-            <properties>
-                <spring.profiles.active>test</spring.profiles.active>
-
-                <ApplicationCenter.url>http://192.168.8.12:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-                <ConfigCenter.url>http://192.168.8.12:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>192.168.8.12:9092</Kafka.brokers>
-                <Zipkin.baseUrl>http://192.168.8.12:9411</Zipkin.baseUrl>
-                <Zipkin.sampler.probability>0.1</Zipkin.sampler.probability>
-            </properties>
-        </profile>
-
-        <!--生产环境-->
-        <profile>
-            <id>prod</id>
-            <properties>
-                <spring.profiles.active>prod</spring.profiles.active>
-
-                <ApplicationCenter.url>http://172.16.134.186:${ApplicationCenter.port}/eureka/</ApplicationCenter.url>
-                <ConfigCenter.url>http://172.16.134.186:${ConfigCenter.port}</ConfigCenter.url>
-                <Kafka.brokers>172.16.119.142:9092</Kafka.brokers>
-                <Zipkin.baseUrl>http://172.16.134.183:9411</Zipkin.baseUrl>
-                <Zipkin.sampler.probability>0.1</Zipkin.sampler.probability>
-            </properties>
-        </profile>
-    </profiles>
 
 
     <!--依赖-->
