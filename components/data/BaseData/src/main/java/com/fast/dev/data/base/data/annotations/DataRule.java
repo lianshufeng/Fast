@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 /**
  * 数据更新规则
  */
+@Deprecated
 public @interface DataRule {
 
     /**

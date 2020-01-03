@@ -6,7 +6,6 @@ import com.fast.dev.ucenter.security.cache.UserTokenCache;
 import com.fast.dev.ucenter.security.model.UserAuth;
 import com.fast.dev.ucenter.security.model.UserAuthenticationToken;
 import com.fast.dev.ucenter.security.resauth.ResourcesAuthHelper;
-import com.fast.dev.ucenter.security.resauth.type.ResourceScopeType;
 import com.fast.dev.ucenter.security.service.UserCenterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,10 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 用户安全助手
@@ -101,11 +103,6 @@ public class SecurityAuthenticationHelper {
             authorities.add(new SimpleGrantedAuthority(authName));
         }
 
-        //增加无需鉴权
-        this.resourcesAuthHelper.getResourceInfos(ResourceScopeType.NotAuth).forEach((it)->{
-            authorities.add(new SimpleGrantedAuthority(it.getName()));
-        });
-
 
         UserAuthenticationToken userAuthenticationToken = new UserAuthenticationToken(authorities);
         userAuthenticationToken.setAuthenticated(true);
@@ -123,7 +120,7 @@ public class SecurityAuthenticationHelper {
      * @param httpServletRequest
      * @return
      */
-    private String getToken(final HttpServletRequest httpServletRequest) {
+    public String getToken(final HttpServletRequest httpServletRequest) {
 
         for (String tokenName : UserTokenName) {
             StringBuffer uTokenBuffer = new StringBuffer();

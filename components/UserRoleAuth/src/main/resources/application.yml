@@ -1,0 +1,49 @@
+
+usersecurity:
+  rolePrefixName: "ROLE_"
+  needSecurityMethodUrl: "/**/*"
+  excludeSecurityMethodUrl: "/resources/**,/error"
+
+#使用断路器
+fegin:
+  hystrix:
+    enabled: true
+
+
+#允许消息总线
+spring:
+  cloud:
+    stream:
+      bindings:
+        UserCenterInputStream:
+          group: null
+        UserCenterOuputStream:
+          group: "UserCenterStream"
+          destination: "UserCenterInputStream"
+        UserTokenCacheInputStream:
+          group: null #这里只能设置null，要求集群的每个模块都能收到
+        UserTokenCacheOutputStream:
+          destination: "UserTokenCacheInputStream"
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+    bus:
+      enabled: true
+  cache:
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=5s
+    type: caffeine
+    cache-names:
+      - userToken
+
+
+user:
+  auth:
+    userModelCls: xx.mode.userModel
+    userEntityCls: xx.domain.user
+
+
+logging:
+  level:
+    com.fast.dev.ucenter.security: DEBUG

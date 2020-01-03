@@ -1,8 +1,10 @@
 package com.fast.dev.ucenter.core.dao.mongo.impl;
 
 import com.fast.dev.data.mongo.helper.DBHelper;
+import com.fast.dev.ucenter.core.dao.mongo.BaseUserLogDao;
 import com.fast.dev.ucenter.core.dao.mongo.extend.BaseUserDaoExtend;
 import com.fast.dev.ucenter.core.domain.BaseUser;
+import com.fast.dev.ucenter.core.domain.BaseUserLog;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -10,6 +12,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import javax.jws.Oneway;
 
 /**
  * 作者：练书锋
@@ -23,6 +27,9 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
 
     @Autowired
     private DBHelper dbHelper;
+
+    @Autowired
+    private BaseUserLogDao baseUserLogDao;
 
 
     @Override
@@ -74,11 +81,11 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
         //查询用户手机号码
         Query query = new Query().addCriteria(Criteria.where("_id").is(id));
         Update update = new Update();
-        update.set("salt",salt);
-        update.set("passWord",passWord);
+        update.set("salt", salt);
+        update.set("passWord", passWord);
         update.unset("passWordEncodeType");
         this.dbHelper.updateTime(update);
-        return this.mongoTemplate.updateFirst(query,update,BaseUser.class).getModifiedCount()>0;
+        return this.mongoTemplate.updateFirst(query, update, BaseUser.class).getModifiedCount() > 0;
     }
 
     @Override
@@ -92,13 +99,39 @@ public class BaseUserDaoImpl implements BaseUserDaoExtend {
         Query query = new Query().addCriteria(Criteria.where("_id").is(uid));
         Update update = new Update();
 
-        update.set(loginType.getUserLoginTypeName(),loginName);
+        update.set(loginType.getUserLoginTypeName(), loginName);
 
         FindAndModifyOptions options = new FindAndModifyOptions();
         options.upsert(false);
         options.returnNew(true);
 
-        return this.mongoTemplate.findAndModify(query,update,options,BaseUser.class);
+        //记录更新日志
+        recordUpdateLoginValueLog(uid, loginType, loginName);
+
+
+        return this.mongoTemplate.findAndModify(query, update, options, BaseUser.class);
+    }
+
+    /**
+     * 记录更换用户的登录名的日志
+     *
+     * @param uid
+     * @param loginType
+     * @param loginName
+     */
+    private void recordUpdateLoginValueLog(String uid, UserLoginType loginType, String loginName) {
+
+        BaseUserLog baseUserLog = new BaseUserLog();
+        BaseUser baseUser = new BaseUser();
+        baseUser.setId(uid);
+        baseUserLog.setBaseUser(baseUser);
+        baseUserLog.setUserLoginType(loginType);
+        baseUserLog.setLoginName(loginName);
+
+        this.dbHelper.saveTime(baseUserLog);
+
+        this.baseUserLogDao.save(baseUserLog);
+
     }
 
 

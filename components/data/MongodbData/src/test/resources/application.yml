@@ -3,6 +3,18 @@ spring:
     mongodb:
       database: testdb
       authentication-database: admin
-      host: 192.168.150.135:27017
+      host: 192.168.137.128:27017
       username: admin
       password: 687mongo2019
+
+
+logging:
+  level:
+    demo:
+      simple: DEBUG
+    com:
+      fast:
+        dev:
+          data:
+            mongo: DEBUG
+#debug: true

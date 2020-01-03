@@ -3,6 +3,7 @@ package com.fast.dev.robot.robotserver.core.service;
 import com.fast.dev.robot.robotserver.core.dao.RobotRecordDao;
 import com.fast.dev.robot.robotserver.core.domain.RobotRecord;
 import com.fast.dev.robot.robotserver.core.model.RobotValidate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +20,12 @@ public class RobotRecordService {
         if (robotRecord == null) {
             return null;
         }
-        return robotRecord.getRobotValidate();
+
+        RobotValidate robotValidate = new RobotValidate();
+        BeanUtils.copyProperties(robotValidate, robotRecord);
+
+        return robotValidate;
     }
-
-
-
-
-
 
 
 }

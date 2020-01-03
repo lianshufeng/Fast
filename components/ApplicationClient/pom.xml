@@ -28,6 +28,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <version>${netflix.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--hystrix-->
@@ -35,6 +41,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
             <version>${netflix.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -68,8 +80,6 @@
         </dependency>
 
 
-
-
         <!--注意：生效需要在 application 中增加下面2条-->
         <!--spring.cloud.bus.enabled=true-->
         <!--management.endpoints.web.exposure.include=bus-refresh-->
@@ -100,9 +110,6 @@
             <artifactId>spring-cloud-stream</artifactId>
             <version>${spring-boot-stream.version}</version>
         </dependency>
-
-
-
 
 
         <!--接口链路追踪-->

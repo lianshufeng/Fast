@@ -15,12 +15,11 @@
 
 
     <properties>
-        <mongo-java-driver.version>3.11.0</mongo-java-driver.version>
-        <spring-data-mongodb.version>2.1.10.RELEASE</spring-data-mongodb.version>
+        <mongo-java-driver.version>3.11.2</mongo-java-driver.version>
+        <spring-data-mongodb.version>2.2.3.RELEASE</spring-data-mongodb.version>
     </properties>
 
     <dependencies>
-
 
         <!-- 通用basedata -->
         <dependency>

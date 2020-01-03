@@ -204,11 +204,15 @@ public class CoreService {
         log.info("build : " + needbuildProjects.keySet());
 
 
-        //git本地仓库的克隆或更新
         updateAppProjectFromGit(new HashSet<String>() {{
             add(buildTaskConf.getCoreProject());
+        }}, true);
+
+
+        //git本地仓库的克隆或更新
+        updateAppProjectFromGit(new HashSet<String>() {{
             addAll(needbuildProjects.keySet());
-        }});
+        }}, false);
 
 
         //返回核心项目的路径
@@ -442,7 +446,12 @@ public class CoreService {
                 //开始复制文件
                 copyDirectoryToTemp(pomFile.getParentFile(), appTargetFile);
 
-                modules.add(module);
+
+                //如果是模块的声明则不加入编译中
+                if (!PomXmlUtil.hasModules(pomFile)) {
+                    modules.add(module);
+                }
+
 
                 log.info("[find] " + module);
             }
@@ -484,7 +493,7 @@ public class CoreService {
      *
      * @param appName
      */
-    private void updateAppProjectFromGit(Set<String> appName) {
+    private void updateAppProjectFromGit(Set<String> appName, boolean force) {
         if (appName == null || appName.size() == 0) {
             log.info("无处理的项目");
             return;
@@ -496,10 +505,20 @@ public class CoreService {
         final CountDownLatch countDownLatch = new CountDownLatch(appName.size());
         for (String name : appName) {
             ApplicationGitInfo applicationGitInfo = this.applicationTask.getApplications().get(name);
-            if (applicationGitInfo == null) {
+            if (force == false && applicationGitInfo == null) {
                 log.info("跳过不存在的app:" + name);
+                countDownLatch.countDown();
                 continue;
             }
+
+
+            //为空构建一个配置
+            if (applicationGitInfo == null) {
+                applicationGitInfo = new ApplicationGitInfo();
+                applicationGitInfo.setUrl(buildGitConf.getHost() + "/" + this.buildTaskConf.getCoreProject());
+            }
+
+
             final GitHelper gitHelper = this.applicationContext.getBean(GitHelper.class);
             gitHelper.setAppName(name);
             gitHelper.setApplicationGitInfo(applicationGitInfo);

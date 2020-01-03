@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 @Configuration
 @EnableMongoAuditing
 @ComponentScan("com.fast.dev.data.mongo")
+@EnableMongoRepositories("com.fast.dev.data.mongo.data.dao")
 public class MongoConfiguration {
 
     /**

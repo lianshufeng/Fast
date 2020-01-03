@@ -16,7 +16,16 @@ public enum InvokerState {
     /**
      * 异常情况
      */
-    Exception("异常");
+    Exception("异常"),
+
+
+    /**
+     * 机器人验证
+     */
+    Robot("机器验证"),
+
+
+    ;
 
 
     private String remark;

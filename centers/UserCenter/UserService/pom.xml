@@ -23,6 +23,13 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>BaseData</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
         <!--仅保留message用于声明接口-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

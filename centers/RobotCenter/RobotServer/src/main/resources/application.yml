@@ -23,6 +23,8 @@ spring:
         #用户中心
         UserCenterInputStream:
           group: null
+        PushCenterOuputStream:
+          destination: "PushCenterInputStream"
       #kafka
       kafka:
         binder:
@@ -54,7 +56,15 @@ management:
 
 
 
-  #开启断路器
+robot:
+  other:
+    Rotation:
+      errorRate: 0.04
+
+
+
+
+#开启断路器
   #feign.hystrix.enabled=true
 
 
@@ -63,7 +73,9 @@ management:
 
 #调试或者输出日志
 logging:
-  file: logs/${project.artifactId}.log
+  file: 
+    name: logs/${project.artifactId}.log
+#debug: true
 #  level:
 #    org:
 #      springframework:

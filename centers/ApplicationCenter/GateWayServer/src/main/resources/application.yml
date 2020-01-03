@@ -96,7 +96,8 @@ hystrix:
 #debug: true
 #trace: true
 logging:
-  file: logs/${project.artifactId}.log
+  file: 
+    name: logs/${project.artifactId}.log
 #  level:
 #    org:
 #      springframework:

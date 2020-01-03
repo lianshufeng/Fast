@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class DemoController {
 
 
-    @RequestMapping("demo")
+    @RequestMapping({"/", "demo",""})
     public ModelAndView demo() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("demo");

@@ -2,10 +2,10 @@ package com.fast.dev.ucenter.security.resauth;
 
 
 import com.fast.dev.ucenter.security.resauth.model.ResourceInfo;
-import com.fast.dev.ucenter.security.resauth.type.ResourceScopeType;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
@@ -48,26 +48,12 @@ public class ResourcesAuthHelper {
     /**
      * 获取资源信息
      *
-     * @param scopeType
-     * @return
-     */
-    public Collection<ResourceInfo> getResourceInfos(ResourceScopeType scopeType) {
-        return getResourceInfos(scopeType, null);
-    }
-
-    /**
-     * 获取资源信息
-     *
-     * @param scopeType
      * @param exclude
      * @return
      */
-    public Collection<ResourceInfo> getResourceInfos(ResourceScopeType scopeType, Set<String> exclude) {
+    public Collection<ResourceInfo> getResourceInfos(Set<String> exclude) {
         Set<ResourceInfo> sets = new HashSet<>();
         resourceInfoMap.values().forEach((it) -> {
-            if (scopeType != null && it.getScopeType() != scopeType) {
-                return;
-            }
             if (exclude == null || exclude.size() == 0) {
                 sets.add(it);
             } else if (!exclude.contains(it.getName())) {
@@ -84,10 +70,11 @@ public class ResourcesAuthHelper {
      * @param methodInfo
      */
     protected boolean appendResourceInfo(ResourceInfo methodInfo) {
-        if (this.resourceInfoMap.containsKey(methodInfo.getName())) {
-            return false;
+        if (StringUtils.hasText(methodInfo.getRemark())) {
+            this.resourceInfoMap.put(methodInfo.getName(), methodInfo);
+        } else if (!this.resourceInfoMap.containsKey(methodInfo.getName())) {
+            this.resourceInfoMap.put(methodInfo.getName(), methodInfo);
         }
-        this.resourceInfoMap.put(methodInfo.getName(), methodInfo);
         return true;
     }
 

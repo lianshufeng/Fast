@@ -2,8 +2,6 @@ package com.fast.dev.pushcenter.manager.helper;
 
 import com.fast.dev.pushcenter.manager.model.PlatformMessage;
 import com.fast.dev.pushcenter.manager.stream.PushCenterInputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -20,7 +18,7 @@ public abstract class ReceivePushMessageHelper {
      *
      * @param message
      */
-    @StreamListener(value = PushCenterInputStream.name, condition = "headers['PushMessageType']=='PlatformMessage'")
+    @StreamListener(value = PushCenterInputStream.name, condition = "new java.lang.String(headers['PushMessageType']) =='PlatformMessage'")
     public abstract void receivePlatformMessage(@Payload PlatformMessage message);
 
 

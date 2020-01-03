@@ -25,6 +25,6 @@ public class ErrorTryTableDaoImpl implements ErrorTryTableDaoExtend {
         Update update = new Update();
         update.set("taskState", taskState);
         this.dbHelper.updateTime(update);
-        return this.mongoTemplate.updateFirst(new Query(Criteria.where("taskTable").is(new TaskTable(taskId))), update, ErrorTryTable.class).getModifiedCount() > 0;
+        return this.mongoTemplate.updateFirst(new Query(Criteria.where("taskTable").is(TaskTable.build(taskId))), update, ErrorTryTable.class).getModifiedCount() > 0;
     }
 }

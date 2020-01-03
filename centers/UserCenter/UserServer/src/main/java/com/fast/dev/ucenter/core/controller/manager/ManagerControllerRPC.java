@@ -4,6 +4,7 @@ import com.fast.dev.core.util.result.InvokerResult;
 import com.fast.dev.ucenter.core.model.TokenEnvironment;
 import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import com.fast.dev.ucenter.core.type.UserLoginType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,5 +69,10 @@ public class ManagerControllerRPC extends ManagerController {
     @Override
     public Object cleanUserToken(String uid, String[] ignoreUToken) {
         return InvokerResult.notNull(super.cleanUserToken(uid, ignoreUToken));
+    }
+
+    @Override
+    public Object listUserUpdateLoginName(String uid, Pageable pageable) {
+        return InvokerResult.notNull(super.listUserUpdateLoginName(uid, pageable));
     }
 }

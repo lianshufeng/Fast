@@ -2,7 +2,6 @@ package com.fast.dev.ucenter.security.resauth;
 
 import com.fast.dev.ucenter.security.resauth.annotations.ResourceAuth;
 import com.fast.dev.ucenter.security.resauth.model.ResourceInfo;
-import com.fast.dev.ucenter.security.resauth.type.ResourceScopeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -20,8 +19,7 @@ public class ResourceAuthAnnotationMetadataExtractor implements AnnotationMetada
     public Collection<ConfigAttribute> extractAttributes(ResourceAuth resourceAuth) {
         final String attributeToken = resourceAuth.value();
         String remark = resourceAuth.remark();
-        ResourceScopeType scopeType = resourceAuth.scopeType();
-        ResourceInfo resourceInfo = ResourceInfo.builder().name(attributeToken).remark(remark).scopeType(scopeType).build();
+        ResourceInfo resourceInfo = ResourceInfo.builder().name(attributeToken).remark(remark).build();
 
         //添加资源到缓存里
         if (!this.resourcesAuthHelper.appendResourceInfo(resourceInfo)) {

@@ -1,15 +1,15 @@
 package com.fast.dev.ucenter.core.service.impl;
 
+import com.fast.dev.data.base.util.PageEntityUtil;
 import com.fast.dev.ucenter.core.dao.mongo.BaseUserDao;
+import com.fast.dev.ucenter.core.dao.mongo.BaseUserLogDao;
 import com.fast.dev.ucenter.core.dao.redis.UserTokenDao;
 import com.fast.dev.ucenter.core.domain.BaseUser;
+import com.fast.dev.ucenter.core.domain.BaseUserLog;
 import com.fast.dev.ucenter.core.domain.ServiceToken;
 import com.fast.dev.ucenter.core.domain.UserToken;
 import com.fast.dev.ucenter.core.helper.password.PassWordHelper;
-import com.fast.dev.ucenter.core.model.BaseUserModel;
-import com.fast.dev.ucenter.core.model.TokenEnvironment;
-import com.fast.dev.ucenter.core.model.UserRegisterModel;
-import com.fast.dev.ucenter.core.model.UserTokenModel;
+import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.service.UserManagerService;
 import com.fast.dev.ucenter.core.service.UserService;
 import com.fast.dev.ucenter.core.type.PassWordEncodeType;
@@ -18,7 +18,10 @@ import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.core.util.BaseTokenUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserManagerImpl extends BaseUserService implements UserManagerService {
@@ -28,6 +31,9 @@ public class UserManagerImpl extends BaseUserService implements UserManagerServi
 
     @Autowired
     private BaseUserDao baseUserDao;
+
+    @Autowired
+    private BaseUserLogDao baseUserLogDao;
 
     @Autowired
     private UserService userService;
@@ -43,7 +49,6 @@ public class UserManagerImpl extends BaseUserService implements UserManagerServi
         UserToken userToken = this.userTokenDao.query(token);
         return BaseTokenUtil.toUserTokenModel(userToken);
     }
-
 
 
     @Override
@@ -153,7 +158,9 @@ public class UserManagerImpl extends BaseUserService implements UserManagerServi
         return new UserRegisterModel(state, baseUser.getId());
     }
 
+
     @Override
+    @Transactional
     public BaseUserModel updateLoginName(String uid, UserLoginType loginType, String loginName) {
         BaseUser baseUser = this.baseUserDao.updateLoginValue(uid, loginType, loginName);
         return copyToBaseUserModel(baseUser);
@@ -168,6 +175,28 @@ public class UserManagerImpl extends BaseUserService implements UserManagerServi
         }
         this.updateBaseUserPassWord(baseUser, passWord);
         return this.baseUserDao.updatePassWord(baseUser.getId(), baseUser.getSalt(), baseUser.getPassWord()) ? TokenState.Success : TokenState.Error;
+    }
+
+    @Override
+    public Page<BaseUserLogModel> listUserUpdateLoginName(String uid, Pageable pageable) {
+        BaseUser baseUser = new BaseUser();
+        baseUser.setId(uid);
+
+        Page<BaseUserLog> pages = this.baseUserLogDao.findByBaseUser(baseUser, pageable);
+        if (pages != null) {
+            return PageEntityUtil.toPageModel(pages, new PageEntityUtil.DataClean<BaseUserLog, BaseUserLogModel>() {
+                @Override
+                public BaseUserLogModel execute(BaseUserLog data) {
+                    //对象拷贝
+                    BaseUserLogModel baseUserLogModel = new BaseUserLogModel();
+                    BeanUtils.copyProperties(data, baseUserLogModel);
+                    baseUserLogModel.setUid(data.getBaseUser().getId());
+                    return baseUserLogModel;
+                }
+            });
+
+        }
+        return null;
     }
 
 

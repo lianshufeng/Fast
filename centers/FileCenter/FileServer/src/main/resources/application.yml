@@ -46,3 +46,6 @@ management:
   #测试代码，后面移动到配置中心里
 
 
+logging:
+  file: 
+    name: logs/${project.artifactId}.log

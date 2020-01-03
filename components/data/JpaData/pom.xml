@@ -16,7 +16,7 @@
 
     <properties>
         <Hsqldb.version>2.5.0</Hsqldb.version>
-        <JodaTime.version>2.10.2</JodaTime.version>
+        <JodaTime.version>2.10.5</JodaTime.version>
     </properties>
 
 

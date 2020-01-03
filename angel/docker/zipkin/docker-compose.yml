@@ -1,13 +1,22 @@
 version: '3.1'
 
 services:
-  zipkin_es:
-    image: elasticsearch
+  zipkin_mysql:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
-    hostname: zipkin_es
-    container_name: zipkin_es
+    container_name: zipkin_mysql
+#    ports:
+#      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
     volumes:
-      - "/opt/zipkin/es:/usr/share/elasticsearch/data"
+      - ${store}:/var/lib/mysql
+      - ./init_data.sh:/tmp/data/init_data.sh
+      - ./mysql.sql:/tmp/data/init_zipkin.sql
+      - .env:/tmp/data/.env
+
+
   zipkin:
     image: openzipkin/zipkin
     restart: always
@@ -16,9 +25,10 @@ services:
     ports:
       - 9411:9411
     environment:
-      ES_HOSTS: "zipkin_es"
-      STORAGE_TYPE: "elasticsearch"
+      STORAGE_TYPE: mysql
+      MYSQL_HOST: zipkin_mysql
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASS: ${MYSQL_PASS}
 
-  # docker run --name elasticsearch -d -p 9200:9200 -p 9300:9300  -v /opt/es:/usr/share/elasticsearch/data elasticsearch
 
-  # docker run --name zipkin --link elasticsearch:elasticsearch -d -p 9411:9411 -e STORAGE_TYPE=elasticsearch -e ES_HOSTS=elasticsearch openzipkin/zipkin

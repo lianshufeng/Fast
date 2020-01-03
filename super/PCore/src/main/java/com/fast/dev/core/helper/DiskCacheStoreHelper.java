@@ -98,6 +98,11 @@ public abstract class DiskCacheStoreHelper {
      */
     public synchronized OutputStream store(String key) {
         final String fileName = keyHash(key);
+        //保证目录一定存在
+        if (!this.storePath.exists()){
+            this.storePath.mkdirs();
+        }
+
         final File tmpFile = new File(this.storePath.getAbsolutePath() + "/" + fileName + "_new");
         //拷贝流
         try {

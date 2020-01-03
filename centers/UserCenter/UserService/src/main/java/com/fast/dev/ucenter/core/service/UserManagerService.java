@@ -1,15 +1,16 @@
 package com.fast.dev.ucenter.core.service;
 
-import com.fast.dev.ucenter.core.model.BaseUserModel;
-import com.fast.dev.ucenter.core.model.TokenEnvironment;
-import com.fast.dev.ucenter.core.model.UserRegisterModel;
-import com.fast.dev.ucenter.core.model.UserTokenModel;
+import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * 功能解决
@@ -139,5 +140,16 @@ public interface UserManagerService {
      */
     @RequestMapping(value = "/ucenter/manager/cleanUserToken", method = RequestMethod.POST)
     long cleanUserToken(@RequestParam("uid") String uid, @RequestParam("ignoreUToken") String[] ignoreUToken);
+
+
+    /**
+     * 分页查询用户的变更信息
+     *
+     * @param uid
+     * @return
+     */
+    @RequestMapping(value = "/ucenter/manager/listUserUpdateLoginName", method = RequestMethod.POST)
+    Page<BaseUserLogModel> listUserUpdateLoginName(@RequestParam("uid") String uid, Pageable pageable);
+
 
 }

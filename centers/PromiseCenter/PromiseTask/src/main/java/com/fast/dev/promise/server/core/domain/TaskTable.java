@@ -63,7 +63,9 @@ public class TaskTable extends SuperEntity {
      *
      * @param id
      */
-    public TaskTable(String id) {
-        setId(id);
+    public static TaskTable build(String id) {
+        TaskTable taskTable = new TaskTable();
+        taskTable.setId(id);
+        return taskTable;
     }
 }

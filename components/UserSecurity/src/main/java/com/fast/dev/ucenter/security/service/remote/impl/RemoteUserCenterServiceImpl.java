@@ -1,15 +1,14 @@
 package com.fast.dev.ucenter.security.service.remote.impl;
 
-import com.fast.dev.ucenter.core.model.BaseUserModel;
-import com.fast.dev.ucenter.core.model.TokenEnvironment;
-import com.fast.dev.ucenter.core.model.UserRegisterModel;
-import com.fast.dev.ucenter.core.model.UserTokenModel;
+import com.fast.dev.ucenter.core.model.*;
 import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import com.fast.dev.ucenter.core.type.TokenState;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import com.fast.dev.ucenter.security.conf.UserSecurityConf;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -147,6 +146,16 @@ public class RemoteUserCenterServiceImpl implements RemoteUserCenterService {
         }});
     }
 
+    @Override
+    public Page<BaseUserLogModel> listUserUpdateLoginName(String uid, Pageable pageable) {
+        return post(Page.class, "manager/listUserUpdateLoginName", new HashMap<String, Object>() {{
+            put("uid", uid);
+            put("page", pageable.getPageSize());
+            put("size", pageable.getPageSize());
+            put("sort", pageable.getSort());
+        }});
+    }
+
 
     public <T> T post(Class<T> responseType, String uri, Map<String, Object> parm) {
         String url = "http://" + this.userSecurityConf.getUcenterAppName() + "/ucenter/" + uri;
@@ -165,7 +174,7 @@ public class RemoteUserCenterServiceImpl implements RemoteUserCenterService {
     private void setParmMap(final MultiValueMap<String, String> formMap, String key, Object value) {
         //过滤为null的参数
         if (value == null) {
-            return ;
+            return;
         }
         if (SupportTextType.contains(value.getClass()) || value.getClass().isEnum()) {
             List<String> values = formMap.get(key);

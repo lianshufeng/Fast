@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 /**
  * 数据助手
  */
+@Deprecated
 public interface DataHelper {
 
 
@@ -16,6 +17,7 @@ public interface DataHelper {
      * @param id
      * @return
      */
+    @Deprecated
     UpdateDataDetails[] update(Class<? extends AbstractPersistable> entityClasses, Object id);
 
 

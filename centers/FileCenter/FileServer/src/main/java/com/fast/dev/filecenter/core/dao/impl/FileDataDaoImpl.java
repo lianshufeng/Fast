@@ -69,7 +69,7 @@ public class FileDataDaoImpl implements FileDataDao {
      */
     public void delRedundantFile(String hash) {
         Query query = new Query().addCriteria(Criteria.where("md5").is(hash));
-        query.with(new Sort(Sort.Direction.ASC, "uploadDate"));
+        query.with(Sort.by(Sort.Direction.ASC, "uploadDate"));
         String firstUploadFileId = gridFsTemplate.findOne(query).getObjectId().toString();
         System.out.println("firstUploadFileId="+firstUploadFileId);
         //删除之前上传的该文件

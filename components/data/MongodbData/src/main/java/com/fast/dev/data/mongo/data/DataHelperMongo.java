@@ -1,7 +1,6 @@
 package com.fast.dev.data.mongo.data;
 
-import com.fast.dev.core.util.JsonUtil;
-import com.fast.dev.core.util.bean.BeanUtil;
+import com.fast.dev.core.util.script.GroovyUtil;
 import com.fast.dev.data.base.data.DataHelper;
 import com.fast.dev.data.base.data.annotations.DataRule;
 import com.fast.dev.data.base.data.impl.DataHelperImpl;
@@ -9,9 +8,7 @@ import com.fast.dev.data.base.data.model.UpdateDataDetails;
 import com.fast.dev.data.base.data.type.UpdateType;
 import com.fast.dev.data.mongo.helper.DBHelper;
 import com.fast.dev.data.mongo.util.EntityObjectUtil;
-import com.mongodb.DBRef;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.mongodb.core.BulkOperations;
@@ -20,10 +17,14 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+
+@Deprecated
 @Component
 public class DataHelperMongo extends DataHelperImpl implements DataHelper {
 
@@ -55,19 +56,10 @@ public class DataHelperMongo extends DataHelperImpl implements DataHelper {
     public String[] getTargerDataRuleIds(DataRule dataRule, Map<String, Object> varMap) {
         List<String> ids = new ArrayList<>();
         String collectionName = this.dbHelper.getCollectionName(dataRule.targetEntity());
-        //过滤条件
-        String filter = dataRule.targetQuery();
-        for (Map.Entry<String, Object> entry : varMap.entrySet()) {
-            String key = ":" + entry.getKey();
-            //需要替换
-            if (filter.indexOf(key) > -1) {
-                //需要更新的值
-                String value = entry.getValue() instanceof String ? String.valueOf(entry.getValue()) : JsonUtil.toJson(entry.getValue());
 
-                //进行数据替换
-                filter = filter.replaceAll(key, String.valueOf(entry.getValue()));
-            }
-        }
+
+        //模板引擎构建查询语句
+        String filter = GroovyUtil.textTemplate(varMap, dataRule.targetQuery());
 
         //数据
         for (Document document : this.mongoTemplate.getCollection(collectionName).find(Document.parse(filter))) {

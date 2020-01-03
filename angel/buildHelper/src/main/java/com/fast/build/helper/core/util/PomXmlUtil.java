@@ -51,6 +51,9 @@ public class PomXmlUtil {
     public static int getAppDepth(File pomFile) throws Exception {
         Document doc = new SAXReader().read(pomFile);
         Element modulesElement = doc.getRootElement().element("parent");
+        if (modulesElement == null) {
+            return -1;
+        }
         Element groupId = modulesElement.element("groupId");
         Element artifactId = modulesElement.element("artifactId");
         if (groupId.getText().equals("com.fast.dev") && artifactId.getText().equals("PParent")) {
@@ -65,6 +68,20 @@ public class PomXmlUtil {
         }
         return -1;
     }
+
+    /**
+     * 是否包含模块的pom
+     *
+     * @param pomFile
+     * @return
+     * @throws Exception
+     */
+    public static boolean hasModules(File pomFile) throws Exception {
+        Document doc = new SAXReader().read(pomFile);
+        Element modulesElement = doc.getRootElement().element("modules");
+        return modulesElement != null;
+    }
+
 
     public static void main(String[] args) {
         try {

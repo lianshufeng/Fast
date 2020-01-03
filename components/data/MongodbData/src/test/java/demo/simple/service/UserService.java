@@ -1,6 +1,7 @@
 package demo.simple.service;
 
 import com.fast.dev.data.base.data.DataHelper;
+import com.fast.dev.data.base.data.DataSyncHelper;
 import com.mongodb.client.result.UpdateResult;
 import demo.simple.dao.UserDao;
 import demo.simple.domain.User;
@@ -144,8 +145,9 @@ public class UserService {
 
 
     @Autowired
-    private DataHelper dataHelper;
+    private DataSyncHelper dataHelper;
 
+//    private DataSyncHelper dataSyncHelper
 
 
     @Transactional

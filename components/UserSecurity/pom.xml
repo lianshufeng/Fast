@@ -14,7 +14,6 @@
     <artifactId>UserSecurity</artifactId>
 
 
-
     <dependencies>
 
         <!--用户中心依赖模块-->
@@ -42,10 +41,17 @@
             <version>${spring-security.version}</version>
         </dependency>
 
+
+        <!--缓存-->
         <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>${ehcache.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.version}</version>
         </dependency>
 
 

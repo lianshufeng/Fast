@@ -6,12 +6,9 @@ import com.fast.dev.data.base.data.annotations.DataRule;
 import com.fast.dev.data.base.data.annotations.DataUpdate;
 import com.fast.dev.data.base.data.model.UpdateDataDetails;
 import lombok.extern.java.Log;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.util.StringUtils;
 
-import java.beans.Introspector;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +19,7 @@ import java.util.Map;
  * 数据助手
  */
 @Log
+@Deprecated
 public abstract class DataHelperImpl implements DataHelper {
 
 
@@ -88,9 +86,15 @@ public abstract class DataHelperImpl implements DataHelper {
     @Override
     public UpdateDataDetails[] update(Class<? extends AbstractPersistable> entityClasses, Object id) {
         List<UpdateDataDetails> updateDataDetails = new ArrayList<>();
+        if (id == null) {
+            return null;
+        }
 
         //获取原数据
         Object source = getSource(entityClasses, id);
+        if (source == null) {
+            return null;
+        }
 
         //表达式变量
         Map<String, Object> varMap = BeanUtil.bean2Map(source);

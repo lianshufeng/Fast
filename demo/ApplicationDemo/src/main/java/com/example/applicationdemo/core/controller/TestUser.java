@@ -6,9 +6,7 @@ import com.fast.dev.core.util.result.InvokerResult;
 import com.fast.dev.ucenter.security.helper.UserHelper;
 import com.fast.dev.ucenter.security.resauth.ResourcesAuthHelper;
 import com.fast.dev.ucenter.security.resauth.annotations.ResourceAuth;
-import com.fast.dev.ucenter.security.resauth.type.ResourceScopeType;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
-import com.netflix.discovery.converters.Auto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -93,7 +91,7 @@ public class TestUser {
     }
 
     @RequestMapping("logout")
-    @ResourceAuth(value = "logout", remark = "注销",scopeType = ResourceScopeType.NotAuth)
+    @ResourceAuth(value = "logout", remark = "注销")
     public Object logout() {
         System.out.println("user:" + JsonUtil.toJson(userHelper.getUser()));
         //调用管理模块进行通知注销
@@ -152,7 +150,7 @@ public class TestUser {
      */
     @RequestMapping("getAllAuths")
     public Object getAllAuths() {
-        return resourcesAuthHelper.getResourceInfos(ResourceScopeType.NeedAuth);
+        return resourcesAuthHelper.getResourceInfos();
     }
 
 

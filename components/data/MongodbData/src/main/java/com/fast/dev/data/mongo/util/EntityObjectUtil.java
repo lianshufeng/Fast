@@ -1,15 +1,12 @@
 package com.fast.dev.data.mongo.util;
 
 
+import com.fast.dev.core.util.bean.BeanUtil;
 import com.fast.dev.data.mongo.domain.SuperEntity;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 实体工具类
@@ -46,7 +43,7 @@ public class EntityObjectUtil {
      * @param update
      */
     public static void preUpdate(Update update) {
-        update.set("updateTime", new Date().getTime());
+        update.set("updateTime", getTime());
     }
 
     /**
@@ -98,6 +95,21 @@ public class EntityObjectUtil {
 
 
     /**
+     * 实体到更新模型
+     *
+     * @param entity
+     * @param update
+     * @param ignore
+     */
+    public static void entity2Update(Object entity, Update update, String... ignore) {
+        Set<String> ignoreSet = null;
+        if (ignore != null) {
+            ignoreSet = new HashSet<>(Arrays.asList(ignore));
+        }
+        entity2Update(entity, entity.getClass(), update, ignoreSet);
+    }
+
+    /**
      * 实体判断是否为null，非null并设置到update中的修改
      *
      * @param entity
@@ -118,42 +130,21 @@ public class EntityObjectUtil {
     }
 
     private static void entity2Update(Object entity, Class<?> meClass, Update update, Set<String> ignore) {
-        for (Field declaredField : meClass.getDeclaredFields()) {
-            if (!meClass.equals(SuperEntity.class)) {
-                entity2Update(entity, meClass.getSuperclass(), update, ignore);
+        Map<String, Object> m = BeanUtil.bean2Map(entity);
+        m.entrySet().forEach((it) -> {
+            //没有value则不更新
+            if (it.getValue() == null) {
+                return;
             }
-            declaredField.setAccessible(true);
-            try {
-                String name = declaredField.getName();
-                if (ignore != null && ignore.contains(name)) {
-                    continue;
-                }
-                Object value = declaredField.get(entity);
-                if (value != null) {
-                    update.set(name, value);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            //忽略列表
+            if (ignore == null) {
+                update.set(it.getKey(), it.getValue());
+            } else if (!ignore.contains(it.getKey())) {
+                update.set(it.getKey(), it.getValue());
             }
-        }
+        });
+
     }
 
-
-//    public static void main(String[] args) {
-//        TestClass s = new TestClass();
-//        s.setId("testId");
-//        s.setTest1("tes111");
-//        s.setTest3("tes11133");
-//        Update update = new Update();
-//        entity2Update(s, update);
-//        System.out.println(JsonUtil.toJson(update));
-//    }
-//
-//    @DataRule
-//    public static class TestClass extends SuperEntity {
-//        private String test1;
-//        private String test2;
-//        private String test3;
-//    }
 
 }

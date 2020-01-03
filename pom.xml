@@ -40,9 +40,9 @@
         <module>components/data/RedisData</module>
         <module>components/data/JpaData</module>
         <module>components/data/ElasticSearchData</module>
-
         <!--用户安全-->
         <module>components/UserSecurity</module>
+        <module>components/UserRoleAuth</module>
         <!--缓存模块-->
         <module>components/Component-cache-method</module>
         <!-- 增加storm模块 -->
@@ -68,12 +68,14 @@
         <module>centers/PromiseCenter/PromiseTask</module>
         <module>centers/PromiseCenter/PromiseService</module>
 
-
         <!--推送中心-->
         <module>centers/PushCenter/PushServer</module>
         <module>centers/PushCenter/PushService</module>
 
-        <module>components/RobotFirewall</module>
+        <!--验证码-->
+        <module>centers/RobotCenter/RobotService</module>
+        <module>centers/RobotCenter/RobotServer</module>
+
 
 
 

@@ -1,12 +1,9 @@
 package demo.simple.controller;
 
 
-import com.fast.dev.data.base.data.DataHelper;
 import demo.simple.dao.UserDao;
-import demo.simple.domain.User;
 import demo.simple.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

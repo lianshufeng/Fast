@@ -1,9 +1,3 @@
-#用户令牌的缓存配置
-tokencache:
-  timeToLiveSeconds: 600
-  timeToIdleSeconds: 60
-  maxMemoryCount: 1000
-  overflowToDisk: false
 
 usersecurity:
   rolePrefixName: "ROLE_"
@@ -32,6 +26,12 @@ spring:
           brokers: ${Kafka.brokers}
     bus:
       enabled: true
+  cache: #缓存配置
+    caffeine:
+      spec: maximumSize=5000,expireAfterWrite=3600s
+    type: caffeine
+    cache-names:
+      - UserToken
 
 
 logging:

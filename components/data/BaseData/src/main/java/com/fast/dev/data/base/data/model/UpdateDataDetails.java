@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Deprecated
 public class UpdateDataDetails {
 
 

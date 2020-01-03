@@ -2,11 +2,10 @@ package com.fast.dev.ucenter.security.config.impl;
 
 import com.fast.dev.ucenter.security.cache.UserTokenCache;
 import com.fast.dev.ucenter.security.conf.UserSecurityConf;
-import com.fast.dev.ucenter.security.conf.UserTokenCacheConf;
-import com.fast.dev.ucenter.security.resauth.ResourcesAuthHelper;
 import com.fast.dev.ucenter.security.helper.SecurityAuthenticationHelper;
 import com.fast.dev.ucenter.security.helper.UserHelper;
 import com.fast.dev.ucenter.security.interceptors.UserTokenInterceptor;
+import com.fast.dev.ucenter.security.resauth.ResourcesAuthHelper;
 import com.fast.dev.ucenter.security.service.UserCenterService;
 import com.fast.dev.ucenter.security.service.remote.RemoteUserCenterService;
 import com.fast.dev.ucenter.security.service.remote.impl.RemoteUserCenterServiceImpl;
@@ -36,10 +35,6 @@ public class UserSecurityBeansConfig {
         return new UserTokenCache();
     }
 
-    @Bean
-    public UserTokenCacheConf userTokenConf() {
-        return new UserTokenCacheConf();
-    }
 
     @Bean
     public UserCenterService userCenterService() {

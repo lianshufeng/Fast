@@ -5,6 +5,7 @@ import com.fast.dev.ucenter.core.service.UserManagerService;
 import com.fast.dev.ucenter.core.type.PassWordEncodeType;
 import com.fast.dev.ucenter.core.type.UserLoginType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -154,5 +155,11 @@ public class ManagerController {
         return this.userManager.cleanUserToken(uid, ignoreUToken);
     }
 
+
+    @RequestMapping("listUserUpdateLoginName")
+    public Object listUserUpdateLoginName(String uid, Pageable pageable) {
+        Assert.hasText(uid, "用户id不能为空");
+        return this.userManager.listUserUpdateLoginName(uid, pageable);
+    }
 
 }

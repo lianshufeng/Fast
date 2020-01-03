@@ -1,75 +1,24 @@
-version: '3.1'
+version: "3"
 
 services:
-  kafka1:
-    image: "lianshufeng/kafka"
-    container_name: kafka1
-    hostname: kafka1
-    restart: always
-    environment:
-      - ZOOKEEPER_HOST=kafka1,kafka2,kafka3
-      - KAFKA_LISTENERS=${KAFKA_HOST}:9092
+  kafka:
+    image: lianshufeng/kafka
+    ports:
+      - "8822:22"      
+      - "9092:9092"
+      - "2181:2181"
     volumes:
-      - ${store}/data1/config:/opt/kafka/config
+#      - ${store}/data1/config:/opt/kafka/config
       - ${store}/data1/logs:/opt/kafka/logs
       - ${store}/data1/kafka_logs:/tmp/kafka-logs
-    ports:
-      - 2181:2181
-      - 9092:9092
-    networks:
-      - kafkanet
-
-  kafka2:
-    image: "lianshufeng/kafka"
-    container_name: kafka2
-    hostname: kafka2
+    container_name: kafka
     restart: always
     environment:
-      - ZOOKEEPER_HOST=kafka1,kafka2,kafka3
-      - KAFKA_LISTENERS=${KAFKA_HOST}:9093
-    volumes:
-      - ${store}/data2/config:/opt/kafka/config
-      - ${store}/data2/logs:/opt/kafka/logs
-      - ${store}/data2/kafka_logs:/tmp/kafka-logs
-    ports:
-      - 2182:2181
-      - 9093:9092
-    networks:
-      - kafkanet
-
-  kafka3:
-    image: "lianshufeng/kafka"
-    container_name: kafka3
-    hostname: kafka3
-    restart: always
-    environment:
-      - ZOOKEEPER_HOST=kafka1,kafka2,kafka3
-      - KAFKA_LISTENERS=${KAFKA_HOST}:9094
-    volumes:
-      - ${store}/data3/config:/opt/kafka/config
-      - ${store}/data3/logs:/opt/kafka/logs
-      - ${store}/data3/kafka_logs:/tmp/kafka-logs
-    ports:
-      - 2183:2181
-      - 9094:9092
-    networks:
-      - kafkanet
-
-networks:
-  kafkanet:
-  
-
-
-
-
-
-#防火墙
-#sudo firewall-cmd --add-port=2181/tcp --permanent; firewall-cmd --add-port=2182/tcp --permanent ; firewall-cmd --add-port=2183/tcp --permanent ; firewall-cmd --add-port=9092/tcp --permanent ; firewall-cmd --add-port=9093/tcp --permanent ; firewall-cmd --add-port=9094/tcp --permanent ; firewall-cmd --reload
-
-
-
-# yum install -y dos2unix wget curl unzip ; dos2unix .env ; source .env ; mkdir -p  ${store}
-
-
-# docker-compose up -d
-
+      - KAFKA_LISTENERS=${KAFKA_HOST}:9092
+      
+      
+      
+      
+#sudo firewall-cmd --add-port=2181/tcp --permanent 
+#sudo firewall-cmd --add-port=9092/tcp --permanent 
+#firewall-cmd --reload 
