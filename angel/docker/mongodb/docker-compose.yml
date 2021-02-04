@@ -1,0 +1,69 @@
+version: '3.1'
+
+services:
+  mongo1:
+    image: registry.cn-chengdu.aliyuncs.com/1s/mongo
+    restart: always
+    hostname: mongo1
+    container_name: mongo1
+    volumes:
+      - "${store}/mongo1:/opt/mongo/store"
+      - "/etc/localtime:/etc/localtime"
+      - ./.env:/opt/cmd/.env
+      - ./client.sh:/opt/cmd/client.sh
+    ports:
+      - 27017:27017
+    environment:
+      ReplSetInitiate: "${VmHost}:27017,${VmHost}:27018,${VmHost}:27019"
+      ReplSetArbiter: "${VmHost}:27020"
+      MongoInitRootUserName: "${MongoInitRootUserName}"
+      MongoInitRootPassWord: "${MongoInitRootPassWord}"
+  mongo2:
+    image: registry.cn-chengdu.aliyuncs.com/1s/mongo
+    restart: always
+    hostname: mongo2
+    container_name: mongo2
+    volumes:
+      - "${store}/mongo2:/opt/mongo/store"
+      - "/etc/localtime:/etc/localtime"
+    ports:
+      - 27018:27017
+    environment:
+      ReplSetInitiate: "${VmHost}:27017,${VmHost}:27018,${VmHost}:27019"
+      ReplSetArbiter: "${VmHost}:27020"
+      MongoInitRootUserName: "${MongoInitRootUserName}"
+      MongoInitRootPassWord: "${MongoInitRootPassWord}"
+  mongo3:
+    image: registry.cn-chengdu.aliyuncs.com/1s/mongo
+    restart: always
+    hostname: mongo3
+    container_name: mongo3
+    volumes:
+      - "${store}/mongo3:/opt/mongo/store"
+      - "/etc/localtime:/etc/localtime"
+    ports:
+      - 27019:27017
+    environment:
+      ReplSetInitiate: "${VmHost}:27017,${VmHost}:27018,${VmHost}:27019"
+      ReplSetArbiter: "${VmHost}:27020"
+      MongoInitRootUserName: "${MongoInitRootUserName}"
+      MongoInitRootPassWord: "${MongoInitRootPassWord}"
+  mongo4:
+    image: registry.cn-chengdu.aliyuncs.com/1s/mongo
+    restart: always
+    hostname: mongo4
+    container_name: mongo4
+    volumes:
+      - "${store}/mongo4:/opt/mongo/store"
+      - "/etc/localtime:/etc/localtime"
+    ports:
+      - 27020:27017
+    environment:
+      ReplSetInitiate: "${VmHost}:27017,${VmHost}:27018,${VmHost}:27019"
+      ReplSetArbiter: "${VmHost}:27020"
+      MongoInitRootUserName: "${MongoInitRootUserName}"
+      MongoInitRootPassWord: "${MongoInitRootPassWord}"
+
+
+
+

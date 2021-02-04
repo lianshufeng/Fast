@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fast.dev.promise</groupId>
+    <artifactId>TimerService</artifactId>
+    <packaging>jar</packaging>
+
+    <name>TimerService</name>
+    <description>定时器接口</description>
+
+    <parent>
+        <groupId>com.fast.dev</groupId>
+        <artifactId>PParent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../../super/PParent</relativePath>
+    </parent>
+
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>PCore</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+        <!-- 应用中心客户端 -->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>ApplicationClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+    </dependencies>
+
+
+</project>

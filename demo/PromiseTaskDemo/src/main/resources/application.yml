@@ -1,0 +1,79 @@
+#默认端口号
+server:
+  port: 7456
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+  instance:
+    lease-renewal-interval-in-seconds: 30 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 90 # 续约到期时间
+
+#允许消息总线
+spring:
+  cloud:
+    stream:
+      bindings:
+        UserCenterInputStream:
+          group: "applicationdemo"
+        UserCenterOuputStream:
+          group: "applicationdemo"
+          destination: "UserCenterInputStream"
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+          replication-factor: 1
+    bus:
+      enabled: true
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
+
+
+
+
+
+#允许端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+
+
+
+
+#使用断路器
+feign:
+  hystrix:
+    enabled: true
+
+
+#调试或者输出日志
+logging:
+  file: 
+    name: logs/${project.artifactId}.log
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
+        cloud:
+          sleuth: DEBUG
+
+
+debug: true
+trace: true

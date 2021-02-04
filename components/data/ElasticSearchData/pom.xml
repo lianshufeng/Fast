@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>PParent</artifactId>
+        <groupId>com.fast.dev</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../../super/PParent</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fast.dev.components</groupId>
+    <artifactId>ElasticSearchData</artifactId>
+
+
+    <properties>
+        <!-- 项目编码 -->
+        <elasticsearch.version>6.8.6</elasticsearch.version>
+        <spring-data-elasticsearch.version>3.2.4.RELEASE</spring-data-elasticsearch.version>
+    </properties>
+
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>PCore</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!-- 通用basedata -->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>BaseData</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
+            <version>${spring-data-elasticsearch.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                    <groupId>org.elasticsearch.client</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+
+
+    </dependencies>
+
+
+</project>

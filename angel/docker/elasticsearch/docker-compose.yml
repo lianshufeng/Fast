@@ -1,0 +1,72 @@
+version: '3.1'
+
+services:
+  es:
+    image: "elasticsearch:${es_version}"
+    container_name: es
+    restart: always
+    hostname: es
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ${store}/data:/usr/share/elasticsearch/data
+      - ${store}/ik:/usr/share/elasticsearch/plugins/ik
+    ports:
+      - 9200:9200
+      - 9300:9300
+  kibana:
+    image: "kibana:${es_version}"
+    container_name: kibana
+    restart: always
+    hostname: kibana
+    ports:
+      - 5601:5601
+    environment:
+      SERVER_NAME: ${kibana_host}
+      ELASTICSEARCH_HOSTS: http://es:9200
+
+
+
+
+#安装shell的依赖 centos
+# yum install -y dos2unix wget curl unzip ; dos2unix .env ;source .env ; mkdir -p  ${store}
+
+
+#修改MaxMap
+#vim /etc/sysctl.conf
+#vm.max_map_count=262144
+#sysctl -w vm.max_map_count=655360
+#sysctl -a | grep "vm.max_map_count"
+
+
+#中文分词库
+#wget -O elasticsearch-analysis-ik-${es_version}.zip https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v${es_version}/elasticsearch-analysis-ik-${es_version}.zip ; unzip -d $store/ik elasticsearch-analysis-ik-${es_version}.zip ; rm -rf elasticsearch-analysis-ik-${es_version}.zip
+
+
+
+#防火墙
+#sudo firewall-cmd --add-port=9200/tcp --permanent
+#sudo firewall-cmd --add-port=9300/tcp --permanent
+#sudo firewall-cmd --add-port=5601/tcp --permanent
+#firewall-cmd --reload
+
+
+#创建挂载数据
+#mkdir -p ${store}/data
+#chmod -R 777 ${store}
+
+
+#启动
+#docker-compose up -d
+
+#查看进度
+#curl http://127.0.0.1:9200/_cat/health
+
+
+#访问kibana
+

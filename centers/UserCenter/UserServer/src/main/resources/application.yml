@@ -1,0 +1,85 @@
+#默认端口号
+server:
+  port: ${UserCenter.port}
+  servlet:
+    context-path: ${UserCenter.context.path}
+
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 30 # 续约到期时间
+
+
+#允许消息总线
+spring:
+  cloud:
+    stream:
+      bindings:
+        #用户中心
+        UserCenterInputStream:
+          group: "UserCenterStream"
+        UserCenterOuputStream:
+          group: "UserCenterStream"
+          destination: "UserCenterInputStream"
+        #推送中心
+        PushCenterInputStream:
+          group: "PushCenterStream"
+        PushCenterOuputStream:
+          group: "PushCenterStream"
+          destination: "PushCenterInputStream"
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+          replication-factor: 1
+    bus:
+      enabled: true
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
+
+
+
+
+
+#允许端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+
+
+
+
+  #开启断路器
+  #feign.hystrix.enabled=true
+
+
+  #测试代码，后面移动到配置中心里
+
+
+#调试或者输出日志
+logging:
+  file: 
+    name: logs/${project.artifactId}.log
+#  level:
+#    org:
+#      springframework:
+#        web:
+#          servlet:
+#            DispatcherServlet: DEBUG

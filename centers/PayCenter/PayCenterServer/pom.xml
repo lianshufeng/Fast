@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.fast.dev</groupId>
+        <artifactId>PParent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../../super/PParent</relativePath>
+    </parent>
+
+    <properties>
+        <!-- 项目编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!--JDK版本-->
+        <java.version>11</java.version>
+
+        <wechatpay-apache-httpclient.version>0.2.1</wechatpay-apache-httpclient.version>
+        <alipay-sdk-java.version>4.10.58.ALL</alipay-sdk-java.version>
+        <alipay-easysdk.version>2.1.0</alipay-easysdk.version>
+
+    </properties>
+
+    <artifactId>PayCenterServer</artifactId>
+    <name>PayCenterServer</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>PCore</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!-- 应用中心客户端 -->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>ApplicationClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!--mongodb-->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>MongodbData</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!-- 业务依赖 -->
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>PayCenterClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.version}</version>
+        </dependency>
+
+
+        <!-- 权限中心 -->
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>AuthCenterClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+        <!-- openApi -->
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>OpenApiClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!-- 微信支付 官方提供工具 https://github.com/wechatpay-apiv3/wechatpay-apache-httpclient -->
+        <dependency>
+            <groupId>com.github.wechatpay-apiv3</groupId>
+            <artifactId>wechatpay-apache-httpclient</artifactId>
+            <version>${wechatpay-apache-httpclient.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!-- 阿里云提供的支付的SDK https://github.com/alipay/alipay-easysdk/tree/master/java -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alipay.sdk</groupId>-->
+        <!--            <artifactId>alipay-sdk-java</artifactId>-->
+        <!--            <version>${alipay-sdk-java.version}</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-easysdk</artifactId>
+            <version>${alipay-easysdk.version}</version>
+        </dependency>
+
+
+    </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

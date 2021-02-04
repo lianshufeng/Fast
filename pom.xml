@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fast.dev</groupId>
+    <artifactId>Root</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>项目配置</description>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
+
+    <modules>
+
+        <!-- 核心 -->
+        <module>super/PConfigure</module>
+        <module>super/PParent</module>
+        <module>super/PCore</module>
+
+
+        <!-- 模块-->
+        <!--应用中心-->
+        <module>components/ApplicationClient</module>
+
+        <!--db支持的模块-->
+        <module>components/data/BaseData</module>
+        <module>components/data/MongodbData</module>
+        <module>components/data/RedisData</module>
+        <module>components/data/JpaData</module>
+        <module>components/data/ElasticSearchData</module>
+        <!--用户安全-->
+        <module>components/UserSecurity</module>
+        <!--缓存模块-->
+        <module>components/Component-cache-method</module>
+        <!--远程锁-->
+        <!--        <module>components/Remotelock</module>-->
+
+        <!-- 增加storm模块 -->
+        <!--<module>components/astorm</module>-->
+
+        <!--api文档生成器-->
+        <!--<module>components/Swagger2</module>-->
+
+        <!--文件中心-->
+        <module>centers/FileCenter/FileServer</module>
+
+        <!--应用中心-->
+        <module>centers/ApplicationCenter/ApplicationServer</module>
+        <module>centers/ApplicationCenter/GateWayServer</module>
+        <module>centers/ApplicationCenter/ConfigServer</module>
+
+
+        <!-- 用户中心-->
+        <module>centers/UserCenter</module>
+
+        <!--定时器服务 -->
+        <module>centers/PromiseCenter</module>
+        <module>centers/TimerCenter</module>
+
+        <!--推送中心-->
+        <module>centers/PushCenter</module>
+
+        <!--验证码-->
+        <module>centers/RobotCenter</module>
+
+        <!-- 权限中心 -->
+        <module>centers/AuthCenter</module>
+
+        <!--MQ-->
+        <module>centers/MQCenter/MQServer</module>
+
+        <!--支付中心-->
+        <module>centers/PayCenter</module>
+
+        <!-- 统一开发平台 -->
+        <module>centers/OpenApi</module>
+
+
+    </modules>
+
+
+</project>

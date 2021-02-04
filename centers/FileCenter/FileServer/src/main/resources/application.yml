@@ -1,0 +1,51 @@
+#默认端口号
+server:
+  port: ${FileCenter.port}
+
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+  instance:
+    lease-renewal-interval-in-seconds: 30 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 90 # 续约到期时间
+
+
+#允许消息总线
+spring:
+  cloud:
+    stream:
+      bindings:
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+    bus:
+      enabled: true
+
+
+#允许端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+
+
+
+
+  #开启断路器
+  #feign.hystrix.enabled=true
+
+
+  #测试代码，后面移动到配置中心里
+
+
+logging:
+  file: 
+    name: logs/${project.artifactId}.log

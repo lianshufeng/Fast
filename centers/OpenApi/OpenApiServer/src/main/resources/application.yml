@@ -1,0 +1,115 @@
+#默认端口号
+server:
+  port: ${OpenApi.port}
+
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 30 # 续约到期时间
+
+
+
+
+
+#允许消息总线
+spring:
+  thymeleaf:
+    suffix: .html
+    mode: HTML
+    prefix: classpath:/templates/
+    cache: false
+    encoding: UTF-8
+  cloud:
+    stream:
+      bindings:
+        #用户中心
+        UserCenterInputStream:
+          group: null
+        UserCenterOuputStream:
+          destination: "UserCenterInputStream"
+        UserLogInputStream:
+          group: ${artifactId}
+        UserLogOutputStream:
+          destination: "UserLogInputStream"
+        AuthEventInputStream:
+          group: ${artifactId}
+        AuthEventOutputStream:
+          destination: "AuthEventInputStream"
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+          replication-factor: 1
+    bus:
+      enabled: true
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
+  cache: #缓存配置
+    caffeine:
+      spec: maximumSize=9999,expireAfterWrite=3600s
+    type: caffeine
+    cache-names:
+      - UserToken
+      - EnterpriseCache
+
+
+
+#允许端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+
+
+
+ribbon:
+  OkToRetryOnAllOperations: false #对所有操作请求都进行重试,默认false
+  ReadTimeout: 10000   #负载均衡超时时间，默认值5000
+  ConnectTimeout: 2000 #ribbon请求连接的超时时间，默认值2000
+  MaxAutoRetries: 0     #对当前实例的重试次数，默认0
+  MaxAutoRetriesNextServer: 1 #对切换实例的重试次数，默认1
+
+hystrix:
+  command:
+    default: #default全局有效，service id指定应用有效
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000 #断路器超时时间，默认1000ms
+
+  #开启断路器
+  #feign.hystrix.enabled=true
+
+
+  #测试代码，后面移动到配置中心里
+
+
+#调试或者输出日志
+logging:
+  file:
+    name: logs/${project.artifactId}.log
+#debug: true
+#  level:
+#    org:
+#      springframework:
+#        web:
+#          servlet:
+#            DispatcherServlet: DEBUG

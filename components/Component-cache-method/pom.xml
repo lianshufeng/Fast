@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fast.dev.components</groupId>
+    <artifactId>Component-cache-method</artifactId>
+
+
+    <parent>
+        <artifactId>PParent</artifactId>
+        <groupId>com.fast.dev</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../super/PParent</relativePath>
+    </parent>
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>PCore</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+    </dependencies>
+</project>

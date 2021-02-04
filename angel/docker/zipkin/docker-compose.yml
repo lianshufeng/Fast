@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  zipkin_mysql:
+    image: openzipkin/zipkin-mysql
+    restart: always
+    container_name: zipkin_mysql
+    volumes:
+      - ${store}/data:/mysql/data
+  zipkin:
+    image: openzipkin/zipkin
+    restart: always
+    hostname: zipkin
+    container_name: zipkin
+    ports:
+      - 9411:9411
+    environment:
+      QUERY_TIMEOUT: 600s
+      STORAGE_TYPE: mysql
+      MYSQL_HOST: zipkin_mysql
+      MYSQL_DB: zipkin
+      MYSQL_USER: zipkin
+      MYSQL_PASS: zipkin
+
+

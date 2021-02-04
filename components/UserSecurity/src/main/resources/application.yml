@@ -1,0 +1,39 @@
+
+usersecurity:
+  rolePrefixName: "ROLE_"
+  needSecurityMethodUrl: "/**"
+  excludeSecurityMethodUrl: "/resources/**,/error"
+
+#使用断路器
+fegin:
+  hystrix:
+    enabled: true
+
+
+#允许消息总线
+spring:
+  cloud:
+    stream:
+      bindings:
+        UserCenterInputStream:
+          group: null
+        UserCenterOuputStream:
+          group: "UserCenterStream"
+          destination: "UserCenterInputStream"
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+    bus:
+      enabled: true
+  cache: #缓存配置
+    caffeine:
+      spec: maximumSize=5000,expireAfterWrite=3600s
+    type: caffeine
+    cache-names:
+      - UserToken
+
+
+logging:
+  level:
+    com.fast.dev.ucenter.security: DEBUG

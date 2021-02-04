@@ -1,0 +1,12 @@
+build:
+  git:
+    default:
+      type: Gogs
+      core: BaseFast
+      host: http://xx.com
+      userName: user
+      passWord: pass
+      token: xxtokenxx
+
+
+

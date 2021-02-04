@@ -1,0 +1,93 @@
+#默认端口号
+server:
+  port: 8081
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 30 # 续约到期时间
+
+#允许消息总线
+spring:
+  cloud:
+    stream:
+      bindings:
+        UserCenterInputStream:
+          group: "applicationdemo" # 如果需要多次消费 设置为null
+        UserCenterOuputStream:
+          group: "applicationdemo"
+          destination: "UserCenterInputStream"
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+          replication-factor: 1
+    bus:
+      enabled: true
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
+  cache:
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=5s
+    type: caffeine
+    cache-names:
+      - UserToken
+
+
+#权限配置
+usersecurity:
+  #不使用角色前缀
+  rolePrefixName: ""
+  needSecurityMethodUrl: "/**"
+  excludeSecurityMethodUrl: "/resources/**,/error"
+
+
+
+
+#允许端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+
+
+
+
+#使用断路器
+feign:
+  hystrix:
+    enabled: true
+
+
+#调试或者输出日志
+#debug: true
+logging:
+  file: 
+    name: logs/${project.artifactId}.log
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
+        cloud:
+          sleuth: DEBUG
+
+
+debug: true
+trace: true

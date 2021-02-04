@@ -1,0 +1,69 @@
+#默认端口号
+server:
+  port: ${MQCenter.port}
+
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 30 # 续约到期时间
+
+
+#允许消息总线
+spring:
+  cloud:
+    stream:
+      bindings:
+        #用户中心
+        UserCenterInputStream:
+          group: null
+        PushCenterOuputStream:
+          destination: "PushCenterInputStream"
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+          replication-factor: 1
+    bus:
+      enabled: true
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
+
+
+
+
+
+
+
+
+#开启断路器
+  #feign.hystrix.enabled=true
+
+
+  #测试代码，后面移动到配置中心里
+
+
+#调试或者输出日志
+logging:
+  file: 
+    name: logs/${project.artifactId}.log
+#debug: true
+#  level:
+#    org:
+#      springframework:
+#        web:
+#          servlet:
+#            DispatcherServlet: DEBUG

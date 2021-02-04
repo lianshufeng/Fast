@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.fast.dev</groupId>
+        <artifactId>PParent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../../super/PParent</relativePath>
+    </parent>
+    <groupId>com.fast.dev.ucenter</groupId>
+    <artifactId>UserServer</artifactId>
+    <name>UserCenter</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.fast.dev</groupId>
+            <artifactId>PCore</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+        <!-- 应用中心客户端 -->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>ApplicationClient</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!--mongodb-->
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>MongodbData</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.fast.dev.components</groupId>
+            <artifactId>RedisData</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!--用户中心的用户接口-->
+        <dependency>
+            <groupId>com.fast.dev.ucenter</groupId>
+            <artifactId>UserService</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!-- 依赖推送中心 -->
+        <dependency>
+            <groupId>com.fast.dev.pushcenter</groupId>
+            <artifactId>PushService</artifactId>
+            <version>${Project.version}</version>
+        </dependency>
+
+
+        <!--thymeleaf 依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+
+        <!-- 编码-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
+        </dependency>
+
+
+        <!-- 验证码生成器 -->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

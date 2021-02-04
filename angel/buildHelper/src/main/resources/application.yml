@@ -1,0 +1,15 @@
+#需要处理的环境
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    suffix: .html
+    mode: HTML
+    prefix: classpath:/templates/
+    cache: false
+    encoding: UTF-8
+
+
+logging:
+  file: 
+    name: logs/${project.artifactId}.log

@@ -1,0 +1,41 @@
+#允许消息总线
+spring:
+  cloud:
+    stream:
+      bindings:
+        # 用户中心事件
+        UserCenterInputStream:
+          group: null
+        # 写用户日志
+        UserLogOutputStream:
+          destination: "UserLogInputStream"
+        # 权限事件
+        AuthEventInputStream:
+          group: ${artifactId}
+      #kafka
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+    bus:
+      enabled: true
+  cache: #缓存配置
+    caffeine:
+      spec: maximumSize=5000,expireAfterWrite=3600s
+    type: caffeine
+    cache-names:
+      - UserToken
+
+
+
+# feign 超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000

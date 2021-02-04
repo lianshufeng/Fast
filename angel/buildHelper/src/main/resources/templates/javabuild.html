@@ -1,0 +1,474 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+    <input type="hidden" th:value="${script_set_baseUrl}" value="http://192.168.0.37:8080" id="script_set_baseUrl">
+
+
+    <script src="./js/vue.global.js" th:src="@{/resources/js/vue.global.js}"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="./css/index.css" th:href="@{/resources/css/index.css}">
+    <!-- import JavaScript -->
+    <script src="./js/index.full.js" th:src="@{/resources/js/index.full.js}"></script>
+
+
+    <script src="./js/axios.min.js" th:src="@{/resources/js/axios.min.js}"></script>
+    <script src="./js/request.js" th:src="@{/resources/js/request.js}"></script>
+    <script src="./js/utils.js" th:src="@{/resources/js/utils.js}"></script>
+
+    <title>JAVA编译</title>
+    <link rel="stylesheet" href="./css/style.css" th:href="@{/resources/css/style.css}"/>
+
+</head>
+
+<body>
+
+
+<div id="app">
+    <h1>艾艺荷马—JAVA项目编译</h1>
+    <el-tabs v-model="tabActiveName" @tab-click="tabHandleClick">
+        <!-- 1、tab页1 项目列表 -->
+        <el-tab-pane label="项目列表" name="first" class="base-info">
+            <el-button type="primary" class="build-btn" size="small" @click="buildAll">全局编译</el-button>
+            <el-table :data="tableData" border style="width: 100%">
+                <el-table-column fixed prop="name" label="项目名称">
+                </el-table-column>
+                <el-table-column fixed prop="git.description" label="描述">
+                </el-table-column>
+                <el-table-column fixed prop="containerName" label="容器名">
+                </el-table-column>
+                <el-table-column fixed prop="branch" label="分支">
+                </el-table-column>
+                <el-table-column fixed prop="git.url" label="资源路径">
+                </el-table-column>
+                <el-table-column fixed="right" label="操作" width="280">
+                    <template #default="scope">
+                        <el-button type="text" class="edit-btn" @click="handEditProject(scope.row)">编辑</el-button>
+                        <el-checkbox v-model="scope.row.taskBuild">编译</el-checkbox>
+                        <el-checkbox v-model="scope.row.taskRestart">重启</el-checkbox>
+                        <el-button type="text" :disabled="!(scope.row.taskBuild || scope.row.taskRestart)"
+                                   @click="buildProject(scope.row)">立即执行
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-tab-pane>
+
+        <!-- 2、tab页2 编译进度 -->
+        <el-tab-pane label="执行进度" class="task" name="second">
+            <div class="task-box" v-for="(task,index) in taskList" :key="index">
+                <div class="tit">编译进度：</div>
+                <el-progress :text-inside="true" :stroke-width="26" :percentage="(task.process * 100).toFixed(2)">
+                </el-progress>
+                <div class="tit">执行状态：</div>
+                <div class="content">{{task.status}}</div>
+                <div class="tit">执行目标：</div>
+                <div class="content">
+                    <span>{{task.projectTask.build ? '构建' : ''}}</span>
+                    <span style="margin-left: 10px;">{{task.projectTask.restart ? '重启' : ''}}</span>
+                </div>
+                <div class="tit">过滤包:</div>
+                <div class="content">{{task.projectTask.artifact}}</div>
+                <div class="tit">执行项目：</div>
+                <div class="content" v-for="(item, index) in task.projectTask.projectName" :key="index">
+                    {{index + 1 + '、' + item}}
+                </div>
+                <div class="tit">编译信息：</div>
+                <div class="msg">{{task.msg}}</div>
+            </div>
+            <div class="no-data tit" v-if="taskList.length == 0"> 暂无任务</div>
+        </el-tab-pane>
+
+        <!-- 3、tab页3 备份及已编译列表 -->
+        <el-tab-pane label="资源列表" name="third" class="list">
+            <el-button type="primary" class="build-btn" size="small" :loading="backuping" @click="backupRes">
+                {{backuping ? '备份中...' : '开始备份'}}
+            </el-button>
+            <el-button type="primary" class="build-btn" icon="el-icon-refresh" size="small" @click="typeChange">
+                刷新
+            </el-button>
+            <el-button type="text" icon="el-icon-delete" v-if="type != 'all'" size="mini" class="del-btn"
+                       @click="delBackup">删除备份
+            </el-button>
+            <el-select v-model="type" placeholder="请选择类型" size="mini" @change="typeChange">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"
+                           :disabled="item.disabled">
+                </el-option>
+            </el-select>
+            <el-table :data="resList" border style="width: 100%">
+                <el-table-column fixed prop="url" label="路径">
+                    <template #default="scope">
+                        <span @mouseover="mouseOver">{{scope.row.url}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column fixed label="日期">
+                    <template #default="scope">
+                        {{formatTime(scope.row.updateTime)}}
+                    </template>
+                </el-table-column>
+                <el-table-column fixed prop="size" label="大小">
+                    <template #default="scope">
+                        {{(scope.row.size / 1024 / 1024).toFixed(2) + 'M'}}
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-tab-pane>
+    </el-tabs>
+
+    <!-- 编辑项目 -->
+    <el-dialog title="编辑项目" v-model="showEditBox">
+
+
+        <el-form :model="form">
+
+
+            <el-form-item label="项目名称" :label-width="formLabelWidth">
+                <el-input v-model="editFrom.name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="分支" :label-width="formLabelWidth">
+                <el-input v-model="editFrom.branch" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="容器名称" :label-width="formLabelWidth">
+                <el-input v-model="editFrom.containerName" autocomplete="off"></el-input>
+            </el-form-item>
+            <!--            <el-form-item label="路径" :label-width="formLabelWidth">-->
+            <!--                <el-input v-model="editFrom.git?editFrom.git.url:null" disabled autocomplete="off"></el-input>-->
+            <!--            </el-form-item>-->
+            <!--            <el-form-item label="描述" :label-width="formLabelWidth">-->
+            <!--                <el-input v-model="editFrom.git?editFrom.git.description:null" disabled autocomplete="off"></el-input>-->
+            <!--            </el-form-item>-->
+
+            <el-checkbox v-model="editFrom.build">需要编译</el-checkbox>
+
+        </el-form>
+        <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="showEditBox = false">取 消</el-button>
+                    <el-button type="primary" @click="editProject">确 定</el-button>
+                </span>
+        </template>
+    </el-dialog>
+
+</div>
+
+<script>
+    const App = {
+        data() {
+            return {
+                tabActiveName: "first",
+                tableData: [], // git项目列表
+                taskList: [], // 任务列表
+                resList: [], // 资源列表
+                timer: '',
+                options: [{  // 资源筛选项
+                    value: 'all',
+                    label: '全部列表'
+                }],
+                type: 'all',
+                showEditBox: false, // 展示编辑窗口
+                editFrom: { // 修改項目表单
+                    name: '',
+                    branch: '',
+                    containerName: '',
+                    git: {
+                        desrciption: '',
+                        url: ''
+                    }
+                },
+                backuping: false, // 备份ing
+            };
+        },
+        created() {
+            this.getGitList()
+        },
+        methods: {
+            tabHandleClick() {
+                if (this.tabActiveName == 'second') {
+                    this.getTaskDetail()
+                } else {
+                    clearInterval(this.timer)
+                }
+
+                if (this.tabActiveName == 'third') {
+                    this.getResList()
+                    this.getBackupList()
+                }
+            },
+            formatTime(timestamp) {
+                return formatTime(timestamp, 'yyyy-MM-dd hh:mm')
+            },
+            // 获取git项目列表
+            getGitList() {
+                post('/project/list', null, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(res => {
+                    this.tableData = []
+                    res.forEach(item => {
+                        this.tableData.push({
+                            ...item,
+                            taskBuild: true,
+                            taskRestart: true,
+                            containerName: item.containerName ? item.containerName.join(',') : null
+                        })
+                    })
+                })
+            },
+            // 编辑项目事件
+            handEditProject(item) {
+                console.log(item)
+                this.showEditBox = true
+                this.editFrom = {}
+                this.editFrom = Object.assign(this.editFrom, item)
+                this.editFrom.build = this.editFrom.build ? true : false
+            },
+            // 编辑项目
+            editProject() {
+                console.log(this.editFrom)
+                post('/project/update', {
+                    name: this.editFrom.name,
+                    containerName: this.editFrom.containerName,
+                    branch: this.editFrom.branch == null || this.editFrom.branch == '' ? null : this.editFrom.branch,
+                    build: !this.editFrom.build ? 'false' : this.editFrom.build
+                }, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                    .then(res => {
+                        this.$message.success('操作成功')
+                        this.showEditBox = false
+                        this.getGitList()
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        this.$message.fail('操作失败')
+                    })
+            },
+            // 编译项目
+            buildProject(item) {
+                console.log(item)
+                this.$prompt('将要对' + item.name + '编译，请输入需要过滤的包名：', '提示', {
+                    confirmButtonText: '立即编译',
+                    cancelButtonText: '取消',
+                    inputPlaceholder: 'e.g. com.fast.dev.PayCenterServer'
+
+                }).then(({value}) => {
+                    post('/task/add', {
+                        projectName: item.name,
+                        artifact: value ? value : null,
+                        build: item.taskBuild,
+                        restart: item.taskRestart
+                    }, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                        .then(res => {
+                            this.$message.success('任务添加成功')
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            this.$message.fail('任务添加失败')
+                        })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '操作取消'
+                    });
+                });
+            },
+            // 全局编译
+            buildAll() {
+                this.$prompt('将要进行全局编译，请输入需要过滤的包名：', '提示', {
+                    confirmButtonText: '立即编译',
+                    cancelButtonText: '取消',
+                    inputPlaceholder: 'e.g. com.fast.dev.PayCenterServer'
+
+                }).then(({value}) => {
+                    post('/task/add', {
+                        artifact: value ? value : null,
+                        build: true,
+                        restart: true
+                    }, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                        .then(res => {
+                            this.$message.success('任务添加成功')
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            this.$message.fail('任务添加失败')
+                        })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '操作取消'
+                    });
+                });
+            },
+            // 任务进度
+            getTaskDetail() {
+                this.timer = setInterval(() => {
+                    post('/task/list')
+                        .then(res => {
+                            console.log(res)
+                            if (res.length == 0) {
+                                clearInterval(this.timer)
+                                this.taskList = []
+                            } else {
+                                this.taskList = res
+                            }
+                        })
+                }, 1000)
+            },
+            // 获取资源列表
+            getResList() {
+                post('/res/list').then(res => {
+                    this.resList = res
+                }).catch(err => {
+                    console.error(err)
+                    this.$message.fail('数据请求失败')
+                })
+            },
+            // 获取备份时间列表
+            getBackupList() {
+                post('/res/backup/list').then(res => {
+                    this.options = [{
+                        value: 'all',
+                        label: '全部列表'
+                    }]
+                    res.forEach(item => {
+                        let time = item.substr(0, 4)
+                        this.options.push({
+                            value: item,
+                            label: item + ' 备份数据'
+                        })
+                    })
+                }).catch(err => {
+                    console.error(err)
+                    this.$message.fail('数据请求失败')
+                })
+            },
+            // 获取备份详情列表
+            getBackupDetail() {
+                post('/res/backup/get', {
+                    file: this.type
+                }, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(res => {
+                    this.resList = res
+                }).catch(err => {
+                    console.error(err)
+                    this.$message.fail('数据请求失败')
+                })
+            },
+            // 下拉类型选择
+            typeChange() {
+                if (this.type == 'all') {
+                    this.getResList()
+                } else {
+                    this.getBackupDetail()
+                }
+            },
+            // 删除备份资源
+            delBackup(data) {
+                console.log(data)
+                this.$confirm('是否需要删除备份?', '删除提示', {
+                    confirmButtonText: '继续',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    // 备份接口
+                    post('/res/backup/delete', {
+                        file: this.type
+                    }, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                        .then(res => {
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                            this.type = 'all'
+                            this.getBackupList()
+                        })
+                        .catch(err => {
+                            console.error(err)
+                            this.$message({
+                                type: 'fail',
+                                message: '删除失败!'
+                            });
+                        })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            // 备份资源
+            backupRes() {
+                this.$confirm('是否需要对资源进行备份?', '提示', {
+                    confirmButtonText: '继续',
+                    cancelButtonText: '取消',
+                    type: 'info'
+                }).then(() => {
+                    // 备份接口
+                    this.backuping = true
+                    post('/res/backup/do')
+                        .then(res => {
+                            this.$message({
+                                type: 'success',
+                                message: '备份成功!'
+                            });
+                            this.backuping = false
+                            this.getBackupList()
+                        })
+                        .catch(err => {
+                            console.error(err)
+                            this.$message({
+                                type: 'fail',
+                                message: '备份失败!'
+                            });
+                            this.backuping = false
+                        })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            // 选中资源路径
+            mouseOver(event) {
+                // 获取selection对象
+                var selection = window.getSelection();
+                // 清空selection对象
+                selection.removeAllRanges();
+
+                // 创建一个Range实例
+                var ele = event.target
+                var range = new Range();
+                range.selectNodeContents(ele);
+
+                // selection对象设置range实例
+                selection.addRange(range);
+            }
+        }
+    };
+    const app = Vue.createApp(App);
+    app.use(ElementPlus);
+    app.mount("#app");
+</script>
+</body>
+
+</html>

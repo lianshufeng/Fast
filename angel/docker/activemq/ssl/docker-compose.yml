@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+
+  mqBroker1:
+    image: registry.cn-chengdu.aliyuncs.com/1s/activemq
+    ports:
+      - "1883:1883"
+      - "61614:61614"
+      - "8161:8161"
+      - "61616:61616"
+    volumes:
+      - ./activemq.xml:/opt/activemq/conf/activemq.xml
+      - ./store/broker1/data:/opt/activemq/data
+      - ./activemq.jks:/opt/activemq/conf/activemq.jks
+    container_name: mqBroker1
+    restart: always
+    environment:
+      - Broker_Name=mqBroker1
+
+
+  mqBroker2:
+    image: registry.cn-chengdu.aliyuncs.com/1s/activemq
+    ports:
+      - "2883:1883"
+      - "61624:61614"
+      - "8162:8161"
+      - "61626:61616"
+    volumes:
+      - ./activemq.xml:/opt/activemq/conf/activemq.xml
+      - ./store/broker2/data:/opt/activemq/data
+      - ./activemq.jks:/opt/activemq/conf/activemq.jks
+    container_name: mqBroker2
+    restart: always
+    environment:
+      - Broker_Name=mqBroker2
+      
+  mqBroker3:
+    image: registry.cn-chengdu.aliyuncs.com/1s/activemq
+    ports:
+      - "3883:1883"
+      - "61634:61614"
+      - "8163:8161"
+      - "61636:61616"
+    volumes:
+      - ./activemq.xml:/opt/activemq/conf/activemq.xml
+      - ./store/broker3/data:/opt/activemq/data
+      - ./activemq.jks:/opt/activemq/conf/activemq.jks
+    container_name: mqBroker3
+    restart: always
+    environment:
+      - Broker_Name=mqBroker3

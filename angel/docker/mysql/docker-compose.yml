@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: aiyihema2020
+    volumes:
+      - /mnt/data/store/mysql:/var/lib/mysql

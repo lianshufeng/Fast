@@ -1,0 +1,75 @@
+h1 {
+    font-size: 24px;
+    color: #303133;
+}
+
+.base-info .el-checkbox {
+    margin-right: 15px;
+}
+
+.el-button {
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.base-info .build-btn {
+    margin-bottom: 15px;
+}
+
+.base-info .edit-btn {
+    margin-right: 15px;
+}
+
+.base-info .el-cascader-node>.el-radio,
+.el-checkbox:last-of-type,
+.el-radio:last-child {
+    margin-right: 0;
+}
+
+.task .tit {
+    font-weight: bold;
+    margin: 10px;
+}
+
+.task .content {
+    color: #e6a23c;
+    text-indent: 20px;
+}
+
+.task .msg {
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+.task .task-box {
+    border: solid 1px #000;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.list .del-btn {
+    display: initial;
+    margin-left: 15px;
+    margin-bottom: 0;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 1;
+    border-spacing: 0;
+}
+
+table td {
+    word-break: break-all;
+    word-wrap: break-word;
+    border-right: 1px solid #939598;
+    border-bottom: 1px solid #939598;
+    font: 500 14px Arial
+}
+
+.el-select {
+    float: right;
+    margin-bottom: 15px;
+}

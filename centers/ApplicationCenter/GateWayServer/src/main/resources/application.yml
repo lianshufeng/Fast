@@ -1,0 +1,117 @@
+#默认端口号
+server:
+  port: ${GetWayCenter.port}
+  tomcat:
+    accept-count: 1000
+    max-threads: 10000
+    max-connections: 20000
+#zuul
+zuul:
+  host:
+    max-per-route-connections: 2000
+    max-total-connections: 2000
+    socket-timeout-millis: 120000
+    connect-timeout-millis: 120000
+  semaphore:
+    max-semaphores: 2000
+
+
+# 遵循  [hystrix..timeoutInMilliseconds] > ( [ReadTimeout] + [ConnectTimeout] ) * ( MaxAutoRetries + 1  )
+
+
+ribbon:
+  #请求处理的超时时间
+  ReadTimeout: 100000
+  #连接超时
+  ConnectTimeout: 50000
+  #对所有操作请求都进行重试
+  OkToRetryOnAllOperations: true
+  #对当前实例的重试次数
+  MaxAutoRetries: 1
+  #对下个实例的重试次数
+  MaxAutoRetriesNextServer: 1
+
+
+#开启断路器
+#feign.hystrix.enabled=true
+#断路器的超时时间,断路器的超时时间需要大于ribbon的超时时间，不然不会触发重试。
+hystrix:
+  metrics:
+    enabled: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600000
+
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 30 # 续约到期时间
+    preferIpAddress: true #显示ip
+
+
+#允许消息总线
+spring:
+  cloud:
+    #kafka
+    stream:
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+    bus:
+      enabled: true
+#    #路由表
+#    config:
+#      name: ${project.artifactId}-routes
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
+
+
+
+
+  #允许端点
+  #management:
+  #  endpoints:
+  #    web:
+  #      exposure:
+  #        include: "*"
+  #        exclude: "env,beans"
+
+
+
+
+
+
+
+#调试或者输出日志
+#debug: true
+#trace: true
+logging:
+  file: 
+    name: logs/${project.artifactId}.log
+#  level:
+#    com:
+#      fast:
+#        dev:
+#          getway:
+#            core: debug
+#    org:
+#      springframework:
+#        cloud:
+#          netflix: trace
