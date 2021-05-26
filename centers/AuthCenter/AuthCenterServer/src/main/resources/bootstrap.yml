@@ -3,8 +3,7 @@
 spring:
   # 应用名
   application:
-    name: ${project.artifactId}-lsf
-
+    name: ${project.artifactId}
   # 当前读取配置文件的类型
   profiles:
     active: ${spring.profiles.active}
@@ -13,3 +12,7 @@ spring:
     config:
       uri: ${ConfigCenter.url}
       name: ${project.artifactId},ConfigCenter
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration

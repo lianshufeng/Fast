@@ -1,6 +1,8 @@
 package com.fast.dev.auth.center.server.core.dao.extend;
 
+import com.fast.dev.auth.center.server.core.dao.impl.UserDaoImpl;
 import com.fast.dev.auth.center.server.core.domain.Family;
+import com.fast.dev.auth.center.server.core.domain.User;
 import com.fast.dev.auth.client.model.FamilyModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,4 +48,8 @@ public interface FamilyDaoExtend {
     String insertFamily(FamilyModel model);
 
 
+    /**
+     * 重置Info的索引
+     */
+    void reIndexInfo();
 }

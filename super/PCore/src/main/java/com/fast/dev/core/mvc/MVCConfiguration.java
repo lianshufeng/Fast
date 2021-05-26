@@ -1,6 +1,7 @@
 package com.fast.dev.core.mvc;
 
 import com.fast.dev.core.helper.JsonHelper;
+import com.fast.dev.core.helper.SpringBeanHelper;
 import com.fast.dev.core.helper.ViewHelper;
 import com.fast.dev.core.interceptors.UrlInterceptor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -152,5 +153,10 @@ public class MVCConfiguration implements WebMvcConfigurer {
         return new ViewHelper();
     }
 
+
+    @Bean
+    public SpringBeanHelper springBeanHelper() {
+        return new SpringBeanHelper();
+    }
 
 }

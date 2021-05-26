@@ -87,6 +87,7 @@ public class PageEntityUtil {
      * @return
      */
     @SneakyThrows
+    @Deprecated
     public static <S, T> Page<T> concurrent2PageModel(Page<S> pages, DataClean<S, T> dataClean, int threadCountSize) {
         //数据源
         List<S> sources = pages.getContent();
@@ -142,7 +143,10 @@ public class PageEntityUtil {
      * @return
      */
     public static <S, T> Page<T> concurrent2PageModel(Page<S> pages, DataClean<S, T> dataClean) {
-        return concurrent2PageModel(pages, dataClean, threadCount);
+        List<T> result = pages.getContent().parallelStream().map((it) -> {
+            return dataClean.execute(it);
+        }).collect(Collectors.toList());
+        return new PageImpl<T>(result, PageRequest.of(pages.getNumber(), pages.getSize(), pages.getSort()), pages.getTotalElements());
     }
 
 

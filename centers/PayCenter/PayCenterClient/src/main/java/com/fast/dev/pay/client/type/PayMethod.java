@@ -5,6 +5,8 @@ import com.fast.dev.pay.client.support.BasePaySupport;
 import com.fast.dev.pay.client.support.alipay.AliPayAppOrder;
 import com.fast.dev.pay.client.support.alipay.AliPayFaceToFaceOrder;
 import com.fast.dev.pay.client.support.alipay.callback.AliPayCallBack;
+import com.fast.dev.pay.client.support.cpcn.CPCNOrder;
+import com.fast.dev.pay.client.support.cpcn.CPCNPayOrder;
 import com.fast.dev.pay.client.support.weixin.WeiXinAppOrder;
 import com.fast.dev.pay.client.support.weixin.WeiXinH5Order;
 import com.fast.dev.pay.client.support.weixin.WeiXinJsApiOrder;
@@ -27,10 +29,14 @@ public enum PayMethod {
     AliPayFaceToFace("支付宝面对面支付", AliPayFaceToFaceOrder.class, AliPayCallBack.class, AccountType.AliPay),
     AliPayApp("支付宝App支付", AliPayAppOrder.class, AliPayCallBack.class, AccountType.AliPay),
 
+    CPCNFastPay("中金快捷支付", CPCNPayOrder.class, null, AccountType.CPCNPay),
+    CPCNOrderPay("中金跳转支付", CPCNOrder.class, null, AccountType.CPCNOrderPay),
+
 
     ;
 
     // 备注
+
     private String remark;
 
     //通信数据模型

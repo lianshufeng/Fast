@@ -10,16 +10,22 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
 import org.springframework.util.StreamUtils;
 
+import javax.net.ssl.SSLContext;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.*;
 
 @Slf4j
@@ -71,8 +77,18 @@ public class HttpClientUtil {
             builder.setSocketTimeout(httpModel.getTimeOut());
         }
         RequestConfig requestConfig = builder.build();
+
+        //忽略ssl
+        SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, new TrustStrategy() {
+            @Override
+            public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+                return true;
+            }
+        }).build();
         CloseableHttpClient httpclient = HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
+                .setSSLContext(sslContext)
+                .setSSLHostnameVerifier(new NoopHostnameVerifier())
                 .build();
 
 //        CloseableHttpClient httpclient = HttpClients.createDefault();

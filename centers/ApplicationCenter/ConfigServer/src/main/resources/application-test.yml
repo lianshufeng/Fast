@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    #配置中心
+    config:
+      server:
+        git:
+          uri: http://222.180.202.110:4000/lianshufeng/BaseFast.git
+          search-paths: centers/ApplicationCenter/ConfigServer/src/main/resources/config/**
+          force-pull: true
+          username: aiyihema
+          password: aiyihema

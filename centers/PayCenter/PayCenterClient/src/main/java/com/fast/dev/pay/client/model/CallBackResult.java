@@ -24,6 +24,11 @@ public class CallBackResult {
      */
     private PayState state;
 
+    /**
+     * 状态原因
+     */
+    private String error;
+
 
     /**
      * 构建

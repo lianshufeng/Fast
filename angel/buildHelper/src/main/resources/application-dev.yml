@@ -1,0 +1,14 @@
+build:
+  git:
+    type: Gogs
+    host: http://222.180.202.110:4000
+    userName: aiyihema
+    passWord: aiyihema
+    token: cd29b6dfb742a020178781ce7cb7b75b4b3ea6bd #aiyihema
+  task:
+    maxPullGitThreadCount: 2
+    coreProject: lianshufeng/BaseFast
+
+  maven:
+    home: "D:/sdk/apache-maven-3.6.3"
+#    home: "/opt/maven/apache-maven-3.6.3"

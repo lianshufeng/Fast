@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -44,5 +45,11 @@ public class Family extends SuperEntity {
     //成员的唯一索引
     @Indexed(unique = true)
     private Set<String> memberUniqueIndex;
+
+
+    /**
+     * 扩展信息
+     */
+    private Map<String, Object> info;
 
 }

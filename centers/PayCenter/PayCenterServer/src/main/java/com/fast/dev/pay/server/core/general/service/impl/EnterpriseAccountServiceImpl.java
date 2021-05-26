@@ -138,8 +138,8 @@ public class EnterpriseAccountServiceImpl implements EnterprisePayAccountService
 
         Map<String, Class> beanTypes = BeanUtil.readBeanType(accountType.getType());
         for (String name : beanTypes.keySet()) {
-            String certBase64 = (String) account.get(name);
-            Assert.notNull(certBase64, payAccountModel.getAccountType() + " 账户 , [" + name + "] 不能为空");
+            Object val  = account.get(name);
+            Assert.notNull(val, payAccountModel.getAccountType() + " 账户 , [" + name + "] 不能为空");
         }
         payAccountModel.setLastCertValidTime(lastCertValidTime);
     }

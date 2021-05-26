@@ -1,0 +1,72 @@
+#默认端口号
+server:
+  port: ${GetWayCenter.port}
+
+#注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${ApplicationCenter.url}
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 续约更新时间间隔
+    lease-expiration-duration-in-seconds: 30 # 续约到期时间
+    preferIpAddress: true #显示ip
+
+
+#允许消息总线
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true #重要，转换为大写访问服务
+      httpclient:
+        #超时
+        connect-timeout: 3000
+        response-timeout: 120s
+      routes:
+        - id: ucenter
+          uri: lb://userserver/ucenter
+          predicates:
+            - Path=/ucenter/**
+    #kafka
+    stream:
+      kafka:
+        binder:
+          brokers: ${Kafka.brokers}
+    bus:
+      enabled: true
+  #配置zipkin链路追踪客户端
+  zipkin:
+    base-url: ${Zipkin.baseUrl}
+    enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: ${Zipkin.sampler.probability}
+
+
+
+
+
+
+#调试或者输出日志
+#debug: true
+#trace: true
+logging:
+  file:
+    name: logs/${project.artifactId}.log
+#  level:
+#    com:
+#      fast:
+#        dev:
+#          getway:
+#            core: debug
+#    org:
+#      springframework:
+#        cloud:
+#          netflix: trace

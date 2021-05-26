@@ -94,7 +94,7 @@ public abstract class SuperCallBackService {
 
 
         //修改订单为支付成功
-        CallBackResult result = new CallBackResult(orderId, state);
+        CallBackResult result = CallBackResult.build(state, orderId);
 
 
         //如果业务处理成功则进行广播

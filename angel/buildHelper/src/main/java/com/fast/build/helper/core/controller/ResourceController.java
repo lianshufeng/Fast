@@ -101,9 +101,12 @@ public class ResourceController {
         if (!backupResourceFile.exists()) {
             return new Object[0];
         }
-        return Arrays.stream(backupResourceFile.listFiles()).map((it) -> {
-            return FilenameUtils.getName(it.getAbsolutePath());
-        }).collect(Collectors.toList());
+        return Arrays.stream(backupResourceFile.listFiles())
+                .map((it) -> {
+                    return FilenameUtils.getName(it.getAbsolutePath());
+                })
+                .sorted(String::compareTo)
+                .collect(Collectors.toList());
     }
 
 

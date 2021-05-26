@@ -197,7 +197,7 @@ public class BeanUtil {
             return (T) new HashSet<>(items);
         }
         if (targetCls == Vector.class) {
-            return (T) new HashSet<>(items);
+            return (T) new Vector<>(items);
         }
 //        sourceObj instanceof Map sourceObj instanceof Collections || sourceObj.getClass().isArray()
 

@@ -52,6 +52,10 @@ public class ResultContent<T> {
         return ResultContent.builder().state(state).content(content).msg(state.getRemark()).build();
     }
 
+    public static <T> ResultContent build(ResultState state, T content,String msg) {
+        return ResultContent.builder().state(state).content(content).msg(msg).build();
+    }
+
     public static <T> ResultContent build(boolean bool) {
         return build(bool ? ResultState.Success : ResultState.Fail, null);
     }

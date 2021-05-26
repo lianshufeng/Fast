@@ -1,0 +1,53 @@
+#设置可访问的ip
+eureka:
+  instance:
+    prefer-ip-address: true #注册使用ip
+    #    instance-id: 192.168.8.51:${server.port} #实例id
+    #    ip-address: 192.168.8.51 #可访问的ip地址
+    instance-id: 192.168.0.37:${server.port} #实例id
+    ip-address: 192.168.0.37 #可访问的ip地址
+
+
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://authcenter:zzUz41A7P4ZH813X@192.168.8.52:27017,192.168.8.52:27018,192.168.8.52:27019,192.168.8.52:27020/authcenter?replicaSet=MongoSets
+      auto-index-creation: true
+#      host:
+#      username: authcenter
+#      password: zzUz41A7P4ZH813X
+
+
+debug: true
+logging:
+  level:
+    com:
+      fast:
+        dev:
+          auth:
+            security: DEBUG
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
+        cloud:
+          sleuth: DEBUG
+trace: true
+
+
+postman:
+  name: "权限中心"
+  url-mapping-remark:
+    enterprise: "企业"
+    auth: "权限"
+    identity: "身份"
+    role: "角色"
+    admin: "管理"
+    user: "用户"
+    super: "超级"
+    general: "通用"
+  header:
+    "uToken": "{{uToken}}"
+    "epId": "{{epId}}"

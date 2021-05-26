@@ -1,6 +1,7 @@
 package com.fast.dev.auth.center.server.core.scheduled;
 
 import com.fast.dev.auth.center.server.core.dao.EnterpriseDao;
+import com.fast.dev.auth.center.server.core.dao.FamilyDao;
 import com.fast.dev.auth.center.server.core.dao.UserDao;
 import com.fast.dev.data.token.service.ResourceTokenService;
 import lombok.extern.java.Log;
@@ -32,6 +33,9 @@ public class EnterpriseUserReIndexScheduled {
     private UserDao userDao;
 
     @Autowired
+    private FamilyDao familyDao;
+
+    @Autowired
     private EnterpriseDao enterpriseDao;
 
 
@@ -46,6 +50,14 @@ public class EnterpriseUserReIndexScheduled {
         });
     }
 
+
+    //    @Scheduled(cron = "0 0/60 * * * ?")
+    @Scheduled(cron = "0 0/60 * * * ?")
+    public void reFamilyInfoIndex() {
+        resourceTokenService.token("reindex_family_info", () -> {
+            this.familyDao.reIndexInfo();
+        });
+    }
 
     @Scheduled(cron = "0 0/60 * * * ?")
     public void reEnterpriseInfoIndex() {

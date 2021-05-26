@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    #配置中心
+    config:
+      server:
+        git:
+          uri: http://git.meishujun.com/it/ApplicationConfigCenter.git
+          search-paths: config/**
+          force-pull: true
+          username: meishuwa
+          password: meishuwalsf2019
+    inetutils:
+      #首选网卡配置
+      preferred-networks:
+        - 10.0

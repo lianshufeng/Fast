@@ -1,0 +1,10 @@
+build:
+  git:
+    type: Gogs
+    host: http://222.180.202.110:4000
+    userName: aiyihema
+    passWord: aiyihema
+    token: a413cd0eb91814b5360ac0320289ec6b5e0f5c10 #aiyihema
+  task:
+    maxPullGitThreadCount: 3
+    coreProject: lianshufeng/BaseFast

@@ -52,7 +52,7 @@ public class EnterpriseWorkScheduler implements SimpleTaskTimerEvent<HuaXiaEnter
     @Autowired
     private HuaXiaTaskExecuteManager huaXiaTaskExecuteManager;
 
-
+    //最大取出任务数
     private final static int maxTaskCount = 5;
 
     private ExecutorService threadPool = Executors.newFixedThreadPool(5);
@@ -91,19 +91,28 @@ public class EnterpriseWorkScheduler implements SimpleTaskTimerEvent<HuaXiaEnter
         long[] nowTime = timeFormatHelper.getNowMinute();
 
         long time = this.dbHelper.getTime();
-        //迭代器：功能,条件,输出
-        IteratorUtil.execute(() -> {
-            return huaXiaEnterpriseTaskDao.findTask(TaskType.CheckCharge, nowTime[0], nowTime[1], time, 5);
-        }, (ret) -> {
-            return ret.size() > 0;
-        }, (tasks) -> {
-            tasks.forEach((task) -> {
-                huaXiaTaskExecuteManager.execute(() -> {
-                    //todo 如果同时操作一个事务，mongo可能报错
-                    huaXiaEnterpriseTaskProcessService.checkChargeTask(task);
+
+        huaXiaEnterpriseTaskDao.findTask(TaskType.CheckCharge, nowTime[0], nowTime[1], time, maxTaskCount).stream()
+                .forEach((task) -> {
+                    huaXiaTaskExecuteManager.execute(() -> {
+                        //todo 如果同时操作一个事务，mongo可能报错
+                        huaXiaEnterpriseTaskProcessService.checkChargeTask(task);
+                    });
                 });
-            });
-        });
+
+        //迭代器：功能,条件,输出
+//        IteratorUtil.execute(() -> {
+//            return huaXiaEnterpriseTaskDao.findTask(TaskType.CheckCharge, nowTime[0], nowTime[1], time, 5);
+//        }, (ret) -> {
+//            return ret.size() > 0;
+//        }, (tasks) -> {
+//            tasks.forEach((task) -> {
+//                huaXiaTaskExecuteManager.execute(() -> {
+//                    //todo 如果同时操作一个事务，mongo可能报错
+//                    huaXiaEnterpriseTaskProcessService.checkChargeTask(task);
+//                });
+//            });
+//        });
 
     }
 

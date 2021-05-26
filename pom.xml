@@ -58,7 +58,8 @@
 
         <!--应用中心-->
         <module>centers/ApplicationCenter/ApplicationServer</module>
-        <module>centers/ApplicationCenter/GateWayServer</module>
+        <module>centers/ApplicationCenter/GateWayCenter</module>
+<!--        <module>centers/ApplicationCenter/GateWayServer</module>-->
         <module>centers/ApplicationCenter/ConfigServer</module>
 
 

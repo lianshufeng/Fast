@@ -12,3 +12,6 @@ spring:
     config:
       uri: ${ConfigCenter.url}
       name: ${project.artifactId},ConfigCenter
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

@@ -22,6 +22,7 @@ public enum ResultState {
     OrderIsUsed("订单已使用"),
     OrderRepeat("订单重复,已购买过"),
     OrderPaid("订单已支付"),
+    OrderProcess("订单处理中"),
 
     RefundError("退款失败"),
 
@@ -53,6 +54,14 @@ public enum ResultState {
     TemplateNotValidTime("模板不在有效的时间内"),
 
     validateMessageFail("验证短信失败"),
+
+
+    PreBindCardExist("预绑定银行卡信息已存在"),
+    PreBindCardNoExist("预绑定银行卡信息不存在"),
+    UserBankCardExist("用户银行卡已存在"),
+    UserBankCardNotExist("用户银行卡不存在"),
+    UserBankCardBindError("用户银行卡绑定失败"),
+
 
     ;
 

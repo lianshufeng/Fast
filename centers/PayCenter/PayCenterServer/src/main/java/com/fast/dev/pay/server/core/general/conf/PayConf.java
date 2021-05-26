@@ -19,6 +19,8 @@ public class PayConf {
     //阿里支付
     private AliConfigModel ali = new AliConfigModel();
 
+    //银行卡类型
+    private BankDictionaryModel bank = new BankDictionaryModel();
 
     //订单生效时间
     private long timeExpire = 1000 * 60 * 60;

@@ -1,0 +1,72 @@
+#设置可访问的ip
+eureka:
+  instance:
+    prefer-ip-address: true #注册使用ip
+    instance-id: 192.168.31.124:8100 #实例id
+    ip-address: 192.168.31.124 #可访问的ip地址
+
+
+
+
+spring:
+  #thymeleaf
+  thymeleaf:
+    suffix: .html
+    mode: HTML
+    prefix: classpath:/templates/
+    #开发阶段取消缓存
+    cache: false
+    encoding: UTF-8
+  #mongodb
+  data:
+    mongodb:
+      database: ucenter
+      host: 192.168.31.124:27017
+#      username: ucenter
+#      password: ucenter7758
+  redis:
+    host: 192.168.31.124
+    port: 6379
+    database: 1
+
+
+
+#验证码图片配置
+kaptcha:
+  width: 100
+  height: 41
+  fontColor: "blue"
+  fontNames: "宋体,楷体,微软雅黑"
+
+
+
+ucenter:
+  validate:
+    #全局配置
+    debug: false
+    serviceTokenTimeOut: 300000
+    maxCanAccessCount: 5
+    rule:
+      Sms:
+        length: 4
+        scope: Number
+        extraCharset: ""
+      Image:
+        length: 4
+        scope: Charset
+        extraCharset: ""
+    app:
+      test:
+        #全局配置
+        debug: true
+        serviceTokenTimeOut: 300000
+        maxCanAccessCount: 5
+        rule:
+          Sms:
+            length: 4
+            scope: Number
+            extraCharset: ""
+          Image:
+            length: 4
+            scope: Charset
+            extraCharset: ""

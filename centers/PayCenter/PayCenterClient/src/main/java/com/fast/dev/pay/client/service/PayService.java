@@ -26,6 +26,15 @@ public interface PayService {
 
 
     /**
+     * 快捷支付
+     * @return
+     */
+    @RequestMapping(value = "pay")
+    ResultContent<CallBackResult> pay(@RequestBody CreatePayOrderModel fastPayModel);
+
+
+
+    /**
      * 触发订单：
      * 1、如果没有产生回调此方法会与支付平台查询，成功则发广播、
      * 2、如果之前发过广播，订单支付成功也会发广播

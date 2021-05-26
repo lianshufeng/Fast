@@ -14,12 +14,16 @@ import com.fast.dev.pay.client.support.BasePaySupport;
 import com.fast.dev.pay.client.type.AccountType;
 import com.fast.dev.pay.client.type.PayState;
 import com.fast.dev.pay.client.util.OrderUtil;
+import com.fast.dev.pay.server.core.cpcn.param.PayModel;
 import com.fast.dev.pay.server.core.general.dao.EnterprisePayAccountDao;
 import com.fast.dev.pay.server.core.general.dao.PayOrderDao;
+import com.fast.dev.pay.server.core.general.dao.UserBankCardDao;
 import com.fast.dev.pay.server.core.general.domain.EnterprisePayAccount;
 import com.fast.dev.pay.server.core.general.domain.PayOrder;
+import com.fast.dev.pay.server.core.general.domain.UserBankCard;
 import com.fast.dev.pay.server.core.general.helper.PaySupportHelper;
 import com.fast.dev.pay.server.core.general.helper.PaySupportHelperCacheManager;
+import com.fast.dev.pay.server.core.general.helper.cpcn.CpcnHelper;
 import com.fast.dev.pay.server.core.general.service.OrderBroadcastService;
 import com.fast.dev.pay.server.core.general.service.callback.SuperCallBackManagerService;
 import com.fast.dev.pay.server.core.general.service.pay.PaySupportServiceManager;
@@ -58,6 +62,9 @@ public class PayServiceImpl implements PayService {
     @Autowired
     private DBHelper dbHelper;
 
+    @Autowired
+    private UserBankCardDao userBankCardDao;
+
 
     /**
      * 获取订单详情
@@ -75,41 +82,24 @@ public class PayServiceImpl implements PayService {
     @UserLog(parameter = "#payOrderModel")
     public ResultContent<PreOrderModel> createOrder(CreatePayOrderModel payOrderModel) {
 
-        Assert.hasText(payOrderModel.getServiceOrder(), "业务订单不能为空");
-        Assert.notNull(payOrderModel.getMethod(), "支付方式不能为空");
-        Assert.notNull(payOrderModel.getPrice(), "订单金额不能为空");
-        Assert.notNull(payOrderModel.getProduct(), "商品信息不能为空");
-        Assert.state(payOrderModel.getPrice() >= 0, "订单金额必须大于或者等于0");
-        Assert.hasText(payOrderModel.getPayAccountId(), "企业的支付账号的id不能为空");
-        Assert.hasText(payOrderModel.getUid(), "用户id不能为空");
-        Assert.isTrue(payOrderModel.getServiceCode().length() == 2, "业务编码长度必须为2位");
-
+        //校验订单
+        validateParam(payOrderModel);
 
         //将创建订单转换为与支付订单
         PrePayOrderModel prePayOrderModel = transformPaySupportParameter(payOrderModel);
         final String orderId = prePayOrderModel.getOrderId();
 
-
         //企业支付账号
         EnterprisePayAccount enterprisePayAccount = this.enterprisePayAccountDao.findTop1ById(payOrderModel.getPayAccountId());
 
-        //企业支付账号不存在
-        if (enterprisePayAccount == null) {
-            return ResultContent.build(ResultState.EnterprisePayAccountNotExist);
-        }
-
-        //企业支付账号被禁用
-        if (enterprisePayAccount.isDisable()) {
-            return ResultContent.build(ResultState.EnterprisePayAccountDisable);
-        }
-
-        //检验订单已存在
-        if (this.payOrderDao.existOrder(prePayOrderModel)) {
-            return ResultContent.build(ResultState.OrderExist, readPreOrder(prePayOrderModel));
+        //校验支付账户和订单
+        ResultContent<PreOrderModel> validateResult = validateEpAccountAndOrder(enterprisePayAccount, prePayOrderModel);
+        if (validateResult != null) {
+            return validateResult;
         }
 
         //本地创建数据
-        String preOrderId = this.payOrderDao.createOrder(prePayOrderModel);
+        PayOrder order = this.payOrderDao.createOrder(prePayOrderModel);
 
         //执行创建订单业务
         ResultContent<PreOrderModel> resultContent = this.paySupportServiceManager.execute(prePayOrderModel);
@@ -131,6 +121,114 @@ public class PayServiceImpl implements PayService {
         return resultContent;
     }
 
+
+    @Override
+    @UserLog(parameter = "#fastPayModel")
+    public ResultContent<CallBackResult> pay(CreatePayOrderModel fastPayModel) {
+
+        Assert.notNull(fastPayModel.getParm(), "扩展参数不能为空");
+        Assert.notNull(fastPayModel.getParm().get("userCardId"), "用户绑定卡ID不能为空");
+        Assert.notNull(fastPayModel.getParm().get("splitResult"), "分账结果不能为空");
+        final String userCardId = String.valueOf(fastPayModel.getParm().get("userCardId"));
+        final String splitResult = String.valueOf(fastPayModel.getParm().get("splitResult"));
+
+
+//        validateParam(fastPayModel);
+//        //将创建订单转换为与支付订单
+//        PrePayOrderModel prePayOrderModel = transformPaySupportParameter(fastPayModel);
+//        final String orderId = prePayOrderModel.getOrderId();
+//
+//        //企业支付账号
+//        EnterprisePayAccount enterprisePayAccount = this.enterprisePayAccountDao.findTop1ById(fastPayModel.getPayAccountId());
+//
+//        //校验支付账户和订单
+//        ResultContent<PreOrderModel> validateResult = validateEpAccountAndOrder(enterprisePayAccount, prePayOrderModel);
+//        if (validateResult != null){
+//            return validateResult;
+//        }
+//
+//        UserBankCard userBankCard = this.userBankCardDao.findTop1ById(fastPayModel.getUserCardId());
+//        if (userBankCard == null) {
+//            return  ResultContent.build(ResultState.UserBankCardNotExist);
+//        }
+
+        //创建预支付订单
+        ResultContent<PreOrderModel> orderContent = createOrder(fastPayModel);
+
+        if (orderContent.getState() != ResultState.Success){
+            return ResultContent.build(ResultState.OrderError);
+        }
+
+        //获取支付账号
+        EnterprisePayAccount enterprisePayAccount = this.enterprisePayAccountDao.findTop1ById(fastPayModel.getPayAccountId());
+
+        //获取用户绑卡信息
+        UserBankCard userBankCard = this.userBankCardDao.findTop1ById(userCardId);
+
+        //查询订单
+        PayOrder payOrder = this.payOrderDao.findByOrderId(orderContent.getContent().getPlatformOrder());
+
+        final CpcnHelper cpcnHelper = paySupportHelperCacheManager.get(enterprisePayAccount, CpcnHelper.class);
+
+        Map<String, Object> orderItem = cpcnHelper.payment(payOrder, PayModel.builder().txSNBinding(userBankCard.getTxSNBinding()).splitResult(splitResult).build());
+        if (orderItem == null) {
+            return ResultContent.build(ResultState.PaySupporOrderQueryError);
+        }
+        //回调数据
+        CallBackResult result = this.superCallBackManagerService.get(fastPayModel.getMethod().getAccountType()).callback(payOrder, orderItem);
+        if (result.getState() == PayState.Paid){
+            return ResultContent.build(ResultState.Success,result);
+        }
+        switch (result.getState()){
+            case Paid:
+                return ResultContent.build(ResultState.Success,result);
+            case PrePay:
+                return ResultContent.build(ResultState.OrderProcess,result);
+            default :
+                return ResultContent.build(ResultState.Fail,result,result.getError());
+        }
+    }
+
+
+    /**
+     * 校验订单
+     */
+    private void validateParam(CreatePayOrderModel createPayOrderModel) {
+        Assert.hasText(createPayOrderModel.getServiceOrder(), "业务订单不能为空");
+        Assert.notNull(createPayOrderModel.getMethod(), "支付方式不能为空");
+        Assert.notNull(createPayOrderModel.getPrice(), "订单金额不能为空");
+        Assert.notNull(createPayOrderModel.getProduct(), "商品信息不能为空");
+        Assert.state(createPayOrderModel.getPrice() >= 0, "订单金额必须大于或者等于0");
+        Assert.hasText(createPayOrderModel.getPayAccountId(), "企业的支付账号的id不能为空");
+        Assert.isTrue(createPayOrderModel.getServiceCode().length() == 2, "业务编码长度必须为2位");
+
+    }
+
+    /**
+     * 校验支付账户和订单
+     *
+     * @param enterprisePayAccount
+     * @param prePayOrderModel
+     * @return
+     */
+    ResultContent<PreOrderModel> validateEpAccountAndOrder(EnterprisePayAccount enterprisePayAccount, PrePayOrderModel prePayOrderModel) {
+        //企业支付账号不存在
+        if (enterprisePayAccount == null) {
+            return ResultContent.build(ResultState.EnterprisePayAccountNotExist);
+        }
+
+        //企业支付账号被禁用
+        if (enterprisePayAccount.isDisable()) {
+            return ResultContent.build(ResultState.EnterprisePayAccountDisable);
+        }
+
+        //检验订单已存在
+        if (this.payOrderDao.existOrder(prePayOrderModel)) {
+            return ResultContent.build(ResultState.OrderExist, readPreOrder(prePayOrderModel));
+        }
+
+        return null;
+    }
 
     /**
      * 读取预付费订单
@@ -172,11 +270,12 @@ public class PayServiceImpl implements PayService {
 
         //回调数据
         CallBackResult result = this.superCallBackManagerService.get(accountType).callback(payOrder, orderItem);
-        return ResultContent.buildContent(result);
+        return ResultContent.build(result.getState()==PayState.Paid?ResultState.Success:ResultState.Fail,result);
     }
 
     @Override
     @Transactional
+    @UserLog(action = "closeOrder",parameter = "#orderId")
     public ResultContent<ResponseRefundOrderModel> closeOrder(String orderId) {
         //查询订单
         PayOrder payOrder = this.payOrderDao.findByOrderId(orderId);
@@ -203,6 +302,7 @@ public class PayServiceImpl implements PayService {
 
     @Override
 //    @Transactional
+    @UserLog(action = "refund",parameter = "#refundOrderModel")
     public ResultContent<ResponseRefundOrderModel> refund(RefundOrderModel refundOrderModel) {
 
         //订单号
@@ -228,7 +328,7 @@ public class PayServiceImpl implements PayService {
 
         //写入DB
         if (refund.isSuccess()) {
-            this.payOrderDao.updateRefund(refundOrderModel.getOrderId(), refund.getTradeNo(), refund.getOther());
+            this.payOrderDao.updateRefund(refundOrderModel.getOrderId(), refund.getTradeNo(), refund.getOther(),refundOrderModel.getAmount());
 
         }
         return ResultContent.build(refund.isSuccess() ? ResultState.Success : ResultState.RefundError, refund);

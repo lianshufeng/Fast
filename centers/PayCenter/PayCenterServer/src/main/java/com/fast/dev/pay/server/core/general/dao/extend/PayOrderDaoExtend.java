@@ -32,7 +32,7 @@ public interface PayOrderDaoExtend {
      *
      * @return
      */
-    String createOrder(PrePayOrderModel payOrderModel);
+    PayOrder createOrder(PrePayOrderModel payOrderModel);
 
 
     /**
@@ -79,7 +79,7 @@ public interface PayOrderDaoExtend {
      * @param info
      * @return
      */
-    boolean updateRefund(String orderId, String tradeNo, Object info);
+    boolean updateRefund(String orderId, String tradeNo, Object info,long amount);
 
 
     /**

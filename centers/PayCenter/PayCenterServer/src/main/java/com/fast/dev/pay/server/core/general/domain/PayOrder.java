@@ -115,6 +115,12 @@ public class PayOrder extends SuperEntity {
     @Indexed
     private boolean close;
 
+    /**
+     * 预关闭次数
+     */
+    @Indexed
+    private int closeCount;
+
 
     /**
      * 退款信息

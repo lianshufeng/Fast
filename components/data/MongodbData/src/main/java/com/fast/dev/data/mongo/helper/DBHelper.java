@@ -1,5 +1,6 @@
 package com.fast.dev.data.mongo.helper;
 
+import com.fast.dev.data.mongo.domain.DBHelperEntity;
 import com.fast.dev.data.mongo.domain.SuperEntity;
 import lombok.experimental.Delegate;
 import org.bson.Document;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
@@ -16,10 +18,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -110,7 +109,18 @@ public class DBHelper {
      * @return
      */
     public long getTime() {
-        return System.currentTimeMillis();
+//        Query query = new Query(Criteria.where("key").is("time"));
+//        Update update = new Update();
+//        update.setOnInsert("key", "time");
+//        update.currentDate("value");
+//        FindAndModifyOptions options = new FindAndModifyOptions();
+//        options.upsert(true);
+//        DBHelperEntity dbHelperEntity = this.mongoTemplate.findAndModify(query, update, options, DBHelperEntity.class);
+//        if (dbHelperEntity==null){
+//            return getTime();
+//        }
+//        return Long.valueOf(String.valueOf(((Date) dbHelperEntity.getValue()).getTime()));
+        return  System.currentTimeMillis();
     }
 
 

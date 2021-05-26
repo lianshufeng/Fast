@@ -19,9 +19,18 @@ public class OrderUtil {
      * 订单生产工具
      */
     public static String build(AccountType accountType, String serviceCode) {
+        return build(accountType,serviceCode,14);
+    }
+
+
+
+    /**
+     * 订单生产工具
+     */
+    public static String build(AccountType accountType, String serviceCode,int fullSize) {
         Assert.isTrue(serviceCode.length() == 2, "业务编码必须为2位");
         String timeText = OrderDF.format(LocalDateTime.now());
-        return accountType.getCode() + serviceCode + TokenUtil.create(14) + timeText;
+        return accountType.getCode() + serviceCode + TokenUtil.create(fullSize) + timeText;
     }
 
 

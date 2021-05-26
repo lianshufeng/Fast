@@ -100,6 +100,9 @@ public class FeignUrlencodedFormContentProcessor extends UrlencodedFormContentPr
 
     @SneakyThrows
     private static String encode(Object string, Charset charset) {
+        if (string == null) {
+            return null;
+        }
         return URLEncoder.encode(string.toString(), charset.name());
     }
 

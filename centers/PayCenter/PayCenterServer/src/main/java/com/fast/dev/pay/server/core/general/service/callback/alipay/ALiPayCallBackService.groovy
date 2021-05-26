@@ -53,7 +53,7 @@ class ALiPayCallBackService extends SuperCallBackService {
  */
     private void wait_buyer_pay(PayOrder prePayOrder, Object item) {
         //如果订单已被标识关闭，则关闭订单
-        if (prePayOrder.isClose()) {
+        if (prePayOrder.getCloseCount() > 0) {
             //微信支付助手
             final AliPayHelper aliPayHelper = this.paySupportHelperCacheManager.get(prePayOrder.getEnterprisePayAccount(), AliPayHelper.class);
             com.fast.dev.pay.client.model.ResponseCloseOrderModel responseCloseOrderModel = aliPayHelper.closeOrder(prePayOrder)

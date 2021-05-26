@@ -6,9 +6,12 @@ import com.fast.dev.data.mongo.data.domain.DataCleanTask;
 import com.fast.dev.data.mongo.domain.SuperEntity;
 import com.fast.dev.data.mongo.helper.DBHelper;
 import com.fast.dev.data.mongo.util.EntityObjectUtil;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageRequest;
@@ -114,44 +117,81 @@ public class DataCleanManagerMongo implements DataCleanManager {
         //查询并构建清洗目标
         long startTime = all ? 0 : dataCleanTask.getLimitUpdateTime();
         dataCleanTask.setLimitUpdateTime(this.dbHelper.getTime());
-        Query entityQuery = createUpdateQuery(startTime, dataCleanTask.getLimitUpdateTime());
-        @Cleanup("delete") File tmpFile = File.createTempFile("dc-" + dataCleanTask.getEntityName(), ".tmp");
-        long total = saveRecords2TempFile(mongoDataCleanTask, entityQuery, tmpFile);
+//        Query entityQuery = createUpdateQuery(startTime, dataCleanTask.getLimitUpdateTime());
+//        @Cleanup("delete") File tmpFile = File.createTempFile("dc-" + dataCleanTask.getEntityName(), ".tmp");
+//        long total = saveRecords2TempFile(mongoDataCleanTask, entityQuery, tmpFile);
+
+        long lastTime = dataCleanTask.getLimitUpdateTime();
+        Document query = new Document("$and", List.of(
+                new Document("updateTime", new Document("$gt", startTime)),
+                new Document("updateTime", new Document("$lt", lastTime))
+        ));
+        final MongoCollection<Document> mongoCollection = this.mongoTemplate.getCollection(this.mongoTemplate.getCollectionName(mongoDataCleanTask.getEntity()));
+        final long total = mongoCollection.countDocuments(query);
+        //统计需要处理数据总量
         dataCleanTask.setTotal(total);
         this.mongoTemplate.save(dataCleanTask);
 
+        //如果需要处理的数据为0 则表示不更新数据了
+        if (total == 0) {
+            return;
+        }
 
+        @Cleanup final MongoCursor<Document> mongoCursor = mongoCollection.find(query).cursor();
+
+        final BigDecimal currentCount = new BigDecimal(0L);
         //线程池启动数据清洗流程
         CountDownLatch countDownLatch = new CountDownLatch(ThreadPoolCount);
         @Cleanup("shutdownNow") ExecutorService executorService = Executors.newFixedThreadPool(ThreadPoolCount);
-        @Cleanup RandomAccessFile rf = randomAccessFile(tmpFile);
+//        @Cleanup RandomAccessFile rf = randomAccessFile(tmpFile);
         for (int i = 0; i < ThreadPoolCount; i++) {
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    dataClean(rf, mongoDataCleanTask, countDownLatch, executorService);
+                    dataClean(mongoCursor, currentCount, total, mongoDataCleanTask, countDownLatch, executorService);
                 }
             });
         }
         //阻塞直到线程结束
         countDownLatch.await();
 
+
         //通知任务执行结束
         mongoDataCleanTask.onEnd();
         log.info("数据清洗任务完成 : " + mongoDataCleanTask.getEntity());
     }
 
+
+    /**
+     * 通过数据库游标读取id
+     *
+     * @return
+     */
+    public synchronized final String[] readIdsFromMongoCursor(MongoCursor<Document> mongoCursor, BigDecimal currentCount, long total, int maxSize, String taskName) {
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < maxSize; i++) {
+            if (mongoCursor.hasNext()) {
+                ids.add(mongoCursor.next().getObjectId("_id").toHexString());
+                currentCount.add(new BigDecimal(1));
+            }
+        }
+
+        this.dataCleanTaskDao.setTaskprogress(taskName, currentCount.divide(new BigDecimal(total)));
+
+        return ids.toArray(new String[0]);
+    }
+
+
     /**
      * 开始数据清洗
      *
-     * @param rf
      * @param mongoDataCleanTask
      * @param countDownLatch
      */
-    private void dataClean(RandomAccessFile rf, MongoDataCleanTask mongoDataCleanTask, CountDownLatch countDownLatch, ExecutorService executorService) {
+    private void dataClean(MongoCursor<Document> mongoCursor, BigDecimal currentCount, long total, MongoDataCleanTask mongoDataCleanTask, CountDownLatch countDownLatch, ExecutorService executorService) {
         //读取数据实体
-        String[] ids = readEntityIdsFromTempFile(rf, mongoDataCleanTask.batchSize(), mongoDataCleanTask.taskName());
-        if (ids == null) {
+        String[] ids = readIdsFromMongoCursor(mongoCursor, currentCount, total, mongoDataCleanTask.batchSize(), mongoDataCleanTask.taskName());
+        if (ids == null || ids.length == 0) {
             countDownLatch.countDown();
             return;
         }
@@ -184,7 +224,7 @@ public class DataCleanManagerMongo implements DataCleanManager {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                dataClean(rf, mongoDataCleanTask, countDownLatch, executorService);
+                dataClean(mongoCursor, currentCount, total, mongoDataCleanTask, countDownLatch, executorService);
             }
         });
     }
@@ -193,37 +233,37 @@ public class DataCleanManagerMongo implements DataCleanManager {
     /**
      * 通过临时文件读取需要数据清洗的实体对应的id
      *
-     * @param rf
-     * @param maxSize
      * @return
      */
-    private synchronized String[] readEntityIdsFromTempFile(RandomAccessFile rf, int maxSize, String taskName) {
-        try {
-            if (rf.length() == 0l) {
-                return null;
-            }
-            String rate = String.format("%.2f", (double) rf.getFilePointer() / rf.length());
-            dataCleanTaskDao.setTaskprogress(taskName, new BigDecimal(rate));
-            //读取完整
-            if (rf.getFilePointer() >= rf.length()) {
-                return null;
-            }
-            log.info(String.format("数据清洗进度 : %s ", rate));
-            List<String> ids = new ArrayList<>();
-            for (int i = 0; i < maxSize; i++) {
-                String line = rf.readLine();
-                if (line != null) {
-                    ids.add(new String(line.getBytes("ISO-8859-1"), "UTF-8"));
-                }
-            }
-            return ids.toArray(new String[0]);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
+//    private synchronized String[] readEntityIdsFromTempFile(MongoCursor<Document> mongoCursor, int maxSize, String taskName) {
+//        try {
+//            if (!mongoCursor.hasNext()){
+//                mongoCursor.close();
+//                return null;
+//            }
+//            if (rf.length() == 0l) {
+//                return null;
+//            }
+//            String rate = String.format("%.2f", (double) rf.getFilePointer() / rf.length());
+//            dataCleanTaskDao.setTaskprogress(taskName, new BigDecimal(rate));
+//            //读取完整
+//            if (rf.getFilePointer() >= rf.length()) {
+//                return null;
+//            }
+//            log.info(String.format("数据清洗进度 : %s ", rate));
+//            List<String> ids = new ArrayList<>();
+//            for (int i = 0; i < maxSize; i++) {
+//                String line = rf.readLine();
+//                if (line != null) {
+//                    ids.add(new String(line.getBytes("ISO-8859-1"), "UTF-8"));
+//                }
+//            }
+//            return ids.toArray(new String[0]);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
     @SneakyThrows
     private RandomAccessFile randomAccessFile(File file) {
         return new RandomAccessFile(file, "r");

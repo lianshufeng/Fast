@@ -45,7 +45,7 @@ public class PayOrderDaoImpl implements PayOrderDaoExtend {
     }
 
     @Override
-    public String createOrder(PrePayOrderModel payOrderModel) {
+    public PayOrder createOrder(PrePayOrderModel payOrderModel) {
 
         PayOrder payOrder = new PayOrder();
         BeanUtils.copyProperties(payOrderModel, payOrder, "state");
@@ -59,7 +59,7 @@ public class PayOrderDaoImpl implements PayOrderDaoExtend {
         this.dbHelper.saveTime(payOrder);
         this.mongoTemplate.insert(payOrder);
 
-        return payOrder.getId();
+        return payOrder;
     }
 
     @Override
@@ -100,13 +100,12 @@ public class PayOrderDaoImpl implements PayOrderDaoExtend {
     }
 
     @Override
-    public boolean updateRefund(String orderId, String tradeNo, Object info) {
+    public boolean updateRefund(String orderId, String tradeNo, Object info,long amount) {
         //构建查询条件
         Criteria criteria = buildCriteriaFromOrderId(orderId);
         criteria = criteria.and("refund.tradeNo").is(tradeNo);
         final Query query = Query.query(criteria);
-        //退款模型
-        final RefundModel refundModel = new RefundModel(tradeNo, BeanUtil.toMap(info));
+        final RefundModel refundModel = RefundModel.builder().tradeNo(tradeNo).other(BeanUtil.toMap(info)).amount(amount).build();
         boolean ret = this.mongoTemplate.updateFirst(query, this.dbHelper.buildUpdate().set("refund.$.other", refundModel), PayOrder.class).getModifiedCount() > 0;
         if (!ret) {
             ret = this.mongoTemplate.updateFirst(buildQueryFromOrderId(orderId), this.dbHelper.buildUpdate().addToSet("refund", refundModel), PayOrder.class).getModifiedCount() == 0;
@@ -119,7 +118,7 @@ public class PayOrderDaoImpl implements PayOrderDaoExtend {
         Query query = buildQueryFromOrderId(orderId);
 
         Update update = new Update();
-        update.set("close", true);
+        update.inc("closeCount", 1);
         this.dbHelper.updateTime(update);
 
         return this.mongoTemplate.updateFirst(query, update, PayOrder.class).getModifiedCount() > 0;

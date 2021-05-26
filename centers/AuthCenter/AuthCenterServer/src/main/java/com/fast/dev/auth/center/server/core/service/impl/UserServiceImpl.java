@@ -20,6 +20,7 @@ import com.fast.dev.data.mongo.helper.ReIndexHelper;
 import com.fast.dev.data.mongo.model.QueryModel;
 import com.fast.dev.ucenter.core.model.BaseUserModel;
 import com.fast.dev.ucenter.core.service.UserManagerService;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -143,6 +143,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      * @return
      */
+    @SneakyThrows
     public UserModel userToModel(User user) {
         if (user == null) {
             return null;

@@ -273,7 +273,7 @@ public class RoleServiceImpl implements RoleService {
             //发布事件
             this.publishRoleUserEvent(AuthEventAction.Update, roleId, uid);
 
-            return ResultContent.build(true);
+            return ResultContent.build(ResultState.Success, uid);
         }
 
         return ResultContent.build(false);

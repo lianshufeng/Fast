@@ -83,7 +83,7 @@ ribbon:
 
 hystrix:
   command:
-    default:  #default全局有效，service id指定应用有效
+    default: #default全局有效，service id指定应用有效
       execution:
         timeout:
           enabled: true
@@ -91,7 +91,62 @@ hystrix:
           thread:
             timeoutInMilliseconds: 60000 #断路器超时时间，默认1000ms
 
-
+pay:
+  bank:
+    info: {
+      'CMB': {
+        'code': '308',
+        'name': '招商银行'
+      },
+      'ICBC': {
+        'code': '102',
+        'name': '工商银行'
+      },
+      'ABC': {
+        'code': '103',
+        'name': '农业银行'
+      },
+      'BOC': {
+        'code': '104',
+        'name': '中国银行'
+      },
+      'CCB': {
+        'code': '105',
+        'name': '建设银行'
+      },
+      'PSBC': {
+        'code': '100',
+        'name': '邮储银行'
+      },
+      'COMM': {
+        'code': '301',
+        'name': '交通银行'
+      },
+      'CITIC': {
+        'code': '302',
+        'name': '中信银行'
+      },
+      'CEB': {
+        'code': '303',
+        'name': '光大银行'
+      },
+      'HXBANK': {
+        'code': '304',
+        'name': '华夏银行'
+      },
+      'CMBC': {
+        'code': '305',
+        'name': '民生银行'
+      },
+      'CCQTGB': {
+        'code': '321',
+        'name': '重庆三峡银行'
+      },
+      'CRCBANK': {
+        'code': '1413',
+        'name': '重庆农村商业银行'
+      }
+    }
 
 #调试或者输出日志
 logging:

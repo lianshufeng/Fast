@@ -3,10 +3,12 @@ package com.fast.dev.auth.center.server.core.dao.impl;
 import com.fast.dev.auth.center.server.core.dao.extend.FamilyDaoExtend;
 import com.fast.dev.auth.center.server.core.domain.Enterprise;
 import com.fast.dev.auth.center.server.core.domain.Family;
+import com.fast.dev.auth.center.server.core.domain.User;
 import com.fast.dev.auth.client.model.FamilyModel;
 import com.fast.dev.core.util.encode.HashUtil;
 import com.fast.dev.data.mongo.helper.DBHelper;
 import com.fast.dev.data.mongo.helper.ReIndexHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class FamilyDaoImpl implements FamilyDaoExtend {
 
     @Autowired
@@ -79,6 +82,12 @@ public class FamilyDaoImpl implements FamilyDaoExtend {
         return family.getId();
     }
 
+
+    @Override
+    public void reIndexInfo() {
+        log.info("重建索引 : " + Family.class.getSimpleName());
+        reIndexHelper.reIndexFromMap(Family.class, "info");
+    }
 
     /**
      * 设置唯一索引

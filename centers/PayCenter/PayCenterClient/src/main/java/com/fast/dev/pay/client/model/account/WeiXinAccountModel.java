@@ -32,4 +32,29 @@ public class WeiXinAccountModel extends SuperAccount {
 
     //商户号秘钥
     private String mchSecret;
+
+    //账户类型
+    private AccountType accountType;
+
+
+    /**
+     * 应用类型
+     */
+    public static enum AccountType {
+        /**
+         * 应用
+         */
+        App,
+        /**
+         * 小程序
+         */
+        MiniProgram,
+
+        /**
+         * 公众号
+         */
+        OfficeAccount
+    }
+
+
 }
